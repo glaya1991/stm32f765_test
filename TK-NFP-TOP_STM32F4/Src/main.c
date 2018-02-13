@@ -48,6 +48,7 @@
 #include "fmc.h"
 
 /* USER CODE BEGIN Includes */
+#include "MCP23017.h"	// AFE mode selector
 
 /* USER CODE END Includes */
 

@@ -49,6 +49,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "MCP23017.h"	// AFE mode selector
+#include "ADG2128.h"	// AFE switch
 
 /* USER CODE END Includes */
 
@@ -56,7 +57,9 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+volatile uint8_t IMP_TIMER_ENDED;
+volatile uint8_t I2C2_TRANSMIT_STARTED = 0;
+volatile uint8_t I2C2_TRANSMIT_ENDED = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -112,6 +115,11 @@ int main(void)
   MX_FMC_Init();
 
   /* USER CODE BEGIN 2 */
+  printf("Peripherals initialized\n\r");
+
+  AFE_set(AFE_REG_LPF_EMG, AFE_LPF_EMG_3000Hz);
+
+  printf("AFE set\n\r");
 
   /* USER CODE END 2 */
 
@@ -122,7 +130,7 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
+	  AFE_process();
   }
   /* USER CODE END 3 */
 
@@ -192,7 +200,29 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
 
+void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance == TIM14)
+	{
+		IMP_TIMER_ENDED = 1;
+	}
+}
 /* USER CODE END 4 */
 
 /**

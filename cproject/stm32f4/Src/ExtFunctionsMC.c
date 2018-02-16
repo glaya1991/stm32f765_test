@@ -22,13 +22,13 @@ int TransferUDP(
 int TransferDMA(const uint8_t *data, uint32_t datalen)
 {
     if ((data[0] == 1) && (data[1] == 28) && (data[2] == 32))
-        HAL_UART_Transmit(&huart1, (uint8_t *)data, datalen, 10000);
-//        HAL_UART_Transmit_DMA(&huart1, (uint8_t *)data, datalen);
+//        HAL_UART_Transmit(&huart1, (uint8_t *)data, datalen, 10000);
+        HAL_UART_Transmit_DMA(&huart1, (uint8_t *)data, datalen);
     else
     {
         datalen = PacketizeInfo((uint8_t *)data, datalen, BUFFER_INOUT);
-        HAL_UART_Transmit(&huart1, (uint8_t *)data, datalen, 10000);
-//        HAL_UART_Transmit_DMA(&huart1, (uint8_t *)data, datalen);
+//        HAL_UART_Transmit(&huart1, (uint8_t *)data, datalen, 10000);
+        HAL_UART_Transmit_DMA(&huart1, (uint8_t *)data, datalen);
     }
     return 0;
 }

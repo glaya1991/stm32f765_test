@@ -18,9 +18,8 @@
 extern "C" {
 #endif
 
-#include "usart.h"
-#include "delay.h"
-#include "Communication.h"
+#include "spi.h"
+#include "stm32f4xx_hal.h"
 //////////////////////////////////////////////////////////////////////////////
 /******************************************************************************/
 /******************************** AD7190 **************************************/
@@ -30,7 +29,7 @@ extern "C" {
 #define AD7190_SLAVE_ID         1
 
 /* AD7190 GPIO */
-#define AD7190_RDY_STATE       GPIO1_STATE
+#define AD7190_RDY_STATE       HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_0)
 
 /* AD7190 Register Map */
 #define AD7190_REG_COMM         0       // Communications Register (WO, 8-bit) 

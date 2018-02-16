@@ -56,6 +56,8 @@ extern TIM_HandleTypeDef htim13;
 extern TIM_HandleTypeDef htim14;
 extern DMA_HandleTypeDef hdma_uart4_tx;
 extern DMA_HandleTypeDef hdma_uart4_rx;
+extern DMA_HandleTypeDef hdma_usart1_rx;
+extern DMA_HandleTypeDef hdma_usart1_tx;
 extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart1;
 
@@ -86,6 +88,8 @@ void HardFault_Handler(void)
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
+    /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+    /* USER CODE END W1_HardFault_IRQn 0 */
   }
   /* USER CODE BEGIN HardFault_IRQn 1 */
 
@@ -102,6 +106,8 @@ void MemManage_Handler(void)
   /* USER CODE END MemoryManagement_IRQn 0 */
   while (1)
   {
+    /* USER CODE BEGIN W1_MemoryManagement_IRQn 0 */
+    /* USER CODE END W1_MemoryManagement_IRQn 0 */
   }
   /* USER CODE BEGIN MemoryManagement_IRQn 1 */
 
@@ -118,6 +124,8 @@ void BusFault_Handler(void)
   /* USER CODE END BusFault_IRQn 0 */
   while (1)
   {
+    /* USER CODE BEGIN W1_BusFault_IRQn 0 */
+    /* USER CODE END W1_BusFault_IRQn 0 */
   }
   /* USER CODE BEGIN BusFault_IRQn 1 */
 
@@ -134,6 +142,8 @@ void UsageFault_Handler(void)
   /* USER CODE END UsageFault_IRQn 0 */
   while (1)
   {
+    /* USER CODE BEGIN W1_UsageFault_IRQn 0 */
+    /* USER CODE END W1_UsageFault_IRQn 0 */
   }
   /* USER CODE BEGIN UsageFault_IRQn 1 */
 
@@ -417,6 +427,34 @@ void TIM7_IRQHandler(void)
 }
 
 /**
+* @brief This function handles DMA2 stream2 global interrupt.
+*/
+void DMA2_Stream2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA2 stream7 global interrupt.
+*/
+void DMA2_Stream7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream7_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_tx);
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream7_IRQn 1 */
+}
+
+/**
 * @brief This function handles I2C3 event interrupt.
 */
 void I2C3_EV_IRQHandler(void)
@@ -461,7 +499,7 @@ void SPI6_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
-    if (UartHandle->Instance == UART4)
+    if (UartHandle->Instance == USART1)
     {
         
 //        HAL_TIM_Base_Stop(&htim13); // Reset and stop timer
@@ -469,9 +507,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
         if((usart1BufRx[0] != 0x00) && (usart1BufRx[0] != '|'))
         {
             UartProtocolHandler(usart1BufRx[0]);
+//        HAL_UART_Transmit(&huart1, "*", 1, 10000);
         } 
         else
         {
+//        HAL_UART_Transmit(&huart1, "|", 1, 10000);
             WriteMem(REG_Led_Q_T1_Red,100);
             WriteMem(REG_Led_Q_T1_Green,1);
             WriteMem(REG_Led_Q_T1_Blue,1);
@@ -481,7 +521,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
             WriteMem(REG_Led_Q_T3_Red,100);
             WriteMem(REG_Led_Q_T3_Green,100);
             WriteMem(REG_Led_Q_T3_Blue,100);
-        HAL_UART_Transmit(&huart1, "*", 1, 10000);
             UartReceiveCompleteHandler();
         }
         
@@ -493,7 +532,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-    if (huart->Instance == UART4)
+    if (huart->Instance == USART1)
     {
         UartTransferCompleteHandler();
     }

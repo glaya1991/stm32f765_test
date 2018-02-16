@@ -43,9 +43,13 @@
         </logicalFolder>
         <logicalFolder name="Src" displayName="Src" projectFiles="true">
           <itemPath>stm32f4/Src/ExtFunctionsMC.c</itemPath>
+          <itemPath>stm32f4/Src/ad7190.c</itemPath>
           <itemPath>stm32f4/Src/dma.c</itemPath>
+          <itemPath>stm32f4/Src/fmc.c</itemPath>
           <itemPath>stm32f4/Src/gpio.c</itemPath>
+          <itemPath>stm32f4/Src/i2c.c</itemPath>
           <itemPath>stm32f4/Src/main.c</itemPath>
+          <itemPath>stm32f4/Src/spi.c</itemPath>
           <itemPath>stm32f4/Src/stm32f4xx_hal_msp.c</itemPath>
           <itemPath>stm32f4/Src/stm32f4xx_it.c</itemPath>
           <itemPath>stm32f4/Src/system_stm32f4xx.c</itemPath>
@@ -124,6 +128,7 @@
           </logicalFolder>
         </logicalFolder>
         <logicalFolder name="Inc" displayName="Inc" projectFiles="true">
+          <itemPath>stm32f4/Inc/ad7190.h</itemPath>
           <itemPath>stm32f4/Inc/dma.h</itemPath>
           <itemPath>stm32f4/Inc/gpio.h</itemPath>
           <itemPath>stm32f4/Inc/i2c.h</itemPath>
@@ -630,6 +635,8 @@
             tool="0"
             flavor2="0">
       </item>
+      <item path="stm32f4/Inc/ad7190.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="stm32f4/Inc/dma.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="stm32f4/Inc/gpio.h" ex="false" tool="3" flavor2="0">
@@ -719,11 +726,19 @@
       </item>
       <item path="stm32f4/Src/ExtFunctionsMC.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="stm32f4/Src/ad7190.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="stm32f4/Src/dma.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/fmc.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="stm32f4/Src/gpio.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="stm32f4/Src/i2c.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="stm32f4/Src/main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/spi.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="stm32f4/Src/stm32f4xx_hal_msp.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -744,7 +759,7 @@
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <compilerSet>GNU_ARM|MinGW</compilerSet>
+        <compilerSet>GNU-ARM|Cygwin</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -795,7 +810,7 @@
           <commandlineTool>arm-none-eabi-as</commandlineTool>
         </asmTool>
         <linkerTool>
-          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/stm32f429_firmware.elf</output>
+          <output>${CND_DISTDIR}/${CND_CONF}/stm32f429_firmware.elf</output>
           <linkerLibItems>
             <linkerLibLibItem>gcc</linkerLibLibItem>
             <linkerLibLibItem>c</linkerLibLibItem>
@@ -1117,6 +1132,8 @@
             tool="0"
             flavor2="0">
       </item>
+      <item path="stm32f4/Inc/ad7190.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="stm32f4/Inc/dma.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="stm32f4/Inc/gpio.h" ex="false" tool="3" flavor2="0">
@@ -1206,11 +1223,19 @@
       </item>
       <item path="stm32f4/Src/ExtFunctionsMC.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="stm32f4/Src/ad7190.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="stm32f4/Src/dma.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/fmc.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="stm32f4/Src/gpio.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="stm32f4/Src/i2c.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="stm32f4/Src/main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/spi.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="stm32f4/Src/stm32f4xx_hal_msp.c" ex="false" tool="0" flavor2="0">
       </item>

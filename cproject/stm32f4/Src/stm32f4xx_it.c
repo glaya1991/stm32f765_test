@@ -39,17 +39,25 @@
 #include "ExtFunctions.h"
 #include "Handler.h"
 
+extern uint8_t usart1BufRx[1];
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_i2c2_rx;
+extern DMA_HandleTypeDef hdma_i2c2_tx;
+extern I2C_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef hi2c3;
+extern SPI_HandleTypeDef hspi5;
+extern SPI_HandleTypeDef hspi6;
 extern TIM_HandleTypeDef htim7;
 extern TIM_HandleTypeDef htim10;
 extern TIM_HandleTypeDef htim11;
 extern TIM_HandleTypeDef htim13;
-extern DMA_HandleTypeDef hdma_uart4_rx;
+extern TIM_HandleTypeDef htim14;
 extern DMA_HandleTypeDef hdma_uart4_tx;
+extern DMA_HandleTypeDef hdma_uart4_rx;
 extern UART_HandleTypeDef huart4;
-extern uint8_t usart4BufRx[1];
+extern UART_HandleTypeDef huart1;
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -194,6 +202,34 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+* @brief This function handles EXTI line2 interrupt.
+*/
+void EXTI2_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI2_IRQn 0 */
+
+  /* USER CODE END EXTI2_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
+  /* USER CODE BEGIN EXTI2_IRQn 1 */
+
+  /* USER CODE END EXTI2_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line4 interrupt.
+*/
+void EXTI4_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI4_IRQn 0 */
+
+  /* USER CODE END EXTI4_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
+  /* USER CODE BEGIN EXTI4_IRQn 1 */
+
+  /* USER CODE END EXTI4_IRQn 1 */
+}
+
+/**
 * @brief This function handles DMA1 stream2 global interrupt.
 */
 void DMA1_Stream2_IRQHandler(void)
@@ -205,6 +241,20 @@ void DMA1_Stream2_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream2_IRQn 1 */
 
   /* USER CODE END DMA1_Stream2_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 stream3 global interrupt.
+*/
+void DMA1_Stream3_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream3_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream3_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c2_rx);
+  /* USER CODE BEGIN DMA1_Stream3_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream3_IRQn 1 */
 }
 
 /**
@@ -232,7 +282,6 @@ void TIM1_UP_TIM10_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim10);
   /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 1 */
   AddSample();
-  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_7);
 
   /* USER CODE END TIM1_UP_TIM10_IRQn 1 */
 }
@@ -254,6 +303,48 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
 }
 
 /**
+* @brief This function handles I2C2 event interrupt.
+*/
+void I2C2_EV_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C2_EV_IRQn 0 */
+
+  /* USER CODE END I2C2_EV_IRQn 0 */
+  HAL_I2C_EV_IRQHandler(&hi2c2);
+  /* USER CODE BEGIN I2C2_EV_IRQn 1 */
+
+  /* USER CODE END I2C2_EV_IRQn 1 */
+}
+
+/**
+* @brief This function handles USART1 global interrupt.
+*/
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line[15:10] interrupts.
+*/
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+}
+
+/**
 * @brief This function handles TIM8 update interrupt and TIM13 global interrupt.
 */
 void TIM8_UP_TIM13_IRQHandler(void)
@@ -265,6 +356,34 @@ void TIM8_UP_TIM13_IRQHandler(void)
   /* USER CODE BEGIN TIM8_UP_TIM13_IRQn 1 */
 
   /* USER CODE END TIM8_UP_TIM13_IRQn 1 */
+}
+
+/**
+* @brief This function handles TIM8 trigger and commutation interrupts and TIM14 global interrupt.
+*/
+void TIM8_TRG_COM_TIM14_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM8_TRG_COM_TIM14_IRQn 0 */
+
+  /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim14);
+  /* USER CODE BEGIN TIM8_TRG_COM_TIM14_IRQn 1 */
+
+  /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 stream7 global interrupt.
+*/
+void DMA1_Stream7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream7_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream7_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c2_tx);
+  /* USER CODE BEGIN DMA1_Stream7_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream7_IRQn 1 */
 }
 
 /**
@@ -297,6 +416,48 @@ void TIM7_IRQHandler(void)
   /* USER CODE END TIM7_IRQn 1 */
 }
 
+/**
+* @brief This function handles I2C3 event interrupt.
+*/
+void I2C3_EV_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C3_EV_IRQn 0 */
+
+  /* USER CODE END I2C3_EV_IRQn 0 */
+  HAL_I2C_EV_IRQHandler(&hi2c3);
+  /* USER CODE BEGIN I2C3_EV_IRQn 1 */
+
+  /* USER CODE END I2C3_EV_IRQn 1 */
+}
+
+/**
+* @brief This function handles SPI5 global interrupt.
+*/
+void SPI5_IRQHandler(void)
+{
+  /* USER CODE BEGIN SPI5_IRQn 0 */
+
+  /* USER CODE END SPI5_IRQn 0 */
+  HAL_SPI_IRQHandler(&hspi5);
+  /* USER CODE BEGIN SPI5_IRQn 1 */
+
+  /* USER CODE END SPI5_IRQn 1 */
+}
+
+/**
+* @brief This function handles SPI6 global interrupt.
+*/
+void SPI6_IRQHandler(void)
+{
+  /* USER CODE BEGIN SPI6_IRQn 0 */
+
+  /* USER CODE END SPI6_IRQn 0 */
+  HAL_SPI_IRQHandler(&hspi6);
+  /* USER CODE BEGIN SPI6_IRQn 1 */
+
+  /* USER CODE END SPI6_IRQn 1 */
+}
+
 /* USER CODE BEGIN 1 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
@@ -305,9 +466,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
         
 //        HAL_TIM_Base_Stop(&htim13); // Reset and stop timer
         
-        if((usart4BufRx[0] != 0x00) && (usart4BufRx[0] != '|'))
+        if((usart1BufRx[0] != 0x00) && (usart1BufRx[0] != '|'))
         {
-            UartProtocolHandler(usart4BufRx[0]);
+            UartProtocolHandler(usart1BufRx[0]);
         } 
         else
         {
@@ -320,10 +481,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
             WriteMem(REG_Led_Q_T3_Red,100);
             WriteMem(REG_Led_Q_T3_Green,100);
             WriteMem(REG_Led_Q_T3_Blue,100);
+        HAL_UART_Transmit(&huart1, "*", 1, 10000);
             UartReceiveCompleteHandler();
         }
         
-        while( HAL_UART_Receive_DMA(&huart4, (uint8_t *)usart4BufRx, 1) != HAL_OK);
+        while( HAL_UART_Receive_DMA(&huart1, (uint8_t *)usart1BufRx, 1) != HAL_OK);
         
 //        HAL_TIM_Base_Start_IT(&htim13); // Start timer
     }

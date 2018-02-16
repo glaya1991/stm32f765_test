@@ -108,13 +108,18 @@
             <file>file:/D:/Github/EEG_Neurointerface/cproject/stm32f4/Src/main.c</file>
             <file>file:/D:/Github/XitLibWorking/External/ExtFunctionsRTOS.c</file>
         </group>
-        <group name="INEUM">
-            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/EEG_Neurointerface/cproject/stm32f4/Src/ExtFunctionsMC.c</file>
-            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/XitLibWorking/External/ExtFunctionsCPU.c</file>
-            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/XitLibWorking/External/ExtFunctions.h</file>
-        </group>
         <group name="Encephalon">
-            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/tim.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/main.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/ExtFunctionsMC.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/stm32f4xx_it.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/tim.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/usart.c</file>
+        </group>
+        <group name="INEUM">
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/ad7190.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/main.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/stm32f4xx_it.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Inc/ad7190.h</file>
         </group>
     </open-files>
 </project-private>

@@ -3,6 +3,11 @@
   * File Name          : main.c
   * Description        : Main program body
   ******************************************************************************
+  ** This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
   * COPYRIGHT(c) 2018 STMicroelectronics
   *
@@ -30,13 +35,17 @@
   *
   ******************************************************************************
   */
+
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_hal.h"
 #include "dma.h"
+#include "i2c.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+#include "fmc.h"
 
 /* USER CODE BEGIN Includes */
 #include "Handler.h"
@@ -48,13 +57,12 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-uint8_t usart4BufRx[1];
+uint8_t usart1BufRx[1];
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -68,33 +76,52 @@ void Error_Handler(void);
 int main(void)
 {
 
-    /* USER CODE BEGIN 1 */
+  /* USER CODE BEGIN 1 */
 
-    /* USER CODE END 1 */
+  /* USER CODE END 1 */
 
-    /* MCU Configuration----------------------------------------------------------*/
+  /* MCU Configuration----------------------------------------------------------*/
 
-    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-    HAL_Init();
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
-    /* Configure the system clock */
-    SystemClock_Config();
+  /* USER CODE BEGIN Init */
 
-    /* Initialize all configured peripherals */
-    MX_GPIO_Init();
-    MX_DMA_Init();
-    MX_UART4_Init();
-    MX_TIM7_Init();
-    MX_TIM10_Init();
-    MX_TIM11_Init();
-    MX_TIM13_Init();
+  /* USER CODE END Init */
 
-    /* USER CODE BEGIN 2 */
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_USART1_UART_Init();
+  MX_UART4_Init();
+  MX_SPI1_Init();
+  MX_SPI2_Init();
+  MX_SPI3_Init();
+  MX_SPI5_Init();
+  MX_SPI6_Init();
+  MX_TIM14_Init();
+  MX_TIM13_Init();
+  MX_I2C1_Init();
+  MX_I2C2_Init();
+  MX_I2C3_Init();
+  MX_FMC_Init();
+  MX_TIM7_Init();
+  MX_TIM10_Init();
+  MX_TIM11_Init();
+
+  /* USER CODE BEGIN 2 */
     InitHandler(EEG);
     WriteMem(REG_LOG_LVL, 5);
     WriteMem(REG_Simple_link, 1);
-    usart4BufRx[0] = 0x00;
-    HAL_UART_Receive_DMA(&huart4, usart4BufRx, 1);
+    usart1BufRx[0] = 0x00;
+    HAL_UART_Receive_DMA(&huart1, usart1BufRx, 1);
     HAL_TIM_Base_Start_IT(&htim7);
     HAL_TIM_Base_Start_IT(&htim10);
     HAL_TIM_Base_Start_IT(&htim11);
@@ -112,21 +139,20 @@ int main(void)
     WriteMem(REG_Led_Q_T3_Red,1);
     WriteMem(REG_Led_Q_T3_Green,1);
     WriteMem(REG_Led_Q_T3_Blue,100);
-    /* USER CODE END 2 */
+  /* USER CODE END 2 */
 
-    /* Infinite loop */
-    /* USER CODE BEGIN WHILE */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
     while (1)
     {
-    /* USER CODE END WHILE */
+  /* USER CODE END WHILE */
       UserOperationHandler();
       UserProtocolHandler();
-//      CalculationHandler();
 
-    /* USER CODE BEGIN 3 */
+  /* USER CODE BEGIN 3 */
 
     }
-    /* USER CODE END 3 */
+  /* USER CODE END 3 */
 
 }
 
@@ -146,17 +172,25 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 22;
-  RCC_OscInitStruct.PLL.PLLN = 319;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 16;
+  RCC_OscInitStruct.PLL.PLLN = 360;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
-    Error_Handler();
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Activate the Over-Drive mode 
+    */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
   }
 
     /**Initializes the CPU, AHB and APB busses clocks 
@@ -170,7 +204,7 @@ void SystemClock_Config(void)
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
-    Error_Handler();
+    _Error_Handler(__FILE__, __LINE__);
   }
 
     /**Configure the Systick interrupt time 
@@ -194,14 +228,14 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void Error_Handler(void)
+void _Error_Handler(char * file, int line)
 {
-  /* USER CODE BEGIN Error_Handler */
+  /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   while(1) 
   {
   }
-  /* USER CODE END Error_Handler */ 
+  /* USER CODE END Error_Handler_Debug */ 
 }
 
 #ifdef USE_FULL_ASSERT

@@ -59,8 +59,11 @@
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>run.cmd</runcommandpicklistitem>
+          <runcommandpicklistitem>run.bu</runcommandpicklistitem>
+          <runcommandpicklistitem>run2.bat</runcommandpicklistitem>
+          <runcommandpicklistitem>run.bat</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>run.cmd</runcommand>
+        <runcommand>run.bat</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <console-type>2</console-type>

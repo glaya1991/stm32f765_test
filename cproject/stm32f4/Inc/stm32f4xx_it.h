@@ -40,6 +40,8 @@
 #endif 
 
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx_hal.h"
+#include "main.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
@@ -54,13 +56,24 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
+void EXTI2_IRQHandler(void);
+void EXTI4_IRQHandler(void);
 void DMA1_Stream2_IRQHandler(void);
+void DMA1_Stream3_IRQHandler(void);
 void DMA1_Stream4_IRQHandler(void);
 void TIM1_UP_TIM10_IRQHandler(void);
 void TIM1_TRG_COM_TIM11_IRQHandler(void);
+void I2C2_EV_IRQHandler(void);
+void USART1_IRQHandler(void);
+void EXTI15_10_IRQHandler(void);
 void TIM8_UP_TIM13_IRQHandler(void);
+void TIM8_TRG_COM_TIM14_IRQHandler(void);
+void DMA1_Stream7_IRQHandler(void);
 void UART4_IRQHandler(void);
 void TIM7_IRQHandler(void);
+void I2C3_EV_IRQHandler(void);
+void SPI5_IRQHandler(void);
+void SPI6_IRQHandler(void);
 
 #ifdef __cplusplus
 }

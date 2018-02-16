@@ -6,14 +6,14 @@
 
 # Macros
 TOP=`pwd`
-CND_PLATFORM=GNU_ARM-Windows
+CND_PLATFORM=GNU-ARM-Windows
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 CND_DLIB_EXT=dll
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/stm32f429_firmware.elf
+OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/stm32f429_firmware.elf
 OUTPUT_BASENAME=stm32f429_firmware.elf
 PACKAGE_TOP_DIR=cproject/
 

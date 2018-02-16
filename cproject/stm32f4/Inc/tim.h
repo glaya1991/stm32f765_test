@@ -4,6 +4,11 @@
   * Description        : This file provides code for the configuration
   *                      of the TIM instances.
   ******************************************************************************
+  ** This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
   * COPYRIGHT(c) 2018 STMicroelectronics
   *
@@ -50,17 +55,19 @@ extern TIM_HandleTypeDef htim7;
 extern TIM_HandleTypeDef htim10;
 extern TIM_HandleTypeDef htim11;
 extern TIM_HandleTypeDef htim13;
+extern TIM_HandleTypeDef htim14;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-extern void Error_Handler(void);
+extern void _Error_Handler(char *, int);
 
 void MX_TIM7_Init(void);
 void MX_TIM10_Init(void);
 void MX_TIM11_Init(void);
 void MX_TIM13_Init(void);
+void MX_TIM14_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 

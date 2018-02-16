@@ -47,16 +47,13 @@
 #include "fmc.h"
 
 /* USER CODE BEGIN Includes */
-#include "MCP23017.h"	// AFE mode selector
-#include "ADG2128.h"	// AFE switch
-
+#include "AFE_MUX_IMP.h" //
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-uint8_t IMP_TIMER_ENDED;
 uint8_t I2C2_TRANSMIT_STARTED = 0;
 uint8_t I2C2_TRANSMIT_ENDED = 0;
 /* USER CODE END PV */
@@ -81,7 +78,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-uint8_t temp8u =0;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -116,22 +113,13 @@ uint8_t temp8u =0;
   MX_I2C2_Init();
   MX_I2C3_Init();
   MX_FMC_Init();
+
   /* USER CODE BEGIN 2 */
   printf("\n\rPeripherals initialized\n\r");
 
-  MCP23017_config();
-
-#ifdef  AFE_UART_DEBUG
-  printf("MCP23017 set\n\r");
-#endif
-
-  AFE_set(AFE_REG_LPF_EMG, AFE_LPF_EMG_3000Hz);
-  AFE_set(AFE_REG_LPF_ECG, AFE_LPF_ECG_150Hz);
+  AFE_MUX_IMP_init();
 
 
-#ifdef  AFE_UART_DEBUG
-  printf("AFE set: %02X\n\r", AFE_read());
-#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -141,7 +129,7 @@ uint8_t temp8u =0;
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  AFE_process();
+	  AFE_MUX_IMP_process();
   }
   /* USER CODE END 3 */
 
@@ -229,11 +217,31 @@ void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c)
 	}
 }
 
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
+
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+	if(htim->Instance == TIM13)
+	{
+		AFEMUX_timer_callback();
+	}
+
 	if(htim->Instance == TIM14)
 	{
-		IMP_TIMER_ENDED = 1;
+		//IMP_timer_callback();
 	}
 }
 /* USER CODE END 4 */

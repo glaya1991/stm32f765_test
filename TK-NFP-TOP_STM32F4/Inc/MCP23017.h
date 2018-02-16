@@ -64,6 +64,10 @@ typedef enum
 AFE_State_TypeDef AFE_process(void);
 
 uint16_t AFE_read(void);
+void AFE_write(uint16_t data);
+
+uint8_t AFE_get_AF(void);
+
+
 AFE_Data_TypeDef AFE_get(AFE_Reg_TypeDef AFE_reg);
 AFE_State_TypeDef AFE_set(AFE_Reg_TypeDef reg, AFE_Data_TypeDef data);
-void MCP23017_config(void);

@@ -16,7 +16,7 @@ int _write(int file, char *data, int len)
         return(-1);
     }
     HAL_StatusTypeDef StatusTransmit = HAL_OK;
-    StatusTransmit = HAL_UART_Transmit(&huart1, (uint8_t *)data, len, 1000);
-//    StatusTransmit = HAL_UART_Transmit_DMA(&huart1, (uint8_t *)data, len);
+    //StatusTransmit = HAL_UART_Transmit(&huart1, (uint8_t *)data, len, 1000);
+    StatusTransmit = HAL_UART_Transmit(&huart1, (uint8_t *)data, len,1);
     return(StatusTransmit == HAL_OK ? len : 0);
 }

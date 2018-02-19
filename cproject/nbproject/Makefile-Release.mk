@@ -21,7 +21,7 @@ FC=gfortran
 AS=arm-none-eabi-as
 
 # Macros
-CND_PLATFORM=GNU_ARM-Windows
+CND_PLATFORM=MinGW_ARM-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
@@ -56,7 +56,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o \
+	${OBJECTDIR}/stm32f4/Src/ADG2128.o \
+	${OBJECTDIR}/stm32f4/Src/AFE_MUX_IMP.o \
 	${OBJECTDIR}/stm32f4/Src/ExtFunctionsMC.o \
+	${OBJECTDIR}/stm32f4/Src/MCP23017.o \
 	${OBJECTDIR}/stm32f4/Src/ad7190.o \
 	${OBJECTDIR}/stm32f4/Src/dma.o \
 	${OBJECTDIR}/stm32f4/Src/fmc.o \
@@ -201,10 +204,25 @@ ${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o: stm32f
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -DCCDefines -DEVOKER -DMC -DP300 -DSL_FULL -DSTM32 -DSTM32F429xx -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -D__MIKROC_PRO_FOR_ARM__ -I. -Istm32f4 -Istm32f4/Inc -Istm32f4/Drivers/CMSIS/Include -Istm32f4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Istm32f4/Drivers/STM32F4xx_HAL_Driver/Inc -ILibrary/Inc -I../../XitLibWorking/External -I../../XitLibWorking/inc -I../../XitLibWorking/inc/coap -I../../XitLibWorking/inc/json -I../../XitLibWorking/inc/malloc -I../../XitLibWorking/inc/models -Istm32f4/WiFi/Inc -Istm32f4/SimpleLink/include -Istm32f4/SimpleLink/source -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c
 
+${OBJECTDIR}/stm32f4/Src/ADG2128.o: stm32f4/Src/ADG2128.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -DCCDefines -DEVOKER -DMC -DP300 -DSL_FULL -DSTM32 -DSTM32F429xx -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -D__MIKROC_PRO_FOR_ARM__ -I. -Istm32f4 -Istm32f4/Inc -Istm32f4/Drivers/CMSIS/Include -Istm32f4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Istm32f4/Drivers/STM32F4xx_HAL_Driver/Inc -ILibrary/Inc -I../../XitLibWorking/External -I../../XitLibWorking/inc -I../../XitLibWorking/inc/coap -I../../XitLibWorking/inc/json -I../../XitLibWorking/inc/malloc -I../../XitLibWorking/inc/models -Istm32f4/WiFi/Inc -Istm32f4/SimpleLink/include -Istm32f4/SimpleLink/source -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/ADG2128.o stm32f4/Src/ADG2128.c
+
+${OBJECTDIR}/stm32f4/Src/AFE_MUX_IMP.o: stm32f4/Src/AFE_MUX_IMP.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -DCCDefines -DEVOKER -DMC -DP300 -DSL_FULL -DSTM32 -DSTM32F429xx -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -D__MIKROC_PRO_FOR_ARM__ -I. -Istm32f4 -Istm32f4/Inc -Istm32f4/Drivers/CMSIS/Include -Istm32f4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Istm32f4/Drivers/STM32F4xx_HAL_Driver/Inc -ILibrary/Inc -I../../XitLibWorking/External -I../../XitLibWorking/inc -I../../XitLibWorking/inc/coap -I../../XitLibWorking/inc/json -I../../XitLibWorking/inc/malloc -I../../XitLibWorking/inc/models -Istm32f4/WiFi/Inc -Istm32f4/SimpleLink/include -Istm32f4/SimpleLink/source -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/AFE_MUX_IMP.o stm32f4/Src/AFE_MUX_IMP.c
+
 ${OBJECTDIR}/stm32f4/Src/ExtFunctionsMC.o: stm32f4/Src/ExtFunctionsMC.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -DCCDefines -DEVOKER -DMC -DP300 -DSL_FULL -DSTM32 -DSTM32F429xx -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -D__MIKROC_PRO_FOR_ARM__ -I. -Istm32f4 -Istm32f4/Inc -Istm32f4/Drivers/CMSIS/Include -Istm32f4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Istm32f4/Drivers/STM32F4xx_HAL_Driver/Inc -ILibrary/Inc -I../../XitLibWorking/External -I../../XitLibWorking/inc -I../../XitLibWorking/inc/coap -I../../XitLibWorking/inc/json -I../../XitLibWorking/inc/malloc -I../../XitLibWorking/inc/models -Istm32f4/WiFi/Inc -Istm32f4/SimpleLink/include -Istm32f4/SimpleLink/source -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/ExtFunctionsMC.o stm32f4/Src/ExtFunctionsMC.c
+
+${OBJECTDIR}/stm32f4/Src/MCP23017.o: stm32f4/Src/MCP23017.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -DCCDefines -DEVOKER -DMC -DP300 -DSL_FULL -DSTM32 -DSTM32F429xx -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -D__MIKROC_PRO_FOR_ARM__ -I. -Istm32f4 -Istm32f4/Inc -Istm32f4/Drivers/CMSIS/Include -Istm32f4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Istm32f4/Drivers/STM32F4xx_HAL_Driver/Inc -ILibrary/Inc -I../../XitLibWorking/External -I../../XitLibWorking/inc -I../../XitLibWorking/inc/coap -I../../XitLibWorking/inc/json -I../../XitLibWorking/inc/malloc -I../../XitLibWorking/inc/models -Istm32f4/WiFi/Inc -Istm32f4/SimpleLink/include -Istm32f4/SimpleLink/source -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/MCP23017.o stm32f4/Src/MCP23017.c
 
 ${OBJECTDIR}/stm32f4/Src/ad7190.o: stm32f4/Src/ad7190.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src

@@ -51,7 +51,7 @@
 #include "Handler.h"
 #include "ExtFunctions.h"
 #include "AD7190.h"
-
+#include "AFE_MUX_IMP.h" //
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -59,7 +59,8 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 uint8_t usart1BufRx[1];
-
+uint8_t I2C2_TRANSMIT_STARTED = 0;
+uint8_t I2C2_TRANSMIT_ENDED = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -153,6 +154,9 @@ int main(void)
     WriteMem(REG_Led_Q_T3_Red,1);
     WriteMem(REG_Led_Q_T3_Green,1);
     WriteMem(REG_Led_Q_T3_Blue,100);
+    
+    AFE_MUX_IMP_init();
+    
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -161,6 +165,8 @@ int main(void)
     {
       UserOperationHandler();
       UserProtocolHandler();
+      AFE_MUX_IMP_process();      
+      
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -240,7 +246,49 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
 
+void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
+
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
+
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if(hi2c->Instance == I2C2)
+	{
+		I2C2_TRANSMIT_ENDED = 1;
+	}
+}
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance == TIM13)
+	{
+		AFEMUX_timer_callback();
+	}
+
+	if(htim->Instance == TIM14)
+	{
+		//IMP_timer_callback();
+	}
+}
 /* USER CODE END 4 */
 
 /**

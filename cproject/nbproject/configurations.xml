@@ -42,7 +42,10 @@
           </logicalFolder>
         </logicalFolder>
         <logicalFolder name="Src" displayName="Src" projectFiles="true">
+          <itemPath>stm32f4/Src/ADG2128.c</itemPath>
+          <itemPath>stm32f4/Src/AFE_MUX_IMP.c</itemPath>
           <itemPath>stm32f4/Src/ExtFunctionsMC.c</itemPath>
+          <itemPath>stm32f4/Src/MCP23017.c</itemPath>
           <itemPath>stm32f4/Src/ad7190.c</itemPath>
           <itemPath>stm32f4/Src/dma.c</itemPath>
           <itemPath>stm32f4/Src/fmc.c</itemPath>
@@ -128,6 +131,9 @@
           </logicalFolder>
         </logicalFolder>
         <logicalFolder name="Inc" displayName="Inc" projectFiles="true">
+          <itemPath>stm32f4/Inc/ADG2128.h</itemPath>
+          <itemPath>stm32f4/Inc/AFE_MUX_IMP.h</itemPath>
+          <itemPath>stm32f4/Inc/MCP23017.h</itemPath>
           <itemPath>stm32f4/Inc/ad7190.h</itemPath>
           <itemPath>stm32f4/Inc/dma.h</itemPath>
           <itemPath>stm32f4/Inc/gpio.h</itemPath>
@@ -202,8 +208,48 @@
       <itemPath>Library/libeeg_evoker.a</itemPath>
       <itemPath>D:/Github/XitLibWorking/libxitlib_cortexm4.a</itemPath>
     </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Файлы тестов"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Важные файлы"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Library/libeeg_evoker.a</itemPath>
+      <itemPath>D:/Github/XitLibWorking/libxitlib_cortexm4.a</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Файлы тестов"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Важные файлы"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Library/libeeg_evoker.a</itemPath>
+      <itemPath>D:/Github/XitLibWorking/libxitlib_cortexm4.a</itemPath>
+    </logicalFolder>
   </logicalFolder>
   <sourceRootList>
+    <Elem>Src</Elem>
+    <Elem>Inc</Elem>
+    <Elem>Drivers</Elem>
+    <Elem>stm32f4</Elem>
+    <Elem>Library</Elem>
+    <Elem>../../XitLibWorking/External</Elem>
+    <Elem>../../XitLibWorking/inc</Elem>
+    <Elem>Src</Elem>
+    <Elem>Inc</Elem>
+    <Elem>Drivers</Elem>
+    <Elem>stm32f4</Elem>
+    <Elem>Library</Elem>
+    <Elem>../../XitLibWorking/External</Elem>
+    <Elem>../../XitLibWorking/inc</Elem>
     <Elem>Src</Elem>
     <Elem>Inc</Elem>
     <Elem>Drivers</Elem>
@@ -635,6 +681,12 @@
             tool="0"
             flavor2="0">
       </item>
+      <item path="stm32f4/Inc/ADG2128.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="stm32f4/Inc/AFE_MUX_IMP.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="stm32f4/Inc/MCP23017.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="stm32f4/Inc/ad7190.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="stm32f4/Inc/dma.h" ex="false" tool="3" flavor2="0">
@@ -724,7 +776,13 @@
       </item>
       <item path="stm32f4/SimpleLink/source/spawn.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="stm32f4/Src/ADG2128.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/AFE_MUX_IMP.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="stm32f4/Src/ExtFunctionsMC.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/MCP23017.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="stm32f4/Src/ad7190.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -759,7 +817,7 @@
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <compilerSet>GNU_ARM|MinGW</compilerSet>
+        <compilerSet>MinGW_ARM|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -1132,6 +1190,12 @@
             tool="0"
             flavor2="0">
       </item>
+      <item path="stm32f4/Inc/ADG2128.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="stm32f4/Inc/AFE_MUX_IMP.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="stm32f4/Inc/MCP23017.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="stm32f4/Inc/ad7190.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="stm32f4/Inc/dma.h" ex="false" tool="3" flavor2="0">
@@ -1221,7 +1285,13 @@
       </item>
       <item path="stm32f4/SimpleLink/source/spawn.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="stm32f4/Src/ADG2128.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/AFE_MUX_IMP.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="stm32f4/Src/ExtFunctionsMC.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="stm32f4/Src/MCP23017.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="stm32f4/Src/ad7190.c" ex="false" tool="0" flavor2="0">
       </item>

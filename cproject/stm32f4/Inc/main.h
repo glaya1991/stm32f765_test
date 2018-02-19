@@ -47,7 +47,8 @@
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
-
+#define AFE_SW_RESET_Pin GPIO_PIN_9
+#define AFE_SW_RESET_GPIO_Port GPIOI
 #define SPI5_CS_Pin GPIO_PIN_6
 #define SPI5_CS_GPIO_Port GPIOF
 #define SPI5_INT_Pin GPIO_PIN_10

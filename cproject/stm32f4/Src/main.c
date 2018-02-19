@@ -118,11 +118,11 @@ int main(void)
   MX_TIM11_Init();
 
   /* USER CODE BEGIN 2 */
-    InitHandler(EEG);
+    InitHandler(POLYGRAPH);
     EEGRecorderInit(1,250);
     WriteMem(REG_LOG_LVL, 7);
     WriteMem(REG_Simple_link, 1);
-    WriteMem(REG_EEG_Auto_Band, 1);
+    WriteMem(REG_EEG_Auto_Band, 0);
     usart1BufRx[0] = 0x00;
     HAL_UART_Receive_DMA(&huart1, usart1BufRx, 1);
     HAL_TIM_Base_Start_IT(&htim7);
@@ -130,13 +130,13 @@ int main(void)
     HAL_TIM_Base_Start_IT(&htim11);
 //    HAL_TIM_Base_Start_IT(&htim13); 
 
-    AD7190_Reset();
-    HAL_Delay(100);
+//    AD7190_Reset();
+//    HAL_Delay(100);
 //    AD7190_SetPower(1);
-    if (AD7190_Init() == 1)
-        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-    else
-        HAL_UART_Transmit(&huart1, "AD7190 not found", 16, 10000);
+//    if (AD7190_Init() == 1)
+//        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
+//    else
+//        HAL_UART_Transmit(&huart1, "AD7190 not found", 16, 10000);
 //    AD7190_RangeSetup(1,AD7190_CONF_GAIN_1);
 //    AD7190_ChannelSelect(AD7190_CH_AIN1P_AINCOM);
 //    CommandLineInterpreter("/get/memory?ip=192.168.1.3&port=5683");
@@ -166,11 +166,11 @@ int main(void)
   /* USER CODE BEGIN 3 */
 //    if (AD7190_Init() == 1)
 //        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-      WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
-      WriteMem(REG_ADC_CH2,AD7190_1_ch());
-      WriteMem(REG_ADC_CH3,AD7190_2_ch());
-      WriteMem(REG_ADC_CH4,AD7190_3_ch());
-      WriteMem(REG_ADC_CH5,AD7190_4_ch());
+//      WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
+//      WriteMem(REG_ADC_CH2,AD7190_1_ch());
+//      WriteMem(REG_ADC_CH3,AD7190_2_ch());
+//      WriteMem(REG_ADC_CH4,AD7190_3_ch());
+//      WriteMem(REG_ADC_CH5,AD7190_4_ch());
     }
   /* USER CODE END 3 */
 
@@ -252,9 +252,9 @@ void _Error_Handler(char * file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  while(1) 
-  {
-  }
+//  while(1) 
+//  {
+//  }
   /* USER CODE END Error_Handler_Debug */ 
 }
 

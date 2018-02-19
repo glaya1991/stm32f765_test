@@ -507,20 +507,20 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
         if((usart1BufRx[0] != 0x00) && (usart1BufRx[0] != '|'))
         {
             UartProtocolHandler(usart1BufRx[0]);
-//        HAL_UART_Transmit(&huart1, "*", 1, 10000);
+//        HAL_UART_Transmit(&huart1, usart1BufRx[0], 1, 10000);
         } 
         else
         {
-//        HAL_UART_Transmit(&huart1, "|", 1, 10000);
-            WriteMem(REG_Led_Q_T1_Red,100);
-            WriteMem(REG_Led_Q_T1_Green,1);
-            WriteMem(REG_Led_Q_T1_Blue,1);
-            WriteMem(REG_Led_Q_T2_Red,100);
-            WriteMem(REG_Led_Q_T2_Green,100);
-            WriteMem(REG_Led_Q_T2_Blue,1);
-            WriteMem(REG_Led_Q_T3_Red,100);
-            WriteMem(REG_Led_Q_T3_Green,100);
-            WriteMem(REG_Led_Q_T3_Blue,100);
+//        HAL_UART_Transmit(&huart1, pocket_buffer, PRxCnt, 10000);
+//            WriteMem(REG_Led_Q_T1_Red,100);
+//            WriteMem(REG_Led_Q_T1_Green,1);
+//            WriteMem(REG_Led_Q_T1_Blue,1);
+//            WriteMem(REG_Led_Q_T2_Red,100);
+//            WriteMem(REG_Led_Q_T2_Green,100);
+//            WriteMem(REG_Led_Q_T2_Blue,1);
+//            WriteMem(REG_Led_Q_T3_Red,100);
+//            WriteMem(REG_Led_Q_T3_Green,100);
+//            WriteMem(REG_Led_Q_T3_Blue,100);
             UartReceiveCompleteHandler();
         }
         

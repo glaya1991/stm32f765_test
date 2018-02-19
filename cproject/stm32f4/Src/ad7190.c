@@ -57,11 +57,20 @@ inline unsigned char SPI_Read(unsigned char slaveDeviceId,
     buffer[1] = 0x00;
     buffer[2] = 0x00;
     buffer[3] = 0x00;
-//    HAL_UART_Transmit(&huart1, "w", 1, 10000);
-//    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
     HAL_SPI_TransmitReceive(&hspi1, buffer, data, bytesNumber, 10000);
-//    HAL_UART_Transmit(&huart1, "r", 1, 10000);
-//    HAL_UART_Transmit(&huart1, data, bytesNumber, 10000);
+    return 0;
+}
+inline unsigned char SPI_Read_DMA(unsigned char slaveDeviceId,
+                       unsigned char* data,
+                       unsigned char bytesNumber)
+{
+    if (bytesNumber > 4)
+        return 1;
+    buffer[0] = data[0];
+    buffer[1] = 0x00;
+    buffer[2] = 0x00;
+    buffer[3] = 0x00;
+    HAL_SPI_TransmitReceive_DMA(&hspi1, buffer, data, bytesNumber);
     return 0;
 }
 inline unsigned char SPI_Write(unsigned char slaveDeviceId,
@@ -74,9 +83,20 @@ inline unsigned char SPI_Write(unsigned char slaveDeviceId,
     buffer[1] = data[1];
     buffer[2] = data[2];
     buffer[3] = data[3];
-//    HAL_UART_Transmit(&huart1, "w", 1, 10000);
-//    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
     HAL_SPI_Transmit(&hspi1, buffer, bytesNumber, 10000);
+    return 0;
+}
+inline unsigned char SPI_Write_DMA(unsigned char slaveDeviceId,
+                        unsigned char* data,
+                        unsigned char bytesNumber)
+{
+    if (bytesNumber > 4)
+        return 1;
+    buffer[0] = data[0];
+    buffer[1] = data[1];
+    buffer[2] = data[2];
+    buffer[3] = data[3];
+    HAL_SPI_Transmit_DMA(&hspi1, buffer, bytesNumber);
     return 0;
 }
 /******************************************************************************/
@@ -96,7 +116,8 @@ inline unsigned char SPI_Write(unsigned char slaveDeviceId,
 void AD7190_SetRegisterValue(unsigned char registerAddress,
                              unsigned long registerValue,
                              unsigned char bytesNumber,
-                             unsigned char modifyCS)
+                             unsigned char modifyCS,
+                             unsigned char blockMode)
 {
     unsigned char writeCommand[5] = {0, 0, 0, 0, 0};
     unsigned char* dataPointer    = (unsigned char*)&registerValue;
@@ -110,7 +131,10 @@ void AD7190_SetRegisterValue(unsigned char registerAddress,
         dataPointer ++;
         bytesNr --;
     }
-    SPI_Write(AD7190_SLAVE_ID * modifyCS, writeCommand, bytesNumber + 1);
+    if (blockMode)
+        SPI_Write(AD7190_SLAVE_ID * modifyCS, writeCommand, bytesNumber + 1);
+    else
+        SPI_Write_DMA(AD7190_SLAVE_ID * modifyCS, writeCommand, bytesNumber + 1);
 }
 
 /***************************************************************************//**
@@ -122,9 +146,11 @@ void AD7190_SetRegisterValue(unsigned char registerAddress,
  *
  * @return buffer - Value of the register.
 *******************************************************************************/
+unsigned char non_block_registerWord[5] = {0, 0, 0, 0, 0}; 
 unsigned long AD7190_GetRegisterValue(unsigned char registerAddress,
                                       unsigned char bytesNumber,
-                                      unsigned char modifyCS)
+                                      unsigned char modifyCS,
+                                      unsigned char blockMode)
 {
     unsigned char registerWord[5] = {0, 0, 0, 0, 0}; 
     unsigned long buffer          = 0x0;
@@ -132,15 +158,17 @@ unsigned long AD7190_GetRegisterValue(unsigned char registerAddress,
     
     registerWord[0] = AD7190_COMM_READ |
                       AD7190_COMM_ADDR(registerAddress);
-    SPI_Read(AD7190_SLAVE_ID * modifyCS, registerWord, bytesNumber + 1);
+    if (blockMode)
+        SPI_Read(AD7190_SLAVE_ID * modifyCS, registerWord, bytesNumber + 1);
+    else
+    {
+        SPI_Read_DMA(AD7190_SLAVE_ID * modifyCS, registerWord, bytesNumber + 1);
+        return 0;
+    }
     for(i = 1; i < bytesNumber + 1; i++) 
     {
         buffer = (buffer << 8) + registerWord[i];
     }
-//    unsigned char n               = 0;
-//    char buf[100];
-//    n = sprintf(buf,"%d ",buffer);
-//    HAL_UART_Transmit(&huart1, buf, n, 10000);
     
     return buffer;
 }
@@ -162,7 +190,7 @@ unsigned char AD7190_Init(void)
     /* Allow at least 500 us before accessing any of the on-chip registers. */
     HAL_Delay(1);
 //    SPI_Read(0x20, registerWord, 2);
-    regVal = AD7190_GetRegisterValue(AD7190_REG_ID, 1, 1);
+    regVal = AD7190_GetRegisterValue(AD7190_REG_ID, 1, 1, 1);
     if( (regVal & AD7190_ID_MASK) != ID_AD7190)
     {
         status = 0;
@@ -205,12 +233,12 @@ void AD7190_SetPower(unsigned char pwrMode)
      unsigned long oldPwrMode = 0x0;
      unsigned long newPwrMode = 0x0; 
  
-     oldPwrMode = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1);
+     oldPwrMode = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1);
      oldPwrMode &= ~(AD7190_MODE_SEL(0x7));
      newPwrMode = oldPwrMode | 
                   AD7190_MODE_SEL((pwrMode * (AD7190_MODE_IDLE)) |
                                   (!pwrMode * (AD7190_MODE_PWRDN)));
-     AD7190_SetRegisterValue(AD7190_REG_MODE, newPwrMode, 3, 1);
+     AD7190_SetRegisterValue(AD7190_REG_MODE, newPwrMode, 3, 1, 1);
 }
 
 ///***************************************************************************//**
@@ -237,10 +265,10 @@ void AD7190_ChannelSelect(unsigned short channel)
     unsigned long oldRegValue = 0x0;
     unsigned long newRegValue = 0x0;   
      
-    oldRegValue = AD7190_GetRegisterValue(AD7190_REG_CONF, 3, 1);
+    oldRegValue = AD7190_GetRegisterValue(AD7190_REG_CONF, 3, 1, 1);
     oldRegValue &= ~(AD7190_CONF_CHAN(0xFF));
     newRegValue = oldRegValue | AD7190_CONF_CHAN(1 << channel);   
-    AD7190_SetRegisterValue(AD7190_REG_CONF, newRegValue, 3, 1);
+    AD7190_SetRegisterValue(AD7190_REG_CONF, newRegValue, 3, 1, 1);
 }
 
 /***************************************************************************//**
@@ -257,11 +285,11 @@ void AD7190_Calibrate(unsigned char mode, unsigned char channel)
     unsigned long newRegValue = 0x0;
     
     AD7190_ChannelSelect(channel);
-    oldRegValue = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1);
+    oldRegValue = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1);
     oldRegValue &= ~AD7190_MODE_SEL(0x7);
     newRegValue = oldRegValue | AD7190_MODE_SEL(mode);
     _CS_L
-    AD7190_SetRegisterValue(AD7190_REG_MODE, newRegValue, 3, 0); // CS is not modified.
+    AD7190_SetRegisterValue(AD7190_REG_MODE, newRegValue, 3, 0, 1); // CS is not modified.
     AD7190_WaitRdyGoLow();
     HAL_Delay(10);
     _CS_H
@@ -283,13 +311,13 @@ void AD7190_RangeSetup(unsigned char polarity, unsigned char range)
     unsigned long oldRegValue = 0x0;
     unsigned long newRegValue = 0x0;
     
-    oldRegValue = AD7190_GetRegisterValue(AD7190_REG_CONF,3, 1);
+    oldRegValue = AD7190_GetRegisterValue(AD7190_REG_CONF,3, 1, 1);
     oldRegValue &= ~(AD7190_CONF_UNIPOLAR |
                      AD7190_CONF_GAIN(0x7));
     newRegValue = oldRegValue | 
                   (polarity * AD7190_CONF_UNIPOLAR) |
                   AD7190_CONF_GAIN(range); 
-    AD7190_SetRegisterValue(AD7190_REG_CONF, newRegValue, 3, 1);
+    AD7190_SetRegisterValue(AD7190_REG_CONF, newRegValue, 3, 1, 1);
 }
 
 /***************************************************************************//**
@@ -304,12 +332,12 @@ unsigned long AD7190_SingleConversion(void)
  
     command = AD7190_MODE_SEL(AD7190_MODE_SINGLE) | 
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
-              AD7190_MODE_RATE(0x060);    
+              AD7190_MODE_RATE(0x1FF);    
     _CS_L
-    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0); // CS is not modified.
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0, 1); // CS is not modified.
     AD7190_WaitRdyGoLow();
-    HAL_Delay(10);
-    regData = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0);
+    HAL_Delay(1);
+    regData = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 1);
     _CS_H
     
     return regData;
@@ -330,12 +358,12 @@ unsigned long AD7190_ContinuousReadAvg(unsigned char sampleNumber)
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
               AD7190_MODE_RATE(0x060);
     _CS_L
-    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0); // CS is not modified.
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0, 1); // CS is not modified.
     for(count = 0;count < sampleNumber;count ++)
     {
         AD7190_WaitRdyGoLow();
         HAL_Delay(10);
-        samplesAverage += AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0); // CS is not modified.
+        samplesAverage += AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 1); // CS is not modified.
     }
     _CS_H
     samplesAverage = samplesAverage / sampleNumber;
@@ -410,72 +438,59 @@ unsigned long AD7190_4_ch(void)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+unsigned int stateM = 0;
+int getState()
+{
+    return stateM;
+}
+int initiateConversionCycle()
+{
+    if (stateM != 0)
+        return -1;
+    _CS_L
+    stateM = 1;
+    unsigned long command = 0x0;
+    command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
+              AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
+              AD7190_MODE_RATE(0x060);
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0, 0); // non blocking
+    stateM = 2;
+    return 0;
+}
+int breakConversionCycle()
+{
+    _CS_H
+    stateM = 0;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  AD7190_CommunicationReg_Init   AD7190_CommunicationReg;
-//  AD7190_StatusRegInit			AD7190_StatusReg;
-
-// void AD7190_ModeConfig(void)
-// {
-// 	AD7190_CommunicationReg.AD7190_WriteMode = 	(uint8_t)(1 << 6);
-// 	AD7190_CommunicationReg.AD7190_ReadMode  = 	(uint8_t)(1 << 7);
-// 	AD7190_CommunicationReg.AD7190_ModeReg   = 	(uint8_t)(1 << 3);
-// 	AD7190_CommunicationReg.AD7190_StatusReg =	(uint8_t)(1 << 4);
-// 	AD7190_CommunicationReg.AD7190_Mode_ID   =	(uint8_t)(1 << 5);
-
-// 	SPI1_SendByte(AD7190_CommunicationReg.AD7190_WriteMode);		//default mode
-// }
-
-// void AD7190_StatusConfig(void)
-// {
-
-// }
-
-// void AD7190_init(void)
-// {
-// 	for (uint8_t i = 0; i < 7; i++)
-// 	{
-// 		SPI1_SendByte(0xff);
-// 	}
-// }
-
-
-
-
-
-
-
-
-
-
-
-
+int modeSendedInConversionCycle()
+{
+    if (stateM != 2)
+        return -1;
+    AD7190_WaitRdyGoLow();
+    stateM = 3;
+    unsigned long samplesAverage = 0x0000;
+    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 0); // CS is not modified.
+    stateM = 4;
+}
+int dataReceivedInConversionCycle()
+{
+    if (stateM != 4)
+        return -1;
+    
+    unsigned long buffer = 0x0;
+    unsigned long i = 0x0;
+    for(i = 1; i < 4; i++) 
+    {
+        buffer = (buffer << 8) + non_block_registerWord[i];
+    }
+    buffer;
+    AD7190_WaitRdyGoLow();
+    stateM = 3;
+    unsigned long samplesAverage = 0x0000;
+    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 0); // CS is not modified.
+    stateM = 4;
+}
 
 
 

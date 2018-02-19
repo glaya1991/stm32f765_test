@@ -138,12 +138,14 @@ extern "C" {
 void AD7190_SetRegisterValue(unsigned char registerAddress,
                              unsigned long registerValue,
                              unsigned char bytesNumber,
-                             unsigned char modifyCS);
+                             unsigned char modifyCS,
+                             unsigned char blockMode);
 
 /*! Reads the value of a register. */
 unsigned long AD7190_GetRegisterValue(unsigned char registerAddress,
                                       unsigned char bytesNumber,
-                                      unsigned char modifyCS);
+                                      unsigned char modifyCS,
+                                      unsigned char blockMode);
 
 /*! Checks if the AD7139 part is present. */
 unsigned char AD7190_Init(void);

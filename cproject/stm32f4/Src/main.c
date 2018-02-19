@@ -133,10 +133,10 @@ int main(void)
 //    AD7190_Reset();
 //    HAL_Delay(100);
 //    AD7190_SetPower(1);
-//    if (AD7190_Init() == 1)
-//        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-//    else
-//        HAL_UART_Transmit(&huart1, "AD7190 not found", 16, 10000);
+    if (AD7190_Init() == 1)
+        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
+    else
+        HAL_UART_Transmit(&huart1, "AD7190 not found", 16, 10000);
 //    AD7190_RangeSetup(1,AD7190_CONF_GAIN_1);
 //    AD7190_ChannelSelect(AD7190_CH_AIN1P_AINCOM);
 //    CommandLineInterpreter("/get/memory?ip=192.168.1.3&port=5683");
@@ -166,7 +166,7 @@ int main(void)
   /* USER CODE BEGIN 3 */
 //    if (AD7190_Init() == 1)
 //        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-//      WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
+      WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
 //      WriteMem(REG_ADC_CH2,AD7190_1_ch());
 //      WriteMem(REG_ADC_CH3,AD7190_2_ch());
 //      WriteMem(REG_ADC_CH4,AD7190_3_ch());

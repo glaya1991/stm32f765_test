@@ -46,30 +46,37 @@ uint8_t buffer[4] = {0};
 #define _CS_L {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);}
 #define _CS_H {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_SET);}
 
+#include "usart.h"
 inline unsigned char SPI_Read(unsigned char slaveDeviceId,
                        unsigned char* data,
                        unsigned char bytesNumber)
 {
-    if (bytesNumber > 3)
+    if (bytesNumber > 4)
         return 1;
-    buffer[0] = slaveDeviceId;
+    buffer[0] = data[0];
     buffer[1] = 0x00;
     buffer[2] = 0x00;
     buffer[3] = 0x00;
+//    HAL_UART_Transmit(&huart1, "w", 1, 10000);
+//    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
     HAL_SPI_TransmitReceive(&hspi1, buffer, data, bytesNumber, 10000);
+//    HAL_UART_Transmit(&huart1, "r", 1, 10000);
+//    HAL_UART_Transmit(&huart1, data, bytesNumber, 10000);
     return 0;
 }
 inline unsigned char SPI_Write(unsigned char slaveDeviceId,
                         unsigned char* data,
                         unsigned char bytesNumber)
 {
-    if (bytesNumber > 3)
+    if (bytesNumber > 4)
         return 1;
-    buffer[0] = slaveDeviceId;
-    buffer[1] = data[0];
-    buffer[2] = data[1];
-    buffer[3] = data[2];
-    HAL_SPI_Transmit(&hspi1, buffer, bytesNumber+1, 10000);
+    buffer[0] = data[0];
+    buffer[1] = data[1];
+    buffer[2] = data[2];
+    buffer[3] = data[3];
+//    HAL_UART_Transmit(&huart1, "w", 1, 10000);
+//    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
+    HAL_SPI_Transmit(&hspi1, buffer, bytesNumber, 10000);
     return 0;
 }
 /******************************************************************************/
@@ -130,6 +137,10 @@ unsigned long AD7190_GetRegisterValue(unsigned char registerAddress,
     {
         buffer = (buffer << 8) + registerWord[i];
     }
+//    unsigned char n               = 0;
+//    char buf[100];
+//    n = sprintf(buf,"%d ",buffer);
+//    HAL_UART_Transmit(&huart1, buf, n, 10000);
     
     return buffer;
 }
@@ -143,15 +154,21 @@ unsigned char AD7190_Init(void)
 {
     unsigned char status = 1;
     unsigned char regVal = 0;
+    unsigned char registerWord[5] = {0, 0, 0, 0, 0}; 
     
+    _CS_L
+    HAL_Delay(1);
     AD7190_Reset();
     /* Allow at least 500 us before accessing any of the on-chip registers. */
     HAL_Delay(1);
+//    SPI_Read(0x20, registerWord, 2);
     regVal = AD7190_GetRegisterValue(AD7190_REG_ID, 1, 1);
     if( (regVal & AD7190_ID_MASK) != ID_AD7190)
     {
         status = 0;
     }
+    HAL_Delay(1);
+    _CS_H
     return status ;
 }
 
@@ -288,16 +305,12 @@ unsigned long AD7190_SingleConversion(void)
     command = AD7190_MODE_SEL(AD7190_MODE_SINGLE) | 
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
               AD7190_MODE_RATE(0x060);    
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);
     _CS_L
     AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0); // CS is not modified.
     AD7190_WaitRdyGoLow();
     HAL_Delay(10);
     regData = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0);
     _CS_H
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_SET);
     
     return regData;
 }
@@ -358,9 +371,8 @@ unsigned long AD7190_1_ch(void)
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN1P_AINCOM);
     dataReg = AD7190_SingleConversion();
-    data = (unsigned long) dataReg;
     
-    return data;
+    return dataReg;
 }
 unsigned long AD7190_2_ch(void)
 {
@@ -370,9 +382,8 @@ unsigned long AD7190_2_ch(void)
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN2P_AINCOM);
     dataReg = AD7190_SingleConversion();
-    data = (unsigned long) dataReg;
     
-    return data;
+    return dataReg;
 }
 unsigned long AD7190_3_ch(void)
 {
@@ -382,9 +393,8 @@ unsigned long AD7190_3_ch(void)
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN3P_AINCOM);
     dataReg = AD7190_SingleConversion();
-    data = (unsigned long) dataReg;
     
-    return data;
+    return dataReg;
 }
 unsigned long AD7190_4_ch(void)
 {
@@ -394,9 +404,8 @@ unsigned long AD7190_4_ch(void)
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN4P_AINCOM);
     dataReg = AD7190_SingleConversion();
-    data = (unsigned long) dataReg;
     
-    return data;
+    return dataReg;
 }
 
 

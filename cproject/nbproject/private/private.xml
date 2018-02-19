@@ -116,15 +116,16 @@
         </group>
         <group name="Encephalon">
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/gpio.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/stm32f4xx_it.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/ExtFunctionsMC.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Inc/ad7190.h</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/XitLibWorking/inc/ConfigMem.h</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/ad7190.c</file>
-            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/main.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/spi.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Inc/spi.h</file>
         </group>
     </open-files>
 </project-private>

@@ -122,7 +122,7 @@ int main(void)
     EEGRecorderInit(1,250);
     WriteMem(REG_LOG_LVL, 7);
     WriteMem(REG_Simple_link, 1);
-    WriteMem(REG_EEG_Auto_Band, 0);
+    WriteMem(REG_EEG_Auto_Band, 1);
     usart1BufRx[0] = 0x00;
     HAL_UART_Receive_DMA(&huart1, usart1BufRx, 1);
     HAL_TIM_Base_Start_IT(&htim7);
@@ -164,13 +164,13 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-    if (AD7190_Init() == 1)
-        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-//      WriteMem(REG_ADC_CH3,AD7190_TemperatureRead());
-//      WriteMem(REG_ADC_CH4,AD7190_1_ch());
-//      WriteMem(REG_ADC_CH5,AD7190_2_ch());
-//      WriteMem(REG_ADC_CH6,AD7190_3_ch());
-//      WriteMem(REG_ADC_CH7,AD7190_4_ch());
+//    if (AD7190_Init() == 1)
+//        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
+      WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
+      WriteMem(REG_ADC_CH2,AD7190_1_ch());
+      WriteMem(REG_ADC_CH3,AD7190_2_ch());
+      WriteMem(REG_ADC_CH4,AD7190_3_ch());
+      WriteMem(REG_ADC_CH5,AD7190_4_ch());
     }
   /* USER CODE END 3 */
 

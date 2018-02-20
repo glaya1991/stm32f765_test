@@ -817,7 +817,7 @@
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <compilerSet>MinGW_ARM|MinGW</compilerSet>
+        <compilerSet>GNU-ARM|Cygwin</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>

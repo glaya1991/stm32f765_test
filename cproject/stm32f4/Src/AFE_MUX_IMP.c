@@ -101,7 +101,7 @@ void AFEMUX_RST_process(void)
 	{
 //=========================================================================================================================================
 	case AFEMUX_RST_DOWN:
-		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_RESET);
 		AFEMUX_RST_state = AFEMUX_RST_UP;
 #ifdef  AFEMUX_UART_DEBUG
 		printf("AFE&MUX RST down\n\r");
@@ -109,7 +109,7 @@ void AFEMUX_RST_process(void)
 		break;
 //=========================================================================================================================================
 	case AFEMUX_RST_UP:
-		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_SET);
 		AFEMUX_RST_state = AFEMUX_RST_DONE;
 #ifdef  AFEMUX_UART_DEBUG
 		printf("AFE&MUX RST up\n\r");

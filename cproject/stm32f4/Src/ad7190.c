@@ -41,17 +41,15 @@
  *   SVN Revision: 903
 *******************************************************************************/
 
-uint8_t buffer[4] = {0};
-
-#define _CS_L {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);}
-#define _CS_H {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_SET);}
+uint8_t buffer[5] = {0};
 
 #include "usart.h"
+#include "spi.h"
 inline unsigned char SPI_Read(unsigned char slaveDeviceId,
                        unsigned char* data,
                        unsigned char bytesNumber)
 {
-    if (bytesNumber > 4)
+    if (bytesNumber > 5)
         return 1;
     buffer[0] = data[0];
     buffer[1] = 0x00;
@@ -64,7 +62,7 @@ inline unsigned char SPI_Read_DMA(unsigned char slaveDeviceId,
                        unsigned char* data,
                        unsigned char bytesNumber)
 {
-    if (bytesNumber > 4)
+    if (bytesNumber > 5)
         return 1;
     buffer[0] = data[0];
     buffer[1] = 0x00;
@@ -77,12 +75,13 @@ inline unsigned char SPI_Write(unsigned char slaveDeviceId,
                         unsigned char* data,
                         unsigned char bytesNumber)
 {
-    if (bytesNumber > 4)
+    if (bytesNumber > 5)
         return 1;
     buffer[0] = data[0];
     buffer[1] = data[1];
     buffer[2] = data[2];
     buffer[3] = data[3];
+//    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
     HAL_SPI_Transmit(&hspi1, buffer, bytesNumber, 10000);
     return 0;
 }
@@ -90,12 +89,15 @@ inline unsigned char SPI_Write_DMA(unsigned char slaveDeviceId,
                         unsigned char* data,
                         unsigned char bytesNumber)
 {
-    if (bytesNumber > 4)
+    if (bytesNumber > 5)
         return 1;
+//    HAL_UART_Transmit(&huart1, "_DMA", 4, 10000);
     buffer[0] = data[0];
     buffer[1] = data[1];
     buffer[2] = data[2];
     buffer[3] = data[3];
+//    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
+//    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
     HAL_SPI_Transmit_DMA(&hspi1, buffer, bytesNumber);
     return 0;
 }
@@ -131,7 +133,7 @@ void AD7190_SetRegisterValue(unsigned char registerAddress,
         dataPointer ++;
         bytesNr --;
     }
-    if (blockMode)
+    if (blockMode == 1)
         SPI_Write(AD7190_SLAVE_ID * modifyCS, writeCommand, bytesNumber + 1);
     else
         SPI_Write_DMA(AD7190_SLAVE_ID * modifyCS, writeCommand, bytesNumber + 1);
@@ -439,45 +441,62 @@ unsigned long AD7190_4_ch(void)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 unsigned int stateM = 0;
-int getState()
+int getState(void)
 {
     return stateM;
 }
-int initiateConversionCycle()
+int initiateConversionCycle(void)
 {
+//    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
+    _CS_H
+    HAL_Delay(1);
+    stateM = 0;
     if (stateM != 0)
         return -1;
     _CS_L
     stateM = 1;
+//    HAL_UART_Transmit(&huart1, "1", 1, 10000);
     unsigned long command = 0x0;
     command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
-              AD7190_MODE_RATE(0x060);
-    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0, 0); // non blocking
+              AD7190_MODE_DAT_STA |
+              AD7190_MODE_RATE(0x3FF);
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 0); // non blocking
+    command = AD7190_CONF_CHAN(AD7190_CH_TEMP_SENSOR |
+                                AD7190_CH_AIN1P_AINCOM |
+                                AD7190_CH_AIN2P_AINCOM |
+                                AD7190_CH_AIN3P_AINCOM |
+                                AD7190_CH_AIN4P_AINCOM) |
+              AD7190_CONF_GAIN(AD7190_CONF_GAIN_1);
+    AD7190_SetRegisterValue(AD7190_REG_CONF, command, 3, 1, 0); // non blocking
     stateM = 2;
+//    HAL_UART_Transmit(&huart1, "2", 1, 10000);
     return 0;
 }
-int breakConversionCycle()
+int breakConversionCycle(void)
 {
     _CS_H
     stateM = 0;
+//    HAL_UART_Transmit(&huart1, "0", 1, 10000);
 }
 
-int modeSendedInConversionCycle()
+int modeSendedInConversionCycle(void)
 {
     if (stateM != 2)
         return -1;
     AD7190_WaitRdyGoLow();
+//    HAL_Delay(1);
     stateM = 3;
+//    HAL_UART_Transmit(&huart1, "3", 1, 10000);
     unsigned long samplesAverage = 0x0000;
-    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 0); // CS is not modified.
+    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 0); 
     stateM = 4;
+//    HAL_UART_Transmit(&huart1, "4", 1, 10000);
 }
-int dataReceivedInConversionCycle()
+int dataReceivedInConversionCycle(void)
 {
     if (stateM != 4)
         return -1;
-    
     unsigned long buffer = 0x0;
     unsigned long i = 0x0;
     for(i = 1; i < 4; i++) 
@@ -486,10 +505,23 @@ int dataReceivedInConversionCycle()
     }
     buffer;
     AD7190_WaitRdyGoLow();
+//    HAL_Delay(1);
     stateM = 3;
+//    HAL_UART_Transmit(&huart1, "3", 1, 10000);
     unsigned long samplesAverage = 0x0000;
-    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 0); // CS is not modified.
+    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 4, 1, 0); 
+    if ((samplesAverage & 0x02000000) > 0)
+        WriteMem(REG_ADC_CH1,samplesAverage & 0x00FFFFFF);
+    if ((samplesAverage & 0x04000000) > 0)
+        WriteMem(REG_ADC_CH2,samplesAverage & 0x00FFFFFF);
+    if ((samplesAverage & 0x05000000) > 0)
+        WriteMem(REG_ADC_CH3,samplesAverage & 0x00FFFFFF);
+    if ((samplesAverage & 0x06000000) > 0)
+        WriteMem(REG_ADC_CH4,samplesAverage & 0x00FFFFFF);
+    if ((samplesAverage & 0x07000000) > 0)
+        WriteMem(REG_ADC_CH5,samplesAverage & 0x00FFFFFF);
     stateM = 4;
+//    HAL_UART_Transmit(&huart1, "4", 1, 10000);
 }
 
 

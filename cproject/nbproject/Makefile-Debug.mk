@@ -35,9 +35,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/AD5933.o \
-	${OBJECTDIR}/ads1299.o \
-	${OBJECTDIR}/gnss.o \
 	${OBJECTDIR}/startup_stm32f429xx.o \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o \
@@ -59,32 +56,22 @@ OBJECTFILES= \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o \
 	${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/device.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/driver.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/flowcont.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/fs.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/netapp.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/netcfg.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/nonos.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/socket.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/spawn.o \
-	${OBJECTDIR}/stm32f4/SimpleLink/source/wlan.o \
+	${OBJECTDIR}/stm32f4/Src/ADG2128.o \
+	${OBJECTDIR}/stm32f4/Src/AFE_MUX_IMP.o \
 	${OBJECTDIR}/stm32f4/Src/ExtFunctionsMC.o \
+	${OBJECTDIR}/stm32f4/Src/MCP23017.o \
+	${OBJECTDIR}/stm32f4/Src/ad7190.o \
 	${OBJECTDIR}/stm32f4/Src/dma.o \
+	${OBJECTDIR}/stm32f4/Src/fmc.o \
 	${OBJECTDIR}/stm32f4/Src/gpio.o \
 	${OBJECTDIR}/stm32f4/Src/i2c.o \
 	${OBJECTDIR}/stm32f4/Src/main.o \
 	${OBJECTDIR}/stm32f4/Src/spi.o \
 	${OBJECTDIR}/stm32f4/Src/stm32f4xx_hal_msp.o \
 	${OBJECTDIR}/stm32f4/Src/stm32f4xx_it.o \
-	${OBJECTDIR}/stm32f4/Src/syscalls.o \
 	${OBJECTDIR}/stm32f4/Src/system_stm32f4xx.o \
-	${OBJECTDIR}/stm32f4/Src/testEEG.o \
 	${OBJECTDIR}/stm32f4/Src/tim.o \
-	${OBJECTDIR}/stm32f4/Src/usart.o \
-	${OBJECTDIR}/stm32f4/UART.o \
-	${OBJECTDIR}/stm32f4/WiFi/Src/WiFiDvr.o \
-	${OBJECTDIR}/stm32f4/WiFi/Src/WiFiMgr.o
+	${OBJECTDIR}/stm32f4/Src/usart.o
 
 
 # C Compiler Flags
@@ -116,21 +103,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ../CoAP/dist/D
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf ${OBJECTFILES} ${LDLIBSOPTIONS} -Tstm32f4_flash.ld
-
-${OBJECTDIR}/AD5933.o: AD5933.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AD5933.o AD5933.c
-
-${OBJECTDIR}/ads1299.o: ads1299.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ads1299.o ads1299.c
-
-${OBJECTDIR}/gnss.o: gnss.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gnss.o gnss.c
 
 ${OBJECTDIR}/startup_stm32f429xx.o: startup_stm32f429xx.s
 	${MKDIR} -p ${OBJECTDIR}
@@ -236,65 +208,40 @@ ${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o: stm32f
 	${RM} "$@.d"
 	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c
 
-${OBJECTDIR}/stm32f4/SimpleLink/source/device.o: stm32f4/SimpleLink/source/device.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
+${OBJECTDIR}/stm32f4/Src/ADG2128.o: stm32f4/Src/ADG2128.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
 	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/device.o stm32f4/SimpleLink/source/device.c
+	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/ADG2128.o stm32f4/Src/ADG2128.c
 
-${OBJECTDIR}/stm32f4/SimpleLink/source/driver.o: stm32f4/SimpleLink/source/driver.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
+${OBJECTDIR}/stm32f4/Src/AFE_MUX_IMP.o: stm32f4/Src/AFE_MUX_IMP.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
 	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/driver.o stm32f4/SimpleLink/source/driver.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/flowcont.o: stm32f4/SimpleLink/source/flowcont.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/flowcont.o stm32f4/SimpleLink/source/flowcont.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/fs.o: stm32f4/SimpleLink/source/fs.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/fs.o stm32f4/SimpleLink/source/fs.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/netapp.o: stm32f4/SimpleLink/source/netapp.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/netapp.o stm32f4/SimpleLink/source/netapp.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/netcfg.o: stm32f4/SimpleLink/source/netcfg.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/netcfg.o stm32f4/SimpleLink/source/netcfg.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/nonos.o: stm32f4/SimpleLink/source/nonos.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/nonos.o stm32f4/SimpleLink/source/nonos.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/socket.o: stm32f4/SimpleLink/source/socket.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/socket.o stm32f4/SimpleLink/source/socket.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/spawn.o: stm32f4/SimpleLink/source/spawn.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/spawn.o stm32f4/SimpleLink/source/spawn.c
-
-${OBJECTDIR}/stm32f4/SimpleLink/source/wlan.o: stm32f4/SimpleLink/source/wlan.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/SimpleLink/source
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/SimpleLink/source/wlan.o stm32f4/SimpleLink/source/wlan.c
+	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/AFE_MUX_IMP.o stm32f4/Src/AFE_MUX_IMP.c
 
 ${OBJECTDIR}/stm32f4/Src/ExtFunctionsMC.o: stm32f4/Src/ExtFunctionsMC.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
 	${RM} "$@.d"
 	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/ExtFunctionsMC.o stm32f4/Src/ExtFunctionsMC.c
 
+${OBJECTDIR}/stm32f4/Src/MCP23017.o: stm32f4/Src/MCP23017.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
+	${RM} "$@.d"
+	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/MCP23017.o stm32f4/Src/MCP23017.c
+
+${OBJECTDIR}/stm32f4/Src/ad7190.o: stm32f4/Src/ad7190.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
+	${RM} "$@.d"
+	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/ad7190.o stm32f4/Src/ad7190.c
+
 ${OBJECTDIR}/stm32f4/Src/dma.o: stm32f4/Src/dma.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
 	${RM} "$@.d"
 	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/dma.o stm32f4/Src/dma.c
+
+${OBJECTDIR}/stm32f4/Src/fmc.o: stm32f4/Src/fmc.c
+	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
+	${RM} "$@.d"
+	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/fmc.o stm32f4/Src/fmc.c
 
 ${OBJECTDIR}/stm32f4/Src/gpio.o: stm32f4/Src/gpio.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
@@ -326,20 +273,10 @@ ${OBJECTDIR}/stm32f4/Src/stm32f4xx_it.o: stm32f4/Src/stm32f4xx_it.c
 	${RM} "$@.d"
 	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/stm32f4xx_it.o stm32f4/Src/stm32f4xx_it.c
 
-${OBJECTDIR}/stm32f4/Src/syscalls.o: stm32f4/Src/syscalls.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/syscalls.o stm32f4/Src/syscalls.c
-
 ${OBJECTDIR}/stm32f4/Src/system_stm32f4xx.o: stm32f4/Src/system_stm32f4xx.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
 	${RM} "$@.d"
 	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/system_stm32f4xx.o stm32f4/Src/system_stm32f4xx.c
-
-${OBJECTDIR}/stm32f4/Src/testEEG.o: stm32f4/Src/testEEG.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/testEEG.o stm32f4/Src/testEEG.c
 
 ${OBJECTDIR}/stm32f4/Src/tim.o: stm32f4/Src/tim.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
@@ -350,21 +287,6 @@ ${OBJECTDIR}/stm32f4/Src/usart.o: stm32f4/Src/usart.c
 	${MKDIR} -p ${OBJECTDIR}/stm32f4/Src
 	${RM} "$@.d"
 	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/Src/usart.o stm32f4/Src/usart.c
-
-${OBJECTDIR}/stm32f4/UART.o: stm32f4/UART.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/UART.o stm32f4/UART.c
-
-${OBJECTDIR}/stm32f4/WiFi/Src/WiFiDvr.o: stm32f4/WiFi/Src/WiFiDvr.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/WiFi/Src
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/WiFi/Src/WiFiDvr.o stm32f4/WiFi/Src/WiFiDvr.c
-
-${OBJECTDIR}/stm32f4/WiFi/Src/WiFiMgr.o: stm32f4/WiFi/Src/WiFiMgr.c
-	${MKDIR} -p ${OBJECTDIR}/stm32f4/WiFi/Src
-	${RM} "$@.d"
-	$(COMPILE.c) -g -DSTM32F429xx -DUSE_HAL_DRIVER -I../XitLib -IPeriph -Ilibraries/Imp/Inc -I. -Ilibraries/CMSIS/Include -Ilibraries/CMSIS/Device/ST/STM32F4xx/Include -Ilibraries/STM32F4xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stm32f4/WiFi/Src/WiFiMgr.o stm32f4/WiFi/Src/WiFiMgr.c
 
 # Subprojects
 .build-subprojects:

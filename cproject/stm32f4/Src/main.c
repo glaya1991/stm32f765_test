@@ -160,7 +160,7 @@ int main(void)
     WriteMem(REG_Led_Q_T3_Green,1);
     WriteMem(REG_Led_Q_T3_Blue,100);
     
-//    AFE_MUX_IMP_init();
+    AFE_MUX_IMP_init();
     
   /* USER CODE END 2 */
 
@@ -177,7 +177,7 @@ int main(void)
       
 //      if (observerConversionCycle())
 //        initiateConversionCycle();
-//      AFE_MUX_IMP_process();      
+     AFE_MUX_IMP_process();      
       
   /* USER CODE END WHILE */
 

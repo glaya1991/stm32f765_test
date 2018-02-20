@@ -295,7 +295,7 @@ void TIM1_UP_TIM10_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim10);
   /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 1 */
   AddSample();
-
+//  HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
   /* USER CODE END TIM1_UP_TIM10_IRQn 1 */
 }
 
@@ -609,7 +609,6 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
     if (hspi->Instance == SPI1)
     {
-//        HAL_UART_Transmit(&huart1, "spitxrx", 7, 10000);
         dataReceivedInConversionCycle();
     }
 }

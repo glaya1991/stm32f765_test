@@ -195,45 +195,6 @@
       <itemPath>Library/libeeg_evoker.a</itemPath>
       <itemPath>D:/Github/XitLibWorking/libxitlib_cortexm4.a</itemPath>
     </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Файлы тестов"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-    </logicalFolder>
-    <logicalFolder name="ExternalFiles"
-                   displayName="Важные файлы"
-                   projectFiles="false"
-                   kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
-      <itemPath>Library/libeeg_evoker.a</itemPath>
-      <itemPath>D:/Github/XitLibWorking/libxitlib_cortexm4.a</itemPath>
-    </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Файлы тестов"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-    </logicalFolder>
-    <logicalFolder name="ExternalFiles"
-                   displayName="Важные файлы"
-                   projectFiles="false"
-                   kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
-      <itemPath>Library/libeeg_evoker.a</itemPath>
-      <itemPath>D:/Github/XitLibWorking/libxitlib_cortexm4.a</itemPath>
-    </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Файлы тестов"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-    </logicalFolder>
-    <logicalFolder name="ExternalFiles"
-                   displayName="Важные файлы"
-                   projectFiles="false"
-                   kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
-      <itemPath>Library/libeeg_evoker.a</itemPath>
-      <itemPath>D:/Github/XitLibWorking/libxitlib_cortexm4.a</itemPath>
-    </logicalFolder>
   </logicalFolder>
   <sourceRootList>
     <Elem>Src</Elem>
@@ -817,7 +778,7 @@
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <compilerSet>GNU-ARM|Cygwin</compilerSet>
+        <compilerSet>GNU_ARM|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>

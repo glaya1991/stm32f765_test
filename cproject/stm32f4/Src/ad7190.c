@@ -45,6 +45,7 @@ uint8_t buffer[5] = {0};
 
 #include "usart.h"
 #include "spi.h"
+#include "Handler.h"
 inline unsigned char SPI_Read(unsigned char slaveDeviceId,
                        unsigned char* data,
                        unsigned char bytesNumber)
@@ -68,7 +69,11 @@ inline unsigned char SPI_Read_DMA(unsigned char slaveDeviceId,
     buffer[1] = 0x00;
     buffer[2] = 0x00;
     buffer[3] = 0x00;
-    HAL_SPI_TransmitReceive_DMA(&hspi1, buffer, data, bytesNumber);
+    while ((HAL_SPI_TransmitReceive_DMA(&hspi1, buffer, data, bytesNumber)) != HAL_OK)//;
+//    if (HAL_SPI_TransmitReceive_DMA(&hspi1, buffer, data, bytesNumber) != HAL_OK)
+    {
+      HAL_UART_Transmit(&huart1, ".", 1, 10000);
+    }
     return 0;
 }
 inline unsigned char SPI_Write(unsigned char slaveDeviceId,
@@ -96,9 +101,23 @@ inline unsigned char SPI_Write_DMA(unsigned char slaveDeviceId,
     buffer[1] = data[1];
     buffer[2] = data[2];
     buffer[3] = data[3];
+    int herr;
 //    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
 //    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
-    HAL_SPI_Transmit_DMA(&hspi1, buffer, bytesNumber);
+    while ((HAL_SPI_Transmit_DMA(&hspi1, buffer, bytesNumber)) != HAL_OK)//;
+    {
+      HAL_UART_Transmit(&huart1, "-", 1, 10000);
+    }
+//    if ((herr=HAL_SPI_Transmit_DMA(&hspi1, buffer, bytesNumber)) != HAL_OK)
+//    {
+//        if (herr == HAL_ERROR)
+//            HAL_UART_Transmit(&huart1, "WDMA err", 8, 10000);
+//        if (herr == HAL_BUSY)
+//            HAL_UART_Transmit(&huart1, "WDMA bus", 8, 10000);
+//        if (herr == HAL_TIMEOUT)
+//            HAL_UART_Transmit(&huart1, "WDMA tim", 8, 10000);
+//    }
+//    HAL_SPI_Transmit_DMA(&hspi1, buffer, bytesNumber);
     return 0;
 }
 /******************************************************************************/
@@ -336,10 +355,10 @@ unsigned long AD7190_SingleConversion(void)
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
               AD7190_MODE_RATE(0x1FF);    
     _CS_L
-    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0, 1); // CS is not modified.
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); // CS is not modified.
     AD7190_WaitRdyGoLow();
     HAL_Delay(1);
-    regData = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 1);
+    regData = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 1);
     _CS_H
     
     return regData;
@@ -360,12 +379,12 @@ unsigned long AD7190_ContinuousReadAvg(unsigned char sampleNumber)
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
               AD7190_MODE_RATE(0x060);
     _CS_L
-    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 0, 1); // CS is not modified.
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); // CS is not modified.
     for(count = 0;count < sampleNumber;count ++)
     {
         AD7190_WaitRdyGoLow();
         HAL_Delay(10);
-        samplesAverage += AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 0, 1); // CS is not modified.
+        samplesAverage += AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 1); // CS is not modified.
     }
     _CS_H
     samplesAverage = samplesAverage / sampleNumber;
@@ -479,6 +498,20 @@ int breakConversionCycle(void)
     stateM = 0;
 //    HAL_UART_Transmit(&huart1, "0", 1, 10000);
 }
+char state_history = 0;
+char state_history_buf[32];
+int observerConversionCycle(void)
+{
+    state_history++
+    state_history_buf[state_history%32] = stateM;
+    unsigned long i = 0x0;
+    for(i = 1; i < 32; i++) 
+    {
+        if (state_history_buf[i-1] != state_history_buf[i])
+            return 1;
+    }
+    return 0;
+}
 
 int modeSendedInConversionCycle(void)
 {
@@ -487,7 +520,7 @@ int modeSendedInConversionCycle(void)
     AD7190_WaitRdyGoLow();
 //    HAL_Delay(1);
     stateM = 3;
-//    HAL_UART_Transmit(&huart1, "3", 1, 10000);
+    HAL_UART_Transmit(&huart1, "|", 1, 10000);
     unsigned long samplesAverage = 0x0000;
     samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 0); 
     stateM = 4;
@@ -503,11 +536,11 @@ int dataReceivedInConversionCycle(void)
     {
         buffer = (buffer << 8) + non_block_registerWord[i];
     }
-    buffer;
+//    buffer;
     AD7190_WaitRdyGoLow();
 //    HAL_Delay(1);
     stateM = 3;
-//    HAL_UART_Transmit(&huart1, "3", 1, 10000);
+    HAL_UART_Transmit(&huart1, "*", 1, 10000);
     unsigned long samplesAverage = 0x0000;
     samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 4, 1, 0); 
     if ((samplesAverage & 0x02000000) > 0)

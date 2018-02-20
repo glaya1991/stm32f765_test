@@ -40,11 +40,14 @@ void AFEMUX_StartTimer(void);
 
 void AFE_MUX_IMP_init (void)
 {
-        ReadMem(REG_AFE_MUX_STATE);
-        ReadMem(REG_AFE_GPIO_STATE);
+    //    ReadMem(REG_AFE_MUX_STATE);
+    //    ReadMem(REG_AFE_GPIO_STATE);
     
-	MUX_set((MUX_Mode_TypeDef)(REG_AFE_MUX_STATE & 0xFF));
-        AFE_write((uint16_t)(REG_AFE_GPIO_STATE & 0xFFFF ));
+//	MUX_set((MUX_Mode_TypeDef)(REG_AFE_MUX_STATE & 0xFF));
+    //    AFE_write((uint16_t)(REG_AFE_GPIO_STATE & 0xFFFF ));
+    
+    //AFE_set(AFE_REG_LPF_ECG, AFE_LPF_ECG_150Hz);
+    AFE_write(0xF000);
 
 #ifdef  AFE_UART_DEBUG
 	printf("AFE set: %02X\n\r", AFE_read());
@@ -88,14 +91,15 @@ AFE_MUX_IMP_State_TypeDef AFE_MUX_IMP_process(void)
 #endif
 
 		//readmem here
-                if (ReadMem(REG_AFE_MODE) !=0)
+               /* if (ReadMem(REG_AFE_MODE) !=0)
                 {
                     ReadMem(REG_AFE_MUX_STATE);
                     ReadMem(REG_AFE_GPIO_STATE);
                     MUX_set((MUX_Mode_TypeDef)(REG_AFE_MUX_STATE & 0xFF));
                     AFE_write((uint16_t)(REG_AFE_GPIO_STATE & 0xFFFF));
                     WriteMem(REG_AFE_MODE, 0x0);
-                }
+                }*/
+                
 
 		AFEMUX_StartTimer();
 		ClrAFEMUXTimerOver;

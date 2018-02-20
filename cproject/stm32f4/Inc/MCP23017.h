@@ -20,7 +20,7 @@ typedef enum
     AFE_REG_GAIN_EMG2	= 7,
     AFE_REG_GAIN_ECG1	= 8,
     AFE_REG_GAIN_ECG2	= 9,
-    AFE_REG_LPF_ECG		= 10,
+    AFE_REG_LPF_ECG	= 10,
     AFE_REG_LPF_EMG 	= 11
 } AFE_Reg_TypeDef;
 

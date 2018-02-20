@@ -45,6 +45,8 @@ extern uint8_t usart1BufRx[1];
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_i2c2_rx;
 extern DMA_HandleTypeDef hdma_i2c2_tx;
+extern DMA_HandleTypeDef hdma_i2c3_rx;
+extern DMA_HandleTypeDef hdma_i2c3_tx;
 extern I2C_HandleTypeDef hi2c2;
 extern I2C_HandleTypeDef hi2c3;
 extern DMA_HandleTypeDef hdma_spi1_rx;
@@ -57,8 +59,6 @@ extern TIM_HandleTypeDef htim10;
 extern TIM_HandleTypeDef htim11;
 extern TIM_HandleTypeDef htim13;
 extern TIM_HandleTypeDef htim14;
-extern DMA_HandleTypeDef hdma_uart4_tx;
-extern DMA_HandleTypeDef hdma_uart4_rx;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern UART_HandleTypeDef huart4;
@@ -254,7 +254,7 @@ void DMA1_Stream2_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream2_IRQn 0 */
 
   /* USER CODE END DMA1_Stream2_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_uart4_rx);
+  HAL_DMA_IRQHandler(&hdma_i2c3_rx);
   /* USER CODE BEGIN DMA1_Stream2_IRQn 1 */
 
   /* USER CODE END DMA1_Stream2_IRQn 1 */
@@ -282,7 +282,7 @@ void DMA1_Stream4_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream4_IRQn 0 */
 
   /* USER CODE END DMA1_Stream4_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_uart4_tx);
+  HAL_DMA_IRQHandler(&hdma_i2c3_tx);
   /* USER CODE BEGIN DMA1_Stream4_IRQn 1 */
 
   /* USER CODE END DMA1_Stream4_IRQn 1 */
@@ -606,7 +606,6 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
     {
 //        HAL_UART_Transmit(&huart1, "spirx", 5, 10000);
         dataReceivedInConversionCycle();
-        DMATestCycle();
     }
 }
 
@@ -615,7 +614,6 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
     if (hspi->Instance == SPI1)
     {
         dataReceivedInConversionCycle();
-        DMATestCycle();
     }
 }
 

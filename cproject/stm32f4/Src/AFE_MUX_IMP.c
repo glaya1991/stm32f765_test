@@ -41,7 +41,7 @@ void AFE_MUX_IMP_init (void)
 {
 	AFE_set(AFE_REG_LPF_EMG, AFE_LPF_EMG_3000Hz);
 	AFE_set(AFE_REG_LPF_ECG, AFE_LPF_ECG_150Hz);
-	MUX_set(MUX_Strap1_EMG1);
+//	MUX_set(MUX_Strap1_EMG1);
 
 #ifdef  AFE_UART_DEBUG
 	printf("AFE set: %02X\n\r", AFE_read());

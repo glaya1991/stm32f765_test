@@ -126,6 +126,9 @@ int main(void)
     WriteMem(REG_LOG_LVL, 7);
     WriteMem(REG_Simple_link, 1);
     WriteMem(REG_EEG_Auto_Band, 0);
+    WriteMem(REG_ADC_REG1,0x000003FF);
+    WriteMem(REG_ADC_REG2,0x00000003);
+    WriteMem(REG_ADC_ORDER,0x00000000);
     usart1BufRx[0] = 0x00;
     HAL_UART_Receive_DMA(&huart1, usart1BufRx, 1);
     HAL_TIM_Base_Start_IT(&htim7);
@@ -169,6 +172,7 @@ int main(void)
 //    AD7190_GetRegisterValue(AD7190_REG_ID, 1, 1, 0);
 //    initiateConversionCycle();
 //    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
+    initiateDMATestCycle();
     unsigned char i=0;
     while (1)
     {
@@ -184,24 +188,25 @@ int main(void)
   /* USER CODE BEGIN 3 */
 //    if (AD7190_Init() == 1)
 //        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-      switch ((i++)%5) 
+      switch (ReadMem(REG_ADC_ORDER)) 
       {
           case 0:
                 WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
                 break;
           case 1:
-                WriteMem(REG_ADC_CH2,AD7190_1_ch());
+                WriteMem(REG_ADC_CH1,AD7190_1_ch());
                 break;
           case 2:
-                WriteMem(REG_ADC_CH3,AD7190_2_ch());
+                WriteMem(REG_ADC_CH1,AD7190_2_ch());
                 break;
           case 3:
-                WriteMem(REG_ADC_CH4,AD7190_3_ch());
+                WriteMem(REG_ADC_CH1,AD7190_3_ch());
                 break;
           case 4:
-                WriteMem(REG_ADC_CH5,AD7190_4_ch());
+                WriteMem(REG_ADC_CH1,AD7190_4_ch());
                 break;
           default:
+                WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
                 break;
       }
     }

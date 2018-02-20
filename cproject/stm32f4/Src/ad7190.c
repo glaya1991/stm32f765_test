@@ -41,7 +41,7 @@
  *   SVN Revision: 903
 *******************************************************************************/
 
-uint8_t buffer[5] = {0};
+uint8_t buffer[5] = {0,0,0,0,0};
 
 #include "usart.h"
 #include "spi.h"
@@ -354,14 +354,43 @@ unsigned long AD7190_SingleConversion(void)
 {
     unsigned long command = 0x0;
     unsigned long regData = 0x0;
- 
-    command = AD7190_MODE_SEL(AD7190_MODE_SINGLE) | 
-              AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
-              AD7190_MODE_RATE(0x060);    
+    unsigned long regRate = 0x0;
+    unsigned long regPower = 0x0;
+    
+    regRate = ReadMem(REG_ADC_REG1);
+    if (regRate > 0x000003FF)
+        regRate = 0x000003FF;
+    regPower = ReadMem(REG_ADC_REG2);
+    switch (regPower)
+    {
+        case 1:
+            regPower = 0;
+            break;
+        case 8:
+            regPower = 3;
+            break;
+        case 16:
+            regPower = 4;
+            break;
+        case 32:
+            regPower = 5;
+            break;
+        case 64:
+            regPower = 6;
+            break;
+        case 128:
+            regPower = 7;
+            break;
+        default:
+            regPower = 0;
+            break;
+    }
+    
     _CS_L
-    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); // CS is not modified.
+    AD7190_RangeSetup(1, regPower);
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); 
     AD7190_WaitRdyGoLow();
-    HAL_Delay(1);
+//    HAL_Delay(1);
     regData = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 1);
     _CS_H
     
@@ -467,6 +496,19 @@ unsigned int stateM = 0;
 int getState(void)
 {
     return stateM;
+}
+uint8_t buffer2[5] = {0,0,0,0,0};
+int initiateDMATestCycle(void)
+{
+    stateM = 10;
+    HAL_SPI_TransmitReceive(&hspi1, buffer2, buffer2, 5, 10000); 
+    HAL_UART_Transmit(&huart1, "|", 1, 10000);
+}
+int DMATestCycle(void)
+{
+    if (stateM == 10)
+        HAL_SPI_TransmitReceive(&hspi1, buffer2, buffer2, 5, 10000);  
+    HAL_UART_Transmit(&huart1, "*", 1, 10000);      
 }
 int initiateConversionCycle(void)
 {

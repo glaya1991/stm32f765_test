@@ -606,6 +606,7 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
     {
 //        HAL_UART_Transmit(&huart1, "spirx", 5, 10000);
         dataReceivedInConversionCycle();
+        DMATestCycle();
     }
 }
 
@@ -614,6 +615,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
     if (hspi->Instance == SPI1)
     {
         dataReceivedInConversionCycle();
+        DMATestCycle();
     }
 }
 

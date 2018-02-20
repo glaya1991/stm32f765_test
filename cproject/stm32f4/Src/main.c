@@ -167,12 +167,16 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 //    AD7190_GetRegisterValue(AD7190_REG_ID, 1, 1, 0);
-    initiateConversionCycle();
+//    initiateConversionCycle();
 //    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
+    unsigned char i=0;
     while (1)
     {
       UserOperationHandler();
       UserProtocolHandler();
+      
+//      if (observerConversionCycle())
+//        initiateConversionCycle();
 //      AFE_MUX_IMP_process();      
       
   /* USER CODE END WHILE */
@@ -180,11 +184,26 @@ int main(void)
   /* USER CODE BEGIN 3 */
 //    if (AD7190_Init() == 1)
 //        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-//      WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
-//      WriteMem(REG_ADC_CH2,AD7190_1_ch());
-//      WriteMem(REG_ADC_CH3,AD7190_2_ch());
-//      WriteMem(REG_ADC_CH4,AD7190_3_ch());
-//      WriteMem(REG_ADC_CH5,AD7190_4_ch());
+      switch ((i++)%5) 
+      {
+          case 0:
+                WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
+                break;
+          case 1:
+                WriteMem(REG_ADC_CH2,AD7190_1_ch());
+                break;
+          case 2:
+                WriteMem(REG_ADC_CH3,AD7190_2_ch());
+                break;
+          case 3:
+                WriteMem(REG_ADC_CH4,AD7190_3_ch());
+                break;
+          case 4:
+                WriteMem(REG_ADC_CH5,AD7190_4_ch());
+                break;
+          default:
+                break;
+      }
     }
   /* USER CODE END 3 */
 

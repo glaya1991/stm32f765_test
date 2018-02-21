@@ -126,9 +126,9 @@ int main(void)
     WriteMem(REG_LOG_LVL, 7);
     WriteMem(REG_Simple_link, 1);
     WriteMem(REG_EEG_Auto_Band, 0);
-    WriteMem(REG_ADC_REG1,0x000001FF);
+    WriteMem(REG_ADC_REG1,0x000003FF);
     WriteMem(REG_ADC_REG2,0x00000003);
-    WriteMem(REG_ADC_REG3,0x00000002);
+    WriteMem(REG_ADC_REG3,0x00000007);
     usart1BufRx[0] = 0x00;
     HAL_UART_Receive_DMA(&huart1, usart1BufRx, 1);
     HAL_TIM_Base_Start_IT(&htim7);
@@ -167,7 +167,7 @@ int main(void)
     WriteMem(REG_Led_Q_T3_Green,1);
     WriteMem(REG_Led_Q_T3_Blue,100);
     
-   // AFE_MUX_IMP_init();
+    AFE_MUX_IMP_init();
     
   /* USER CODE END 2 */
 
@@ -188,7 +188,7 @@ int main(void)
       
 //      if (observerConversionCycle())
 //        initiateConversionCycle();
-    // AFE_MUX_IMP_process();      
+    AFE_MUX_IMP_process();      
       
   /* USER CODE END WHILE */
 

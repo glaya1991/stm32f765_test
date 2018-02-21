@@ -72,7 +72,7 @@ AFE_State_TypeDef AFE_process(void)
 				{
 					I2C2_TRANSMIT_STARTED = 0;
 					I2C2_TRANSMIT_ENDED = 0;
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 					printf("AFE switch reinit done: %02X%02X\n\r", tempi2ctx[1], tempi2ctx[0]);
 #endif
 					AFE_switch_state = AFE_SWITCH_STATE_SWITCH;
@@ -82,14 +82,14 @@ AFE_State_TypeDef AFE_process(void)
 			{
 				I2C2_TRANSMIT_STARTED = 1;
 				I2C2_TRANSMIT_ENDED = 0;
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 				printf("AFE switch reinit attempt\n\r");
 #endif
 				tempi2ctx[0] = 0x0;
 				tempi2ctx[1] = 0x0;
 				if (HAL_I2C_Mem_Write_DMA(&hi2c2, MCP23017_I2C_ADDRESS, 0x0, I2C_MEMADD_SIZE_8BIT, tempi2ctx, 2) != HAL_OK)
 				{
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 					printf("MCP23017_config HAL fail\n\r");
 #endif
 				}
@@ -104,7 +104,7 @@ AFE_State_TypeDef AFE_process(void)
 				{
 					I2C2_TRANSMIT_STARTED = 0;
 					I2C2_TRANSMIT_ENDED = 0;
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 					printf("AFE switch write done: %02X%02X\n\r", tempi2ctx[1], tempi2ctx[0]);
 #endif
 					AFE_switch_state = AFE_SWITCH_STATE_READBACK;
@@ -114,7 +114,7 @@ AFE_State_TypeDef AFE_process(void)
 			{
 				I2C2_TRANSMIT_STARTED = 1;
 				I2C2_TRANSMIT_ENDED = 0;
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 				printf("AFE switch write attempt: %04X\n\r", AFE_GPIO_State);
 #endif
 				tempi2ctx[0] = (uint8_t)(AFE_GPIO_State & (0xFF));//GPA
@@ -123,7 +123,7 @@ AFE_State_TypeDef AFE_process(void)
 			    tempi2ctx[3] = (uint8_t)((AFE_GPIO_State>>8) & (0xFF));//GPB - first!
 				if (HAL_I2C_Mem_Write_DMA(&hi2c2, MCP23017_I2C_ADDRESS, 0x12, I2C_MEMADD_SIZE_8BIT, tempi2ctx, 4) != HAL_OK)
 				{
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 					printf("AFE_process HAL fail\n\r");
 #endif
 				}
@@ -141,7 +141,7 @@ AFE_State_TypeDef AFE_process(void)
 
 					AFE_GPIO_State_Read = ((uint16_t)(tempi2crx[1]) << 8) + tempi2crx[0];
 					AFE_switch_state = AFE_SWITCH_STATE_DONE;
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 					printf("AFE switch read done: %04X %02X%02X\n\r", AFE_GPIO_State_Read, tempi2crx[1], tempi2crx[0]);
 #endif
 				}
@@ -150,12 +150,12 @@ AFE_State_TypeDef AFE_process(void)
 			{
 				I2C2_TRANSMIT_STARTED = 1;
 				I2C2_TRANSMIT_ENDED = 0;
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 				printf("AFE switch read attempt\n\r");
 #endif
 				if (HAL_I2C_Mem_Read_DMA(&hi2c2, MCP23017_I2C_ADDRESS, 0x14, I2C_MEMADD_SIZE_8BIT, tempi2crx, 2) != HAL_OK)
 				{
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 					printf("AFE_process HAL fail\n\r");
 #endif
 				}
@@ -165,13 +165,13 @@ AFE_State_TypeDef AFE_process(void)
 //=========================================================================================================================================
 		case AFE_SWITCH_STATE_DONE:
 			ClrAFESwitchRequested;
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 			printf("AFE switch done\n\r");
 #endif
 			return AFE_STATE_OK; //
 			break;
 		default:
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 			printf("AFE switch error\n\r");
 #endif
 	return AFE_STATE_ERROR; // should never get here

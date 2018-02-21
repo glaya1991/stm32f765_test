@@ -40,20 +40,22 @@ void AFEMUX_StartTimer(void);
 
 void AFE_MUX_IMP_init (void)
 {    
+        AFEMUX_reset();
 //	MUX_set((MUX_Mode_TypeDef)(ReadMem(REG_AFE_MUX_STATE) & 0xFF));
-	MUX_set((MUX_Mode_TypeDef)(7 & 0xFF));
-        AFE_write((uint16_t)(ReadMem(REG_AFE_GPIO_STATE) & 0xFFFF ));
+	MUX_set(0x7);
+        AFE_write(0xFF00);
+//        AFE_write((uint16_t)(ReadMem(REG_AFE_GPIO_STATE) & 0xFFFF ));
 
-#ifdef  AFE_UART_DEBUG
+#if  AFE_UART_DEBUG
 	printf("AFE set: %02X\n\r", AFE_read());
 #endif
 
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 	printf("MUX set: %02X\n\r", MUX_get());
 #endif
 
 	AFEMUX_reset();
-#ifdef  AFEMUX_UART_DEBUG
+#if  AFEMUX_UART_DEBUG
 	printf("AFE&MUX reset requested\n\r");
 #endif
 
@@ -81,19 +83,19 @@ AFE_MUX_IMP_State_TypeDef AFE_MUX_IMP_process(void)
 
 	if (CheckAFEMUXTimerOver)
 	{
-#ifdef  AFEMUX_UART_DEBUG
+#if AFEMUX_UART_DEBUG
 		printf("AFE&MUX timer!\n\r");
 #endif
 
 		//readmem here
-                if (ReadMem(REG_AFE_MODE) !=0)
+              /*  if (ReadMem(REG_AFE_MODE) !=0)
                 {
                     ReadMem(REG_AFE_MUX_STATE);
                     ReadMem(REG_AFE_GPIO_STATE);
                     MUX_set((MUX_Mode_TypeDef)(REG_AFE_MUX_STATE & 0xFF));
                     AFE_write((uint16_t)(REG_AFE_GPIO_STATE & 0xFFFF));
                     WriteMem(REG_AFE_MODE, 0x0);
-                }
+                }*/
 
 		AFEMUX_StartTimer();
 		ClrAFEMUXTimerOver;
@@ -107,17 +109,17 @@ void AFEMUX_RST_process(void)
 	{
 //=========================================================================================================================================
 	case AFEMUX_RST_DOWN:
-//		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_RESET);
 		AFEMUX_RST_state = AFEMUX_RST_UP;
-#ifdef  AFEMUX_UART_DEBUG
+#if AFEMUX_UART_DEBUG
 		printf("AFE&MUX RST down\n\r");
 #endif
 		break;
 //=========================================================================================================================================
 	case AFEMUX_RST_UP:
-//		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(AFE_SW_RESET_GPIO_Port, AFE_SW_RESET_Pin,GPIO_PIN_SET);
 		AFEMUX_RST_state = AFEMUX_RST_DONE;
-#ifdef  AFEMUX_UART_DEBUG
+#if AFEMUX_UART_DEBUG
 		printf("AFE&MUX RST up\n\r");
 #endif
 		ClrAFEMUXResetRequested
@@ -139,7 +141,7 @@ void AFEMUX_SetTimer (uint16_t ms)
 	  htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	  if (HAL_TIM_Base_Init(&htim13) != HAL_OK)
 	  {
-#ifdef  AFEMUX_UART_DEBUG
+#if AFEMUX_UART_DEBUG
 		printf("AFE&MUX timer init error\n\r");
 #endif
 	  }
@@ -150,7 +152,7 @@ void AFEMUX_timer_callback(void)
 {
 	SetAFEMUXTimerOver;
 
-#ifdef  AFEMUX_MODES_DEBUG
+#if  AFEMUX_MODES_DEBUG
 	static uint8_t testmode;
 
 	MUX_set (testmode);
@@ -166,8 +168,8 @@ void AFEMUX_StartTimer(void)
 {
 	if (HAL_TIM_Base_Start_IT(&htim13) != HAL_OK)
 	{
-#ifdef  AFEMUX_UART_DEBUG
-		printf("AFE&MUX timer start error\n\r\n\r");
+#if  AFEMUX_UART_DEBUG
+	printf("AFE&MUX timer start error\n\r\n\r");
 #endif
 	};
 }

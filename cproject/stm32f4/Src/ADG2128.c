@@ -71,7 +71,7 @@ MUX_State_TypeDef MUX_process(void)
 				{
 					I2C2_TRANSMIT_STARTED = 0;
 					I2C2_TRANSMIT_ENDED = 0;
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 					printf("MUX switch clear1 done: %02X %02X\n\r", tempi2ctx[0], tempi2ctx[1]);
 #endif
 					MUX_state = MUX_CLEAR2;
@@ -83,12 +83,12 @@ MUX_State_TypeDef MUX_process(void)
 				I2C2_TRANSMIT_ENDED = 0;
 				tempi2ctx[0] = MUX_A_old & 0x7F;
 				tempi2ctx[1] = 0x0;
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 				printf("MUX switch clear1 attempt: %02X %02X\n\r", tempi2ctx[0], tempi2ctx[1]);
 #endif
 				if (HAL_I2C_Master_Transmit_DMA(&hi2c2, ADG2128_I2C_ADDRESS,  tempi2ctx, 2) != HAL_OK)
 				{
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 					printf("MUX_process HAL fail\n\r");
 #endif
 				}
@@ -103,7 +103,7 @@ MUX_State_TypeDef MUX_process(void)
 				{
 					I2C2_TRANSMIT_STARTED = 0;
 					I2C2_TRANSMIT_ENDED = 0;
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 					printf("MUX switch clear2 done: %02X %02X\n\r", tempi2ctx[0], tempi2ctx[1]);
 #endif
 					MUX_state = MUX_WRITE1;
@@ -115,12 +115,12 @@ MUX_State_TypeDef MUX_process(void)
 				I2C2_TRANSMIT_ENDED = 0;
 				tempi2ctx[0] = MUX_B_old & 0x7F;
 				tempi2ctx[1] = 0x0;
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 				printf("MUX switch clear2 attempt: %02X %02X\n\r", tempi2ctx[0], tempi2ctx[1]);
 #endif
 				if (HAL_I2C_Master_Transmit_DMA(&hi2c2, ADG2128_I2C_ADDRESS,  tempi2ctx, 2) != HAL_OK)
 				{
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 					printf("MUX_process HAL fail\n\r");
 #endif
 				}
@@ -135,7 +135,7 @@ MUX_State_TypeDef MUX_process(void)
 				{
 					I2C2_TRANSMIT_STARTED = 0;
 					I2C2_TRANSMIT_ENDED = 0;
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 					printf("MUX switch write1 done: %02X %02X\n\r", tempi2ctx[0], tempi2ctx[1]);
 #endif
 					MUX_state = MUX_WRITE2;
@@ -147,12 +147,12 @@ MUX_State_TypeDef MUX_process(void)
 				I2C2_TRANSMIT_ENDED = 0;
 				tempi2ctx[0] = MUX_A;
 				tempi2ctx[1] = 0x0;
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 				printf("MUX switch write1 attempt: %02X %02X\n\r", tempi2ctx[0], tempi2ctx[1]);
 #endif
 				if (HAL_I2C_Master_Transmit_DMA(&hi2c2, ADG2128_I2C_ADDRESS,  tempi2ctx, 2) != HAL_OK)
 				{
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 					printf("MUX_process HAL fail\n\r");
 #endif
 				}
@@ -195,13 +195,13 @@ MUX_State_TypeDef MUX_process(void)
 //=========================================================================================================================================
 		case MUX_DONE:
 			ClrMUXSwitchRequested;
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 			printf("MUX switch done\n\r");
 #endif
 			return MUX_STATE_OK; //
 			break;
 		default:
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 			printf("MUX switch error\n\r");
 #endif
 	return MUX_STATE_ERROR; // should never get here
@@ -321,7 +321,7 @@ MUX_State_TypeDef MUX_set(MUX_Mode_TypeDef mode)
 		AFE_MUX_State = MUX_Zero_EMG2;
 		break;
 	default:		// should never get here
-#ifdef  MUX_UART_DEBUG
+#if  MUX_UART_DEBUG
 			printf("MUX mode error\n\r");
 #endif
 		return MUX_STATE_ERROR;

@@ -136,6 +136,7 @@
         <group>
             <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/AFE_MUX_IMP.c</file>
             <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Inc/MCP23017.h</file>
+            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/ADG2128.c</file>
             <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/main.c</file>
             <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/MCP23017.c</file>
             <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Inc/AFE_MUX_IMP.h</file>

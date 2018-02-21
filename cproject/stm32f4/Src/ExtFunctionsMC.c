@@ -64,6 +64,23 @@ void UserOperationHandler(void)
             }
         }
     }
+    if ( ReadMem(REG_ADC_REG14) > 0 )
+    {
+        switch (ReadMem(REG_ADC_REG14)) 
+        {
+            case 1:
+                AD7190_ContinuousReadStop();
+                AD7190_ChannelSelect(ReadMem(REG_ADC_REG3));
+                break;
+            case 2:
+                AD7190_Init();
+                HAL_NVIC_SystemReset();
+                break;
+            default:
+                break;
+        }
+        WriteMem(REG_ADC_REG14,0);
+    }
     OperationHandler();
 }
 

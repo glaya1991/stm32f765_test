@@ -39,12 +39,10 @@ void AFEMUX_SetTimer (uint16_t ms);
 void AFEMUX_StartTimer(void);
 
 void AFE_MUX_IMP_init (void)
-{
-        ReadMem(REG_AFE_MUX_STATE);
-        ReadMem(REG_AFE_GPIO_STATE);
-    
-	MUX_set((MUX_Mode_TypeDef)(REG_AFE_MUX_STATE & 0xFF));
-        AFE_write((uint16_t)(REG_AFE_GPIO_STATE & 0xFFFF ));
+{    
+//	MUX_set((MUX_Mode_TypeDef)(ReadMem(REG_AFE_MUX_STATE) & 0xFF));
+	MUX_set((MUX_Mode_TypeDef)(7 & 0xFF));
+        AFE_write((uint16_t)(ReadMem(REG_AFE_GPIO_STATE) & 0xFFFF ));
 
 #ifdef  AFE_UART_DEBUG
 	printf("AFE set: %02X\n\r", AFE_read());

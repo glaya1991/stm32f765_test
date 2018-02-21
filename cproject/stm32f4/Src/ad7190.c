@@ -41,7 +41,8 @@
  *   SVN Revision: 903
 *******************************************************************************/
 
-uint8_t buffer[5] = {0,0,0,0,0};
+uint8_t buffer[20] = {0,0,0,0,0};
+int st = 0;
 
 #include "usart.h"
 #include "spi.h"
@@ -82,7 +83,7 @@ inline unsigned char SPI_Write(unsigned char slaveDeviceId,
                         unsigned char* data,
                         unsigned char bytesNumber)
 {
-    if (bytesNumber > 5)
+    if (bytesNumber > 20)
         return 1;
     buffer[0] = data[0];
     buffer[1] = data[1];
@@ -205,15 +206,18 @@ unsigned long AD7190_GetRegisterValue(unsigned char registerAddress,
 *******************************************************************************/
 unsigned char AD7190_Init(void)
 {
+    st = 0;
     unsigned char status = 1;
     unsigned char regVal = 0;
     unsigned char registerWord[5] = {0, 0, 0, 0, 0}; 
     
+    _CS_H
+    HAL_Delay(1);
     _CS_L
     HAL_Delay(1);
     AD7190_Reset();
     /* Allow at least 500 us before accessing any of the on-chip registers. */
-    HAL_Delay(1);
+    HAL_Delay(100);
 //    SPI_Read(0x20, registerWord, 2);
     regVal = AD7190_GetRegisterValue(AD7190_REG_ID, 1, 1, 1);
     if( (regVal & AD7190_ID_MASK) != ID_AD7190)
@@ -232,7 +236,8 @@ unsigned char AD7190_Init(void)
 *******************************************************************************/
 void AD7190_Reset(void)
 {
-    unsigned char registerWord[7];
+    st = 0;
+    unsigned char registerWord[10];
     
     registerWord[0] = 0x01;
     registerWord[1] = 0xFF;
@@ -241,7 +246,10 @@ void AD7190_Reset(void)
     registerWord[4] = 0xFF;
     registerWord[5] = 0xFF;
     registerWord[6] = 0xFF;
-    SPI_Write(AD7190_SLAVE_ID, registerWord, 7);
+    registerWord[7] = 0xFF;
+    registerWord[8] = 0xFF;
+    registerWord[9] = 0xFF;
+    SPI_Write(AD7190_SLAVE_ID, registerWord, 10);
 }
 
 /***************************************************************************//**
@@ -255,6 +263,7 @@ void AD7190_Reset(void)
 *******************************************************************************/
 void AD7190_SetPower(unsigned char pwrMode)
 {
+    st = 0;
      unsigned long oldPwrMode = 0x0;
      unsigned long newPwrMode = 0x0; 
  
@@ -264,6 +273,31 @@ void AD7190_SetPower(unsigned char pwrMode)
                   AD7190_MODE_SEL((pwrMode * (AD7190_MODE_IDLE)) |
                                   (!pwrMode * (AD7190_MODE_PWRDN)));
      AD7190_SetRegisterValue(AD7190_REG_MODE, newPwrMode, 3, 1, 1);
+}
+void AD7190_SetLeds(unsigned char mode)
+{
+    st = 0;
+    _CS_L
+            
+    switch (mode)
+    {
+        case 1:
+    AD7190_SetRegisterValue(AD7190_REG_GPOCON, AD7190_GPOCON_GP10EN |
+                                                AD7190_GPOCON_GP32EN |
+                                                AD7190_GPOCON_P1DAT, 1, 1, 1); 
+            break;
+        case 2:
+    AD7190_SetRegisterValue(AD7190_REG_GPOCON, AD7190_GPOCON_GP10EN |
+                                                AD7190_GPOCON_GP32EN |
+                                                AD7190_GPOCON_P0DAT, 1, 1, 1); 
+            break;
+        default:
+    AD7190_SetRegisterValue(AD7190_REG_GPOCON, AD7190_GPOCON_GP10EN |
+                                                AD7190_GPOCON_GP32EN |
+                                                AD7190_GPOCON_P2DAT, 1, 1, 1); 
+            break;
+    }
+    _CS_H
 }
 
 ///***************************************************************************//**
@@ -287,6 +321,7 @@ void AD7190_WaitRdyGoLow(void)
 *******************************************************************************/
 void AD7190_ChannelSelect(unsigned short channel)
 {
+    st = 0;
     unsigned long oldRegValue = 0x0;
     unsigned long newRegValue = 0x0;   
      
@@ -309,6 +344,7 @@ void AD7190_Calibrate(unsigned char mode, unsigned char channel)
     unsigned long oldRegValue = 0x0;
     unsigned long newRegValue = 0x0;
     
+    st = 0;
     AD7190_ChannelSelect(channel);
     oldRegValue = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1);
     oldRegValue &= ~AD7190_MODE_SEL(0x7);
@@ -333,6 +369,7 @@ void AD7190_Calibrate(unsigned char mode, unsigned char channel)
 *******************************************************************************/
 void AD7190_RangeSetup(unsigned char polarity, unsigned char range)
 {
+    st = 0;
     unsigned long oldRegValue = 0x0;
     unsigned long newRegValue = 0x0;
     
@@ -357,6 +394,7 @@ unsigned long AD7190_SingleConversion(void)
     unsigned long regRate = 0x0;
     unsigned long regPower = 0x0;
     
+    st = 0;
     regRate = ReadMem(REG_ADC_REG1);
     if (regRate > 0x000003FF)
         regRate = 0x000003FF;
@@ -390,7 +428,7 @@ unsigned long AD7190_SingleConversion(void)
     AD7190_RangeSetup(1, regPower);
     AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); 
     AD7190_WaitRdyGoLow();
-//    HAL_Delay(1);
+    HAL_Delay(1);
     regData = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 1);
     _CS_H
     
@@ -404,6 +442,7 @@ unsigned long AD7190_SingleConversion(void)
 *******************************************************************************/
 unsigned long AD7190_ContinuousReadAvg(unsigned char sampleNumber)
 {
+    st = 0;
     unsigned long samplesAverage = 0x0;
     unsigned char count = 0x0;
     unsigned long command = 0x0;
@@ -424,6 +463,60 @@ unsigned long AD7190_ContinuousReadAvg(unsigned char sampleNumber)
     
     return samplesAverage ;
 }
+/***************************************************************************//**
+ * @brief Returns the average of several conversion results.
+ *
+ * @return samplesAverage - The average of the conversion results.
+*******************************************************************************/
+void AD7190_ContinuousReadStart()
+{
+    unsigned long samplesAverage = 0x0;
+    unsigned long command = 0x0;
+    
+    _CS_H
+    HAL_Delay(10);
+    st = 1;
+    command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
+              AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
+              AD7190_MODE_RATE(0x060);
+    _CS_L
+    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); 
+    HAL_Delay(1);
+    
+    return samplesAverage ;
+}
+/***************************************************************************//**
+ * @brief Returns the average of several conversion results.
+ *
+ * @return samplesAverage - The average of the conversion results.
+*******************************************************************************/
+unsigned long AD7190_ContinuousRead()
+{
+    if (st == 0)
+        AD7190_ContinuousReadStart();
+        
+    char buffer[100];
+    int chn;   
+    unsigned long samplesAverage = 0x0;
+    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 1); 
+//    _CS_H
+//    chn=sprintf(buffer," d%d",samplesAverage);
+//    HAL_UART_Transmit(&huart1, buffer, chn, 10000);   
+    
+    return samplesAverage ;
+}
+/***************************************************************************//**
+ * @brief Returns the average of several conversion results.
+ *
+ * @return samplesAverage - The average of the conversion results.
+*******************************************************************************/
+void AD7190_ContinuousReadStop()
+{
+    st = 0;
+    _CS_H
+    
+    return ;
+}
 
 /***************************************************************************//**
  * @brief Read data from temperature sensor and converts it to Celsius degrees.
@@ -435,6 +528,7 @@ unsigned long AD7190_TemperatureRead(void)
     unsigned char temperature = 0x0;
     unsigned long dataReg = 0x0;
     
+    st = 0;
     AD7190_RangeSetup(0, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_TEMP_SENSOR);
     dataReg = AD7190_SingleConversion();
@@ -450,6 +544,7 @@ unsigned long AD7190_1_ch(void)
     unsigned char data = 0x0;
     unsigned long dataReg = 0x0;
     
+    st = 0;
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN1P_AINCOM);
     dataReg = AD7190_SingleConversion();
@@ -461,6 +556,7 @@ unsigned long AD7190_2_ch(void)
     unsigned char data = 0x0;
     unsigned long dataReg = 0x0;
     
+    st = 0;
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN2P_AINCOM);
     dataReg = AD7190_SingleConversion();
@@ -472,6 +568,7 @@ unsigned long AD7190_3_ch(void)
     unsigned char data = 0x0;
     unsigned long dataReg = 0x0;
     
+    st = 0;
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN3P_AINCOM);
     dataReg = AD7190_SingleConversion();
@@ -483,6 +580,7 @@ unsigned long AD7190_4_ch(void)
     unsigned char data = 0x0;
     unsigned long dataReg = 0x0;
     
+    st = 0;
     AD7190_RangeSetup(1, AD7190_CONF_GAIN_1);
     AD7190_ChannelSelect(AD7190_CH_AIN4P_AINCOM);
     dataReg = AD7190_SingleConversion();

@@ -298,6 +298,7 @@ void TIM1_UP_TIM10_IRQHandler(void)
   /* USER CODE END TIM1_UP_TIM10_IRQn 0 */
   HAL_TIM_IRQHandler(&htim10);
   /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 1 */
+  WriteMem(REG_ADC_CH1,AD7190_ContinuousRead());
   AddSample();
 //  HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
   /* USER CODE END TIM1_UP_TIM10_IRQn 1 */

@@ -126,19 +126,20 @@ int main(void)
     WriteMem(REG_LOG_LVL, 7);
     WriteMem(REG_Simple_link, 1);
     WriteMem(REG_EEG_Auto_Band, 0);
-    WriteMem(REG_ADC_REG1,0x000003FF);
-    WriteMem(REG_ADC_REG2,0x00000003);
-    WriteMem(REG_ADC_REG3,0x00000007);
+    WriteMem(REG_ADC_REG1,0x00000001);
+    WriteMem(REG_ADC_REG2,0x00000001);
+    WriteMem(REG_ADC_REG3,0x00000004);
     usart1BufRx[0] = 0x00;
     HAL_UART_Receive_DMA(&huart1, usart1BufRx, 1);
     HAL_TIM_Base_Start_IT(&htim7);
     HAL_TIM_Base_Start_IT(&htim10);
     HAL_TIM_Base_Start_IT(&htim11);
+//        HAL_UART_Transmit(&huart1, "test", 4, 10000);
 //    HAL_TIM_Base_Start_IT(&htim13); 
 
 //    AD7190_Reset();
     
-//    AD7190_SetPower(1);
+    AD7190_SetPower(1);
     if (AD7190_Init() == 1)
     {
         AD7190_SetLeds(2);
@@ -154,6 +155,7 @@ int main(void)
 //    AD7190_ChannelSelect(AD7190_CH_AIN1P_AINCOM);
 //    CommandLineInterpreter("/get/memory?ip=192.168.1.3&port=5683");
     
+//        HAL_UART_Transmit(&huart1, "test2", 5, 10000);
     WriteMem(REG_Led_Ch_T1,1);
     WriteMem(REG_Led_Ch_T2,2);
     WriteMem(REG_Led_Ch_T3,4);
@@ -178,7 +180,6 @@ int main(void)
 //    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
 //    initiateDMATestCycle();
 //    AD7190_SetLeds(2);
-    AD7190_ChannelSelect(ReadMem(REG_ADC_REG3));
     AD7190_ContinuousReadStart();
     unsigned char i=0;
     while (1)
@@ -193,29 +194,7 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-//    if (AD7190_Init() == 1)
-//        HAL_UART_Transmit(&huart1, "AD7190 found", 12, 10000);
-//      switch (ReadMem(REG_ADC_REG3)) 
-//      {
-//          case 0:
-//                WriteMem(REG_ADC_CH1,AD7190_ContinuousRead());
-//                break;
-//          case 1:
-//                WriteMem(REG_ADC_CH1,AD7190_1_ch());
-//                break;
-//          case 2:
-//                WriteMem(REG_ADC_CH1,AD7190_2_ch());
-//                break;
-//          case 3:
-//                WriteMem(REG_ADC_CH1,AD7190_3_ch());
-//                break;
-//          case 4:
-//                WriteMem(REG_ADC_CH1,AD7190_4_ch());
-//                break;
-//          default:
-//                WriteMem(REG_ADC_CH1,AD7190_TemperatureRead());
-//                break;
-//      }
+//    WriteMem(REG_ADC_CH1,AD7190_ContinuousRead());
     }
   /* USER CODE END 3 */
 

@@ -449,7 +449,7 @@ unsigned long AD7190_ContinuousReadAvg(unsigned char sampleNumber)
     
     command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
-              AD7190_MODE_RATE(0x060);
+              AD7190_MODE_RATE(0x006);
     _CS_L
     AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); // CS is not modified.
     for(count = 0;count < sampleNumber;count ++)
@@ -468,22 +468,84 @@ unsigned long AD7190_ContinuousReadAvg(unsigned char sampleNumber)
  *
  * @return samplesAverage - The average of the conversion results.
 *******************************************************************************/
+unsigned long save_command = 0 ;
 void AD7190_ContinuousReadStart()
 {
     unsigned long samplesAverage = 0x0;
     unsigned long command = 0x0;
+    unsigned long regRate = 0x0;
+    unsigned long regPower = 0x0;
+    unsigned long regCh = 0x0;
+    
+    st = 0;
+    AD7190_Init();
+    regRate = ReadMem(REG_ADC_REG1);
+    if (regRate > 0x000003FF)
+        regRate = 0x000003FF;
+    regPower = ReadMem(REG_ADC_REG2);
+    switch (regPower)
+    {
+        case 1:
+            regPower = 0;
+            break;
+        case 8:
+            regPower = 3;
+            break;
+        case 16:
+            regPower = 4;
+            break;
+        case 32:
+            regPower = 5;
+            break;
+        case 64:
+            regPower = 6;
+            break;
+        case 128:
+            regPower = 7;
+            break;
+        default:
+            regPower = 0;
+            break;
+    }
+    regCh = ReadMem(REG_ADC_REG3);
+    switch (regCh)
+    {
+        case 0:
+            regCh = AD7190_CH_TEMP_SENSOR;
+            break;
+        case 1:
+            regCh = AD7190_CH_AIN1P_AINCOM;
+            break;
+        case 2:
+            regCh = AD7190_CH_AIN2P_AINCOM;
+            break;
+        case 3:
+            regCh = AD7190_CH_AIN3P_AINCOM;
+            break;
+        case 4:
+        default:
+            regCh = AD7190_CH_AIN4P_AINCOM;
+            break;
+    }
     
     _CS_H
     HAL_Delay(10);
-    st = 1;
+    AD7190_RangeSetup(1, regPower);
+    AD7190_ChannelSelect(regCh);
     command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
-              AD7190_MODE_RATE(0x060);
+              AD7190_MODE_RATE(regRate);
     _CS_L
+    save_command = command;
     AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); 
+    st = 1;
     HAL_Delay(1);
+    int chn;   
+    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1); 
+    chn=sprintf(buffer,"(%06X<>%06X)",samplesAverage,command);
+    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
     
-    return samplesAverage ;
+    return ;
 }
 /***************************************************************************//**
  * @brief Returns the average of several conversion results.
@@ -496,12 +558,18 @@ unsigned long AD7190_ContinuousRead()
         AD7190_ContinuousReadStart();
         
     char buffer[100];
-    int chn;   
     unsigned long samplesAverage = 0x0;
+//    int chn;   
+//    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1); 
+//    if (samplesAverage != save_command)  
+//    {
+//        HAL_UART_Transmit(&huart1, "fail", 4, 10000);   
+//        AD7190_SetRegisterValue(AD7190_REG_MODE, save_command, 3, 1, 1); 
+//    }
+//    chn=sprintf(buffer," d%d =%d",samplesAverage,chn);
+//    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
     samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 1); 
 //    _CS_H
-//    chn=sprintf(buffer," d%d",samplesAverage);
-//    HAL_UART_Transmit(&huart1, buffer, chn, 10000);   
     
     return samplesAverage ;
 }
@@ -587,121 +655,121 @@ unsigned long AD7190_4_ch(void)
     
     return dataReg;
 }
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-unsigned int stateM = 0;
-int getState(void)
-{
-    return stateM;
-}
-uint8_t buffer2[5] = {0,0,0,0,0};
-int initiateDMATestCycle(void)
-{
-    stateM = 10;
-    HAL_SPI_TransmitReceive(&hspi1, buffer2, buffer2, 5, 10000); 
-    HAL_UART_Transmit(&huart1, "|", 1, 10000);
-}
-int DMATestCycle(void)
-{
-    if (stateM == 10)
-        HAL_SPI_TransmitReceive(&hspi1, buffer2, buffer2, 5, 10000);  
-    HAL_UART_Transmit(&huart1, "*", 1, 10000);      
-}
-int initiateConversionCycle(void)
-{
-//    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
-    _CS_H
-    HAL_Delay(1);
-    stateM = 0;
-    if (stateM != 0)
-        return -1;
-    _CS_L
-    stateM = 1;
-//    HAL_UART_Transmit(&huart1, "1", 1, 10000);
-    unsigned long command = 0x0;
-    command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
-              AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
-              AD7190_MODE_DAT_STA |
-              AD7190_MODE_RATE(0x3FF);
-    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 0); // non blocking
-    command = AD7190_CONF_CHAN(AD7190_CH_TEMP_SENSOR |
-                                AD7190_CH_AIN1P_AINCOM |
-                                AD7190_CH_AIN2P_AINCOM |
-                                AD7190_CH_AIN3P_AINCOM |
-                                AD7190_CH_AIN4P_AINCOM) |
-              AD7190_CONF_GAIN(AD7190_CONF_GAIN_1);
-    AD7190_SetRegisterValue(AD7190_REG_CONF, command, 3, 1, 0); // non blocking
-    stateM = 2;
-//    HAL_UART_Transmit(&huart1, "2", 1, 10000);
-    return 0;
-}
-int breakConversionCycle(void)
-{
-    _CS_H
-    stateM = 0;
-//    HAL_UART_Transmit(&huart1, "0", 1, 10000);
-}
-char state_history = 0;
-char state_history_buf[32];
-int observerConversionCycle(void)
-{
-    state_history_buf[state_history%32] = stateM;
-    unsigned long i = 0x0;
-    for(i = 1; i < 32; i++) 
-    {
-        if (state_history_buf[i-1] != state_history_buf[i])
-        {
-            HAL_UART_Transmit(&huart1, "Reinit", 6, 10000);
-            state_history_buf[state_history%32] = !state_history_buf[state_history%32];
-            return 1;
-        }
-    }
-    state_history++;
-    return 0;
-}
-
-int modeSendedInConversionCycle(void)
-{
-    if (stateM != 2)
-        return -1;
-    AD7190_WaitRdyGoLow();
-    HAL_Delay(1);
-    stateM = 3;
-    HAL_UART_Transmit(&huart1, "|", 1, 10000);
-    AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 0); 
-    stateM = 4;
-//    HAL_UART_Transmit(&huart1, "4", 1, 10000);
-}
-int dataReceivedInConversionCycle(void)
-{
-    if (stateM != 4)
-        return -1;
-//    if ((samplesAverage & 0x02000000) > 0)
-//        WriteMem(REG_ADC_CH1,samplesAverage & 0x00FFFFFF);
-//    if ((samplesAverage & 0x04000000) > 0)
-//        WriteMem(REG_ADC_CH2,samplesAverage & 0x00FFFFFF);
-//    if ((samplesAverage & 0x05000000) > 0)
-//        WriteMem(REG_ADC_CH3,samplesAverage & 0x00FFFFFF);
-//    if ((samplesAverage & 0x06000000) > 0)
-//        WriteMem(REG_ADC_CH4,samplesAverage & 0x00FFFFFF);
-//    if ((samplesAverage & 0x07000000) > 0)
-//        WriteMem(REG_ADC_CH5,samplesAverage & 0x00FFFFFF);
-    unsigned long buffer = 0x0;
-    unsigned long i = 0x0;
-    for(i = 1; i < 4; i++) 
-    {
-        buffer = (buffer << 8) + non_block_registerWord[i];
-    }
-//    buffer;
-    AD7190_WaitRdyGoLow();
-    HAL_Delay(1);
-    stateM = 3;
-    HAL_UART_Transmit(&huart1, "*", 1, 10000);
-    AD7190_GetRegisterValue(AD7190_REG_DATA, 4, 1, 0); 
-    stateM = 4;
-//    HAL_UART_Transmit(&huart1, "4", 1, 10000);
-}
+//
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//unsigned int stateM = 0;
+//int getState(void)
+//{
+//    return stateM;
+//}
+//uint8_t buffer2[5] = {0,0,0,0,0};
+//int initiateDMATestCycle(void)
+//{
+//    stateM = 10;
+//    HAL_SPI_TransmitReceive(&hspi1, buffer2, buffer2, 5, 10000); 
+//    HAL_UART_Transmit(&huart1, "|", 1, 10000);
+//}
+//int DMATestCycle(void)
+//{
+//    if (stateM == 10)
+//        HAL_SPI_TransmitReceive(&hspi1, buffer2, buffer2, 5, 10000);  
+//    HAL_UART_Transmit(&huart1, "*", 1, 10000);      
+//}
+//int initiateConversionCycle(void)
+//{
+////    HAL_SPI_Transmit_DMA(&hspi1, "-----", 5);
+//    _CS_H
+//    HAL_Delay(1);
+//    stateM = 0;
+//    if (stateM != 0)
+//        return -1;
+//    _CS_L
+//    stateM = 1;
+////    HAL_UART_Transmit(&huart1, "1", 1, 10000);
+//    unsigned long command = 0x0;
+//    command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
+//              AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
+//              AD7190_MODE_DAT_STA |
+//              AD7190_MODE_RATE(0x3FF);
+//    AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 0); // non blocking
+//    command = AD7190_CONF_CHAN(AD7190_CH_TEMP_SENSOR |
+//                                AD7190_CH_AIN1P_AINCOM |
+//                                AD7190_CH_AIN2P_AINCOM |
+//                                AD7190_CH_AIN3P_AINCOM |
+//                                AD7190_CH_AIN4P_AINCOM) |
+//              AD7190_CONF_GAIN(AD7190_CONF_GAIN_1);
+//    AD7190_SetRegisterValue(AD7190_REG_CONF, command, 3, 1, 0); // non blocking
+//    stateM = 2;
+////    HAL_UART_Transmit(&huart1, "2", 1, 10000);
+//    return 0;
+//}
+//int breakConversionCycle(void)
+//{
+//    _CS_H
+//    stateM = 0;
+////    HAL_UART_Transmit(&huart1, "0", 1, 10000);
+//}
+//char state_history = 0;
+//char state_history_buf[32];
+//int observerConversionCycle(void)
+//{
+//    state_history_buf[state_history%32] = stateM;
+//    unsigned long i = 0x0;
+//    for(i = 1; i < 32; i++) 
+//    {
+//        if (state_history_buf[i-1] != state_history_buf[i])
+//        {
+//            HAL_UART_Transmit(&huart1, "Reinit", 6, 10000);
+//            state_history_buf[state_history%32] = !state_history_buf[state_history%32];
+//            return 1;
+//        }
+//    }
+//    state_history++;
+//    return 0;
+//}
+//
+//int modeSendedInConversionCycle(void)
+//{
+//    if (stateM != 2)
+//        return -1;
+//    AD7190_WaitRdyGoLow();
+//    HAL_Delay(1);
+//    stateM = 3;
+//    HAL_UART_Transmit(&huart1, "|", 1, 10000);
+//    AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 0); 
+//    stateM = 4;
+////    HAL_UART_Transmit(&huart1, "4", 1, 10000);
+//}
+//int dataReceivedInConversionCycle(void)
+//{
+//    if (stateM != 4)
+//        return -1;
+////    if ((samplesAverage & 0x02000000) > 0)
+////        WriteMem(REG_ADC_CH1,samplesAverage & 0x00FFFFFF);
+////    if ((samplesAverage & 0x04000000) > 0)
+////        WriteMem(REG_ADC_CH2,samplesAverage & 0x00FFFFFF);
+////    if ((samplesAverage & 0x05000000) > 0)
+////        WriteMem(REG_ADC_CH3,samplesAverage & 0x00FFFFFF);
+////    if ((samplesAverage & 0x06000000) > 0)
+////        WriteMem(REG_ADC_CH4,samplesAverage & 0x00FFFFFF);
+////    if ((samplesAverage & 0x07000000) > 0)
+////        WriteMem(REG_ADC_CH5,samplesAverage & 0x00FFFFFF);
+//    unsigned long buffer = 0x0;
+//    unsigned long i = 0x0;
+//    for(i = 1; i < 4; i++) 
+//    {
+//        buffer = (buffer << 8) + non_block_registerWord[i];
+//    }
+////    buffer;
+//    AD7190_WaitRdyGoLow();
+//    HAL_Delay(1);
+//    stateM = 3;
+//    HAL_UART_Transmit(&huart1, "*", 1, 10000);
+//    AD7190_GetRegisterValue(AD7190_REG_DATA, 4, 1, 0); 
+//    stateM = 4;
+////    HAL_UART_Transmit(&huart1, "4", 1, 10000);
+//}
 
 
 

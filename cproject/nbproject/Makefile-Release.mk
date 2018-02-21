@@ -21,7 +21,7 @@ FC=gfortran
 AS=arm-none-eabi-as
 
 # Macros
-CND_PLATFORM=MinGW_ARM-Windows
+CND_PLATFORM=GNU_ARM-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist

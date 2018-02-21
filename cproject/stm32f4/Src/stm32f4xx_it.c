@@ -597,7 +597,7 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
     if (hspi->Instance == SPI1)
     {
 //        HAL_UART_Transmit(&huart1, "spitx", 5, 10000);
-        modeSendedInConversionCycle();
+//        modeSendedInConversionCycle();
     }
 }
 
@@ -606,7 +606,7 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
     if (hspi->Instance == SPI1)
     {
 //        HAL_UART_Transmit(&huart1, "spirx", 5, 10000);
-        dataReceivedInConversionCycle();
+//        dataReceivedInConversionCycle();
     }
 }
 
@@ -614,7 +614,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
     if (hspi->Instance == SPI1)
     {
-        dataReceivedInConversionCycle();
+//        dataReceivedInConversionCycle();
     }
 }
 

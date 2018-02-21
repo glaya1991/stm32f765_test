@@ -69,12 +69,12 @@ void UserOperationHandler(void)
         switch (ReadMem(REG_ADC_REG14)) 
         {
             case 1:
-                AD7190_ContinuousReadStop();
-                AD7190_ChannelSelect(ReadMem(REG_ADC_REG3));
+                AD7190_ContinuousReadStart();
+//                AD7190_ChannelSelect(ReadMem(REG_ADC_REG3));
                 break;
             case 2:
-                AD7190_Init();
-                HAL_NVIC_SystemReset();
+//                AD7190_Init();
+//                HAL_NVIC_SystemReset();
                 break;
             default:
                 break;

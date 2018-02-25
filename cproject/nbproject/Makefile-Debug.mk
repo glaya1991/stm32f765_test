@@ -21,7 +21,7 @@ FC=gfortran
 AS=arm-none-eabi-as
 
 # Macros
-CND_PLATFORM=MinGW_ARM-Windows
+CND_PLATFORM=GNU_ARM-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Debug
 CND_DISTDIR=dist
@@ -88,17 +88,17 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=../XitLib/dist/Debug_MC/MinGW_ARM-Windows/libxitlib.a ../EEG_Evoker/dist/Debug_MC/MinGW_ARM-Windows/libeeg_evoker.a ../CoAP/dist/Debug_MC/MinGW_ARM-Windows/libcoap.a -lgcc -lm -lc
+LDLIBSOPTIONS=../XitLib/dist/Debug_MC/GNU_ARM-Windows/libxitlib.a ../EEG_Evoker/dist/Debug_MC/GNU_ARM-Windows/libeeg_evoker.a ../CoAP/dist/Debug_MC/GNU_ARM-Windows/libcoap.a -lgcc -lm -lc
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ../XitLib/dist/Debug_MC/MinGW_ARM-Windows/libxitlib.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ../XitLib/dist/Debug_MC/GNU_ARM-Windows/libxitlib.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ../EEG_Evoker/dist/Debug_MC/MinGW_ARM-Windows/libeeg_evoker.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ../EEG_Evoker/dist/Debug_MC/GNU_ARM-Windows/libeeg_evoker.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ../CoAP/dist/Debug_MC/MinGW_ARM-Windows/libcoap.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ../CoAP/dist/Debug_MC/GNU_ARM-Windows/libcoap.a
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controllernew.elf.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}

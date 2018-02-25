@@ -15,17 +15,13 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=arm-none-eabi-gcc
-CCC=g++
-CXX=g++
+CCC=arm-none-eabi-g++
+CXX=arm-none-eabi-g++
 FC=gfortran
 AS=arm-none-eabi-as
 
 # Macros
-<<<<<<< HEAD
-CND_PLATFORM=MinGW_ARM-Windows
-=======
-CND_PLATFORM=GNU-ARM-Windows
->>>>>>> a0260c4d1e9df5d84d691e93d40dc056735798c3
+CND_PLATFORM=GNU_ARM-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist

@@ -6,11 +6,7 @@
 
 # Macros
 TOP=`pwd`
-<<<<<<< HEAD
-CND_PLATFORM=MinGW_ARM-Windows
-=======
-CND_PLATFORM=GNU-ARM-Windows
->>>>>>> a0260c4d1e9df5d84d691e93d40dc056735798c3
+CND_PLATFORM=GNU_ARM-Windows
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build

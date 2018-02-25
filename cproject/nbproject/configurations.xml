@@ -230,7 +230,7 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>MinGW_ARM|MinGW</compilerSet>
+        <compilerSet>GNU_ARM|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -778,11 +778,7 @@
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-<<<<<<< HEAD
-        <compilerSet>MinGW_ARM|MinGW</compilerSet>
-=======
-        <compilerSet>GNU-ARM|Cygwin</compilerSet>
->>>>>>> a0260c4d1e9df5d84d691e93d40dc056735798c3
+        <compilerSet>GNU_ARM|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>

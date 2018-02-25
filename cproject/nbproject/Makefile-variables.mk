@@ -15,6 +15,7 @@ CND_PACKAGE_DIR_Debug=dist/Debug/MinGW_ARM-Windows/package
 CND_PACKAGE_NAME_Debug=cproject.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/MinGW_ARM-Windows/package/cproject.tar
 # Release configuration
+<<<<<<< HEAD
 CND_PLATFORM_Release=MinGW_ARM-Windows
 CND_ARTIFACT_DIR_Release=dist/Release
 CND_ARTIFACT_NAME_Release=stm32f429_firmware.elf
@@ -22,6 +23,15 @@ CND_ARTIFACT_PATH_Release=dist/Release/stm32f429_firmware.elf
 CND_PACKAGE_DIR_Release=dist/Release/MinGW_ARM-Windows/package
 CND_PACKAGE_NAME_Release=cproject.tar
 CND_PACKAGE_PATH_Release=dist/Release/MinGW_ARM-Windows/package/cproject.tar
+=======
+CND_PLATFORM_Release=GNU-ARM-Windows
+CND_ARTIFACT_DIR_Release=dist/Release
+CND_ARTIFACT_NAME_Release=stm32f429_firmware.elf
+CND_ARTIFACT_PATH_Release=dist/Release/stm32f429_firmware.elf
+CND_PACKAGE_DIR_Release=dist/Release/GNU-ARM-Windows/package
+CND_PACKAGE_NAME_Release=cproject.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-ARM-Windows/package/cproject.tar
+>>>>>>> a0260c4d1e9df5d84d691e93d40dc056735798c3
 #
 # include compiler specific variables
 #

@@ -51,13 +51,27 @@ inline unsigned char SPI_Read(unsigned char slaveDeviceId,
                        unsigned char* data,
                        unsigned char bytesNumber)
 {
+    unsigned long samplesAverage = 0x0;
+    unsigned long chn = 0x0;
     if (bytesNumber > 5)
         return 1;
+    int i = 0;
+    for (i=1;i < bytesNumber;i++)
+        buffer[i] = 0x00;
     buffer[0] = data[0];
-    buffer[1] = 0x00;
-    buffer[2] = 0x00;
-    buffer[3] = 0x00;
+//    chn=sprintf(buffer,"R->%02X ",data[0]);
+//    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
+//    buffer[i] = data[i];
     HAL_SPI_TransmitReceive(&hspi1, buffer, data, bytesNumber, 10000);
+//    HAL_Delay(1000);
+//    HAL_UART_Transmit(&huart1, "<-", 2, 10000); 
+//    for (i=0;i < bytesNumber;i++)
+//    {
+//        chn=sprintf(buffer,"%02X ",data[i]);
+//        HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
+//        buffer[i] = data[i];
+//    }
+//    HAL_Delay(1000);
     return 0;
 }
 inline unsigned char SPI_Read_DMA(unsigned char slaveDeviceId,
@@ -67,10 +81,10 @@ inline unsigned char SPI_Read_DMA(unsigned char slaveDeviceId,
     unsigned long timeOutCnt = 0xFFFFF;
     if (bytesNumber > 5)
         return 1;
+    int i = 0;
+    for (i=0;i < bytesNumber;i++)
+        buffer[i] = 0x00;
     buffer[0] = data[0];
-    buffer[1] = 0x00;
-    buffer[2] = 0x00;
-    buffer[3] = 0x00;
     while (((HAL_SPI_TransmitReceive_DMA(&hspi1, buffer, data, bytesNumber)) != HAL_OK) 
             && timeOutCnt--)//;
 //    if (HAL_SPI_TransmitReceive_DMA(&hspi1, buffer, data, bytesNumber) != HAL_OK)
@@ -83,12 +97,19 @@ inline unsigned char SPI_Write(unsigned char slaveDeviceId,
                         unsigned char* data,
                         unsigned char bytesNumber)
 {
+    unsigned long samplesAverage = 0x0;
+    unsigned long chn = 0x0;
     if (bytesNumber > 20)
         return 1;
-    buffer[0] = data[0];
-    buffer[1] = data[1];
-    buffer[2] = data[2];
-    buffer[3] = data[3];
+    int i = 0;
+//    HAL_UART_Transmit(&huart1, "W->", 3, 10000); 
+    for (i=0;i < bytesNumber;i++)
+    {
+//        chn=sprintf(buffer,"%02X ",data[i]);
+//        HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
+        buffer[i] = data[i];
+    }
+//    HAL_Delay(1000);
 //    HAL_UART_Transmit(&huart1, buffer, bytesNumber, 10000);
     HAL_SPI_Transmit(&hspi1, buffer, bytesNumber, 10000);
     return 0;
@@ -100,6 +121,9 @@ inline unsigned char SPI_Write_DMA(unsigned char slaveDeviceId,
     unsigned long timeOutCnt = 0xFFFFF;
     if (bytesNumber > 5)
         return 1;
+    int i = 0;
+    for (i=0;i < bytesNumber;i++)
+        buffer[i] = data[i];
 //    HAL_UART_Transmit(&huart1, "_DMA", 4, 10000);
     buffer[0] = data[0];
     buffer[1] = data[1];
@@ -215,10 +239,14 @@ unsigned char AD7190_Init(void)
     HAL_Delay(1);
     _CS_L
     HAL_Delay(1);
-    AD7190_Reset();
+//    HAL_Delay(1000);
+//    AD7190_Reset();
+//    HAL_Delay(1000);
     /* Allow at least 500 us before accessing any of the on-chip registers. */
-    HAL_Delay(100);
+    HAL_Delay(300);
 //    SPI_Read(0x20, registerWord, 2);
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_ID", 13, 10000);
+//    HAL_Delay(1000);
     regVal = AD7190_GetRegisterValue(AD7190_REG_ID, 1, 1, 1);
     if( (regVal & AD7190_ID_MASK) != ID_AD7190)
     {
@@ -245,11 +273,11 @@ void AD7190_Reset(void)
     registerWord[3] = 0xFF;
     registerWord[4] = 0xFF;
     registerWord[5] = 0xFF;
-    registerWord[6] = 0xFF;
-    registerWord[7] = 0xFF;
-    registerWord[8] = 0xFF;
-    registerWord[9] = 0xFF;
-    SPI_Write(AD7190_SLAVE_ID, registerWord, 10);
+//    registerWord[6] = 0xFF;
+//    registerWord[7] = 0xFF;
+//    registerWord[8] = 0xFF;
+//    registerWord[9] = 0xFF;
+    SPI_Write(AD7190_SLAVE_ID, registerWord, 6);
 }
 
 /***************************************************************************//**
@@ -267,11 +295,15 @@ void AD7190_SetPower(unsigned char pwrMode)
      unsigned long oldPwrMode = 0x0;
      unsigned long newPwrMode = 0x0; 
  
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_MODE", 14, 10000);
+//    HAL_Delay(1000);
      oldPwrMode = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1);
      oldPwrMode &= ~(AD7190_MODE_SEL(0x7));
      newPwrMode = oldPwrMode | 
                   AD7190_MODE_SEL((pwrMode * (AD7190_MODE_IDLE)) |
                                   (!pwrMode * (AD7190_MODE_PWRDN)));
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_MODE", 14, 10000);
+//    HAL_Delay(1000);
      AD7190_SetRegisterValue(AD7190_REG_MODE, newPwrMode, 3, 1, 1);
 }
 void AD7190_SetLeds(unsigned char mode)
@@ -279,6 +311,8 @@ void AD7190_SetLeds(unsigned char mode)
     st = 0;
     _CS_L
             
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_GPOCON", 16, 10000);
+//    HAL_Delay(1000);
     switch (mode)
     {
         case 1:
@@ -325,9 +359,13 @@ void AD7190_ChannelSelect(unsigned short channel)
     unsigned long oldRegValue = 0x0;
     unsigned long newRegValue = 0x0;   
      
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_CONF", 14, 10000);
+//    HAL_Delay(1000);
     oldRegValue = AD7190_GetRegisterValue(AD7190_REG_CONF, 3, 1, 1);
     oldRegValue &= ~(AD7190_CONF_CHAN(0xFF));
     newRegValue = oldRegValue | AD7190_CONF_CHAN(1 << channel);   
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_CONF", 14, 10000);
+//    HAL_Delay(1000);
     AD7190_SetRegisterValue(AD7190_REG_CONF, newRegValue, 3, 1, 1);
 }
 
@@ -346,10 +384,14 @@ void AD7190_Calibrate(unsigned char mode, unsigned char channel)
     
     st = 0;
     AD7190_ChannelSelect(channel);
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_MODE", 14, 10000);
+//    HAL_Delay(1000);
+    _CS_L
     oldRegValue = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1);
     oldRegValue &= ~AD7190_MODE_SEL(0x7);
     newRegValue = oldRegValue | AD7190_MODE_SEL(mode);
-    _CS_L
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_MODE", 14, 10000);
+//    HAL_Delay(1000);
     AD7190_SetRegisterValue(AD7190_REG_MODE, newRegValue, 3, 0, 1); // CS is not modified.
     AD7190_WaitRdyGoLow();
     HAL_Delay(10);
@@ -372,14 +414,23 @@ void AD7190_RangeSetup(unsigned char polarity, unsigned char range)
     st = 0;
     unsigned long oldRegValue = 0x0;
     unsigned long newRegValue = 0x0;
+    unsigned long samplesAverage = 0x0;
+    unsigned long chn = 0x0;
     
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_CONF", 14, 10000);
+//    HAL_Delay(1000);
     oldRegValue = AD7190_GetRegisterValue(AD7190_REG_CONF,3, 1, 1);
     oldRegValue &= ~(AD7190_CONF_UNIPOLAR |
                      AD7190_CONF_GAIN(0x7));
     newRegValue = oldRegValue | 
                   (polarity * AD7190_CONF_UNIPOLAR) |
                   AD7190_CONF_GAIN(range); 
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_CONF", 14, 10000);
+//    HAL_Delay(1000);
     AD7190_SetRegisterValue(AD7190_REG_CONF, newRegValue, 3, 1, 1);
+    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_CONF, 3, 1, 1); 
+    chn=sprintf(buffer,"C(%08X<>%08X(%08X))",samplesAverage,newRegValue,oldRegValue);
+    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
 }
 
 /***************************************************************************//**
@@ -425,7 +476,7 @@ unsigned long AD7190_SingleConversion(void)
     }
     
     _CS_L
-    AD7190_RangeSetup(1, regPower);
+    AD7190_RangeSetup(0, regPower);
     AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); 
     AD7190_WaitRdyGoLow();
     HAL_Delay(1);
@@ -530,19 +581,22 @@ void AD7190_ContinuousReadStart()
     
     _CS_H
     HAL_Delay(10);
-    AD7190_RangeSetup(1, regPower);
     AD7190_ChannelSelect(regCh);
+    AD7190_RangeSetup(0, regPower);
+//    AD7190_ChannelSelect(AD7190_CH_TEMP_SENSOR);
     command = AD7190_MODE_SEL(AD7190_MODE_CONT) | 
               AD7190_MODE_CLKSRC(AD7190_CLK_INT) |
               AD7190_MODE_RATE(regRate);
     _CS_L
     save_command = command;
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_MODE", 14, 10000);
+//    HAL_Delay(1000);
     AD7190_SetRegisterValue(AD7190_REG_MODE, command, 3, 1, 1); 
     st = 1;
     HAL_Delay(1);
     int chn;   
     samplesAverage = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1); 
-    chn=sprintf(buffer,"(%06X<>%06X)",samplesAverage,command);
+    chn=sprintf(buffer,"M(%06X<>%06X)",samplesAverage,command);
     HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
     
     return ;
@@ -568,6 +622,8 @@ unsigned long AD7190_ContinuousRead()
 //    }
 //    chn=sprintf(buffer," d%d =%d",samplesAverage,chn);
 //    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
+//    HAL_UART_Transmit(&huart1, "AD7190_REG_DATA", 14, 10000);
+//    HAL_Delay(1000);
     samplesAverage = AD7190_GetRegisterValue(AD7190_REG_DATA, 3, 1, 1); 
 //    _CS_H
     

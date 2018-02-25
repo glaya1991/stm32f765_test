@@ -77,7 +77,8 @@ void MX_TIM10_Init(void)
 {
 
   htim10.Instance = TIM10;
-  htim10.Init.Prescaler = 45000;
+//  htim10.Init.Prescaler = 45000;
+  htim10.Init.Prescaler = 11250;
   htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim10.Init.Period = 1;
 //  htim10.Init.Period = 3;

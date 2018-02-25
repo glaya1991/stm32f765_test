@@ -299,11 +299,13 @@ void TIM1_UP_TIM10_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim10);
   /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 1 */
   
+  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_SET);
   unsigned long samplesAverage = AD7190_ContinuousRead();
   samplesAverage = (samplesAverage << 8);
   samplesAverage = (samplesAverage) + 2147483648;
   WriteMem(REG_ADC_CH1,samplesAverage);
   AddSample();
+  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_RESET);
 //  HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
   /* USER CODE END TIM1_UP_TIM10_IRQn 1 */
 }

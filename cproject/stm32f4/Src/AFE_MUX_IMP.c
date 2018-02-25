@@ -97,7 +97,7 @@ AFE_MUX_IMP_State_TypeDef AFE_MUX_IMP_process(void)
                     WriteMem(REG_AFE_MODE, 0x0);
                 }*/
 
-		AFEMUX_StartTimer();
+		//AFEMUX_StartTimer();
 		ClrAFEMUXTimerOver;
 	}
 	return AFE_MUX_IMP_STATE_OK; //

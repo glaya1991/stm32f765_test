@@ -107,14 +107,6 @@
             <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h</file>
             <file>file:/C:/Users/xitre/Documents/Projects/INEUM/TK-NFP-TOP/cproject/stm32f4/Inc/ad7190.h</file>
         </group>
-        <group>
-            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/AFE_MUX_IMP.c</file>
-            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Inc/MCP23017.h</file>
-            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/ADG2128.c</file>
-            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/main.c</file>
-            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/MCP23017.c</file>
-            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Inc/AFE_MUX_IMP.h</file>
-        </group>
         <group name="Encephalon">
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/fmc.c</file>
@@ -141,6 +133,11 @@
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/tim.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/TK-NFP-TOP/cproject/stm32f4/Src/ad7190.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/INEUM/XitLibWorking/inc/Handler.h</file>
+        </group>
+        <group>
+            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/AFE_MUX_IMP.c</file>
+            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/main.c</file>
+            <file>file:/D:/Work/Github/TK-NFP-TOP/cproject/stm32f4/Src/ExtFunctionsMC.c</file>
         </group>
     </open-files>
 </project-private>

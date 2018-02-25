@@ -8,7 +8,9 @@
 #include "ExtFunctions.h"
 #include "LogModule.h"
 #include "InOutBuffer.h"
-
+#include "AFE_MUX_IMP.h" 
+#include "MCP23017.h"	
+#include "ADG2128.h"	
 
 int TransferUDP(
     const uint8_t *data,
@@ -81,6 +83,15 @@ void UserOperationHandler(void)
         }
         WriteMem(REG_ADC_REG14,0);
     }
+    
+    if (ReadMem(REG_AFE_MODE) !=0)
+    {
+        MUX_set((MUX_Mode_TypeDef)(ReadMem(REG_AFE_MUX_STATE)) & 0xFF);
+        AFE_write((uint16_t)(ReadMem(REG_AFE_GPIO_STATE) & 0xFFFF));
+        WriteMem(REG_AFE_MODE, 0x0);
+    }
+
+    AFE_MUX_IMP_process();   
     OperationHandler();
 }
 

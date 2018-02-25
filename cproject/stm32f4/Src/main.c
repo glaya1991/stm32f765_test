@@ -50,7 +50,7 @@
 #include "Handler.h"
 #include "ExtFunctions.h"
 #include "AD7190.h"
-#include "AFE_MUX_IMP.h" //
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -189,7 +189,7 @@ int main(void)
       
 //      if (observerConversionCycle())
 //        initiateConversionCycle();
-    AFE_MUX_IMP_process();      
+       
       
   /* USER CODE END WHILE */
 

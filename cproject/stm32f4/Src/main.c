@@ -134,7 +134,6 @@ int main(void)
     HAL_TIM_Base_Start_IT(&htim7);
     HAL_TIM_Base_Start_IT(&htim10);
     HAL_TIM_Base_Start_IT(&htim11);
-//        HAL_UART_Transmit(&huart1, "test", 4, 10000);
 //    HAL_TIM_Base_Start_IT(&htim13); 
 
 //    AD7190_Reset();
@@ -173,7 +172,7 @@ int main(void)
 //    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
 //    HAL_Delay(1000);
     
-    AD7190_SetPower(1);
+//    AD7190_SetPower(1);
     if (AD7190_Init() == 1)
     {
         AD7190_SetLeds(2);

@@ -26,7 +26,7 @@ extern "C" {
 /******************************************************************************/
 
 #define _CS_L {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);}
-#define _CS_H {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);}
+#define _CS_H {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_SET);}
     
 /* SPI slave device ID */
 #define AD7190_SLAVE_ID         1

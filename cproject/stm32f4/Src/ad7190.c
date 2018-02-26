@@ -611,8 +611,9 @@ unsigned long AD7190_ContinuousRead()
     if (st == 0)
         AD7190_ContinuousReadStart();
         
-    char buffer[100];
+//    char buffer[100];
     unsigned long samplesAverage = 0x0;
+    _CS_L
 //    int chn;   
 //    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_MODE, 3, 1, 1); 
 //    if (samplesAverage != save_command)  

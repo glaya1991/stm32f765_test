@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <activeConfTypeElem>1</activeConfTypeElem>
+        <activeConfIndexElem>1</activeConfIndexElem>
+    </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group name="Group 20170518-11:28:16">
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/XitLib/Packet.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/XitLib/LibConfig.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/Periph/ads1299.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/Periph/usart.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/Periph/ads1299.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/Periph/spi.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/stm32f4xx_it.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/Periph/dma.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/Periph/tim.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/XitLib/StreamDataRecorder.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/XitLib/xitlibtypes.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/XitLib/ConfigMem.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/ControllerNew/main.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_UnitMC_Rev4/XitLib/InOutBuffer.h</file>
+        </group>
+        <group name="stm32f4_ads1299">
+            <file>file:/D:/GitHub/EEG_UnitMC_Rev4/ControllerNew/main.c</file>
+            <file>file:/D:/GitHub/EEG_UnitMC_Rev4/ControllerNew/ExtFunctions.c</file>
+        </group>
+        <group name="CPROJECT"/>
+        <group name="BCI&amp;EEG_UnitMC_Rev4_1">
+            <file>file:/D:/Github/EEG_Neurointerface/cproject/stm32f4/Src/main.c</file>
+        </group>
+        <group name="EEG_Neurointerface"/>
+        <group name="Lib">
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Src/main.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/gnss.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Src/stm32f4xx_it.c</file>
+        </group>
+        <group name="BCI@">
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/Library/External/ExtFunctions.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/main.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/tim.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/testEEG.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/Library/Inc/ImageVisualise.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/ads1299.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/Library/Inc/p300v5.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Inc/testEEG.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/XitLibWorking/External/ExtFunctions.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/stm32f4xx_it.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/Library/External/ExtFunctions.h</file>
+        </group>
+        <group name="XitLib">
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/main.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/testEEG.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/i2c.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/dma.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Inc/testEEG.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/XitLibWorking/External/ExtFunctions.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/EEG_Neurointerface/cproject/stm32f4/Src/stm32f4xx_it.c</file>
+        </group>
+        <group name="Tests">
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Inc/stm32f4xx_hal_conf.h</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Src/spi.c</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Src/main.c</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f429xx.h</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Src/tim.c</file>
+            <file>file:/D:/GitHub/EEG_Neurointerface/cproject/stm32f4/Src/stm32f4xx_it.c</file>
+        </group>
+        <group name="BCI">
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Drivers/CC3000/simplelink/include/trace.h</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Src/main.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/gnss.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Drivers/CC3000/simplelink/source/driver.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Drivers/CC3000/platform/src/cc3100_hal.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/XitLibWorking/inc/Handler.h</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/XitLibWorking/External/ExtFunctions.h</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Src/stm32f4xx_it.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Drivers/CC3000/simplelink/include/simplelink.h</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/EEG_Neurointerface/cproject/stm32f4/Drivers/CC3000/simplelink/source/driver.h</file>
+        </group>
+        <group name="Yuuko">
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/FreeRTOS/Source/queue.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Src/spi.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/XitLibWorking/External/ExtFunctionsRTOS.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Src/gpio.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/FreeRTOS/Source/list.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Src/system_stm32f4xx.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Src/freertos.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Src/stm32f4xx_hal_msp.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Src/main.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Src/usart.c</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/startup/startup_stm32f429xx.s</file>
+            <file>file:/C:/Users/xitre/Documents/Projects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</file>
+        </group>
+        <group name="INEUM">
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/freertos.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/i2c.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/XitLibWorking/External/ExtFunctionsRTOS.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/FreeRTOS/Source/tasks.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/main.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/system_stm32f4xx.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Drivers/FreeRTOS/Source/include/FreeRTOS.h</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/stm32f4xx_hal_msp.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/stm32f4xx_it.c</file>
+            <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/tim.c</file>
+        </group>
+        <group/>
+    </open-files>
+</project-private>

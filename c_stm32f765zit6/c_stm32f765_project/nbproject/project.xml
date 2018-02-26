@@ -3,15 +3,15 @@
     <type>org.netbeans.modules.cnd.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>cproject</name>
+            <name>c_stm32f765_project</name>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
-            <header-extensions>h</header-extensions>
+            <header-extensions/>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects>
-                <make-dep-project>../EEG_Evoker</make-dep-project>
-                <make-dep-project>../CoAP</make-dep-project>
-                <make-dep-project>../XitLib</make-dep-project>
+                <make-dep-project>/../CoAP</make-dep-project>
+                <make-dep-project>/../XitLib</make-dep-project>
+                <make-dep-project>/../EEG_Evoker</make-dep-project>
             </make-dep-projects>
             <sourceRootList>
                 <sourceRootElem>Src</sourceRootElem>
@@ -21,6 +21,9 @@
                 <sourceRootElem>Library</sourceRootElem>
                 <sourceRootElem>../../XitLibWorking/External</sourceRootElem>
                 <sourceRootElem>../../XitLibWorking/inc</sourceRootElem>
+                <sourceRootElem>../sources/Drivers</sourceRootElem>
+                <sourceRootElem>../sources/Src</sourceRootElem>
+                <sourceRootElem>../sources/startup</sourceRootElem>
                 <sourceRootElem>Src</sourceRootElem>
                 <sourceRootElem>Inc</sourceRootElem>
                 <sourceRootElem>Drivers</sourceRootElem>
@@ -28,20 +31,11 @@
                 <sourceRootElem>Library</sourceRootElem>
                 <sourceRootElem>../../XitLibWorking/External</sourceRootElem>
                 <sourceRootElem>../../XitLibWorking/inc</sourceRootElem>
-                <sourceRootElem>Src</sourceRootElem>
-                <sourceRootElem>Inc</sourceRootElem>
-                <sourceRootElem>Drivers</sourceRootElem>
-                <sourceRootElem>stm32f4</sourceRootElem>
-                <sourceRootElem>Library</sourceRootElem>
-                <sourceRootElem>../../XitLibWorking/External</sourceRootElem>
-                <sourceRootElem>../../XitLibWorking/inc</sourceRootElem>
-                <sourceRootElem>Src</sourceRootElem>
-                <sourceRootElem>Inc</sourceRootElem>
-                <sourceRootElem>Drivers</sourceRootElem>
-                <sourceRootElem>stm32f4</sourceRootElem>
-                <sourceRootElem>Library</sourceRootElem>
-                <sourceRootElem>../../XitLibWorking/External</sourceRootElem>
-                <sourceRootElem>../../XitLibWorking/inc</sourceRootElem>
+                <sourceRootElem>../sources/Drivers</sourceRootElem>
+                <sourceRootElem>../sources/Src</sourceRootElem>
+                <sourceRootElem>../sources/startup</sourceRootElem>
+                <sourceRootElem>../../STM32-Bootloader-I2C</sourceRootElem>
+                <sourceRootElem>../../M24M02</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

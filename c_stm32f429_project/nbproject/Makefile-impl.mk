@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=cproject
+PROJECTNAME=c_stm32f429_project
 
 # Active Configuration
 DEFAULTCONF=Debug

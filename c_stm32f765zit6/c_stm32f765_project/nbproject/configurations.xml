@@ -5,6 +5,41 @@
                    displayName="Исходные файлы"
                    projectFiles="true">
       <logicalFolder name="Drivers" displayName="Drivers" projectFiles="true">
+        <logicalFolder name="CMSIS" displayName="CMSIS" projectFiles="true">
+          <logicalFolder name="Device" displayName="Device" projectFiles="true">
+            <logicalFolder name="ST" displayName="ST" projectFiles="true">
+              <logicalFolder name="STM32F7xx" displayName="STM32F7xx" projectFiles="true">
+                <logicalFolder name="Source" displayName="Source" projectFiles="true">
+                  <logicalFolder name="Templates" displayName="Templates" projectFiles="true">
+                  </logicalFolder>
+                </logicalFolder>
+              </logicalFolder>
+            </logicalFolder>
+          </logicalFolder>
+        </logicalFolder>
+        <logicalFolder name="STM32F7xx_HAL_Driver"
+                       displayName="STM32F7xx_HAL_Driver"
+                       projectFiles="true">
+          <logicalFolder name="Src" displayName="Src" projectFiles="true">
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim_ex.c</itemPath>
+            <itemPath>../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c</itemPath>
+          </logicalFolder>
+        </logicalFolder>
       </logicalFolder>
       <logicalFolder name="Src" displayName="Src" projectFiles="true">
         <itemPath>../sources/Src/dma.c</itemPath>
@@ -14,11 +49,12 @@
         <itemPath>../sources/Src/spi.c</itemPath>
         <itemPath>../sources/Src/stm32f7xx_hal_msp.c</itemPath>
         <itemPath>../sources/Src/stm32f7xx_it.c</itemPath>
+        <itemPath>../sources/Src/system_stm32f7xx.c</itemPath>
         <itemPath>../sources/Src/tim.c</itemPath>
         <itemPath>../sources/Src/usart.c</itemPath>
       </logicalFolder>
       <logicalFolder name="startup" displayName="startup" projectFiles="true">
-        <itemPath>/../sources/startup/startup_stm32f429xx.s</itemPath>
+        <itemPath>../sources/startup/startup_stm32f765xx.s</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="HeaderFiles"
@@ -180,6 +216,91 @@
           </makeArtifact>
         </requiredProjects>
       </compileType>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
       <item path="../sources/Src/dma.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../sources/Src/gpio.c" ex="false" tool="0" flavor2="0">
@@ -194,11 +315,13 @@
       </item>
       <item path="../sources/Src/stm32f7xx_it.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="../sources/Src/system_stm32f7xx.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="../sources/Src/tim.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../sources/Src/usart.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="/../sources/startup/startup_stm32f429xx.s"
+      <item path="../sources/startup/startup_stm32f765xx.s"
             ex="false"
             tool="4"
             flavor2="0">
@@ -216,27 +339,10 @@
           <standard>3</standard>
           <incDir>
             <pElem>.</pElem>
-            <pElem>/../sources/Inc</pElem>
-            <pElem>/../sources/Drivers/CMSIS/Include</pElem>
-            <pElem>/../sources/Drivers/CMSIS/Device/ST/STM32F4xx/Include</pElem>
-            <pElem>/../sources/Drivers/STM32F4xx_HAL_Driver/Inc</pElem>
-            <pElem>/../../../XitLibWorking/External</pElem>
-            <pElem>/../../../XitLibWorking/inc</pElem>
-            <pElem>/../../../XitLibWorking/inc/coap</pElem>
-            <pElem>/../../../XitLibWorking/inc/json</pElem>
-            <pElem>/../../../XitLibWorking/inc/malloc</pElem>
-            <pElem>/../../../XitLibWorking/inc/models</pElem>
-            <pElem>/../sources/Drivers/CC3000</pElem>
-            <pElem>/../sources/Drivers/STM32_USB_Device_Library/Core/Inc</pElem>
-            <pElem>/../sources/Drivers/STM32_USB_Device_Library/Class/CDC/Inc</pElem>
-            <pElem>/../sources/Drivers/FreeRTOS/Source/CMSIS_RTOS</pElem>
-            <pElem>/../sources/Drivers/FreeRTOS/Source/include</pElem>
-            <pElem>/../sources/Drivers/FreeRTOS/Source/portable/MemMang</pElem>
-            <pElem>/../sources/Drivers/FreeRTOS/Source/portable/GCC/ARM_CM4F</pElem>
-            <pElem>/../sources/Drivers/SimpleLink/include</pElem>
-            <pElem>/../sources/Drivers/SimpleLink/platform</pElem>
-            <pElem>/../../STM32-Bootloader-I2C</pElem>
-            <pElem>/../../STM32-Bootloader-I2C/parsers</pElem>
+            <pElem>../sources/Inc</pElem>
+            <pElem>../sources/Drivers/CMSIS/Include</pElem>
+            <pElem>../sources/Drivers/CMSIS/Device/ST/STM32F7xx/Include</pElem>
+            <pElem>../sources/Drivers/STM32F7xx_HAL_Driver/Inc</pElem>
           </incDir>
           <commandLine>-mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall --specs=nosys.specs</commandLine>
           <preprocessorList>
@@ -267,6 +373,91 @@
           <commandLine>-T../sources/STM32F765ZITx_FLASH.ld</commandLine>
         </linkerTool>
       </compileType>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim_ex.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
       <item path="../sources/Src/dma.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../sources/Src/gpio.c" ex="false" tool="0" flavor2="0">
@@ -281,11 +472,13 @@
       </item>
       <item path="../sources/Src/stm32f7xx_it.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="../sources/Src/system_stm32f7xx.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="../sources/Src/tim.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../sources/Src/usart.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="/../sources/startup/startup_stm32f429xx.s"
+      <item path="../sources/startup/startup_stm32f765xx.s"
             ex="false"
             tool="4"
             flavor2="0">

@@ -113,6 +113,8 @@
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/stm32f4xx_it.c</file>
             <file>file:/D:/Users/gusev_a/Documents/NetBeansProjects/Mirror-Board-Tester/stm32f429bit6/sources/Src/tim.c</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/C:/Github/TK-NFP-TOP/c_stm32f765zit6/sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c</file>
+        </group>
     </open-files>
 </project-private>

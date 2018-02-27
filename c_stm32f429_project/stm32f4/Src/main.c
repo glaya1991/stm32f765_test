@@ -248,8 +248,8 @@ int main(void)
 //    samplesAverage = AD7190_GetRegisterValue(AD7190_REG_FULLSCALE, 3, 1, 1); 
 //    chn=sprintf(buffer,"AD7190_REG_FULLSCALE %08X",samplesAverage);
 //    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
-//    HAL_Delay(1000);
     
+    HAL_Delay(10000);
     HAL_TIM_Base_Start_IT(&htim14);
     while (1)
     {

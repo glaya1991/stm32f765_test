@@ -47,6 +47,32 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
+#define INT_LENGTH          4
+#define QUAT_LENGTH         16
+
+#define INDEX_QUAT          18
+
+/* Ch 1 */
+#define INDEX_COUNT         1
+/* Ch 2 */
+#define INDEX_REDS          INDEX_COUNT + INT_LENGTH
+/* Ch 3 */
+#define INDEX_IRS           INDEX_REDS + INT_LENGTH
+/* Ch 4 */
+#define INDEX_HR            INDEX_IRS + INT_LENGTH
+/* Ch 5 */
+#define INDEX_HRM           INDEX_HR + INT_LENGTH
+/* Ch 6 */
+#define INDEX_IR            INDEX_HRM + INT_LENGTH
+/* Ch 7 */
+#define INDEX_IRM           INDEX_IR + INT_LENGTH
+/* Ch 8 */
+#define INDEX_CHARGE        INDEX_IRM + INT_LENGTH
+
+#define SIZE_SPI_PACK       (1 + 8 * INT_LENGTH + 2)
+     
+extern uint8_t Packet_From_SPI[SIZE_SPI_PACK];
+
 void NMI_Handler(void);
 void HardFault_Handler(void);
 void MemManage_Handler(void);

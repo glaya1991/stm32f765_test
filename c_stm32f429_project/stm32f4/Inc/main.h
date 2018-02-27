@@ -88,6 +88,8 @@
 #define WiFi_INT_GPIO_Port GPIOD
 #define WiFi_INT_EXTI_IRQn EXTI2_IRQn
 
+#define SPI6_CS_UP    HAL_GPIO_WritePin(SPI6_CS_GPIO_Port, SPI6_CS_Pin, GPIO_PIN_SET);
+#define SPI6_CS_DW    HAL_GPIO_WritePin(SPI6_CS_GPIO_Port, SPI6_CS_Pin, GPIO_PIN_RESET);
 /* ########################## Assert Selection ############################## */
 /**
   * @brief Uncomment the line below to expanse the "assert_param" macro in the 

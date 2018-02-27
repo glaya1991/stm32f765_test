@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "tim.h"
 #include "usart.h"
+#include "stm32f4xx_it.h"
 
 #include "Handler.h"
 #include "ExtFunctions.h"
@@ -101,18 +102,56 @@ void UserProtocolHandler(void)
     return;
 }
 
+static union sent_data
+{
+   unsigned char char_[4];
+   int32_t int_;
+} data_s;
 int32_t ADC_read_data_c(void)
 {
     if (ReadMem(REG_EEG_File) == 0)
     {
-        WriteMem(REG_ADC_CH1, 0);
-        WriteMem(REG_ADC_CH2, 0);
-        WriteMem(REG_ADC_CH3, 0);
-        WriteMem(REG_ADC_CH4, 0);
-        WriteMem(REG_ADC_CH5, 0);
-        WriteMem(REG_ADC_CH6, 0);
-        WriteMem(REG_ADC_CH7, 0);
-        WriteMem(REG_ADC_CH8, 0);
+        uint8_t i_s = 1;
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH1, data_s.int_);
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH2, data_s.int_);
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH3, data_s.int_);
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH4, data_s.int_);
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH5, data_s.int_);
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH6, data_s.int_);
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH7, data_s.int_);
+        data_s.char_[3] = Packet_From_SPI[i_s++];
+        data_s.char_[2] = Packet_From_SPI[i_s++];
+        data_s.char_[1] = Packet_From_SPI[i_s++];
+        data_s.char_[0] = Packet_From_SPI[i_s++];
+        WriteMem(REG_ADC_CH8, data_s.int_);
     }
     return 0;
 }

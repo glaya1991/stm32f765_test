@@ -36,9 +36,12 @@
 #include "stm32f4xx_it.h"
 
 /* USER CODE BEGIN 0 */
+#include "main.h"
 #include "ExtFunctions.h"
 #include "Handler.h"
 
+uint8_t Packet_From_SPI[SIZE_SPI_PACK];
+static uint8_t Packet_To_SPI[SIZE_SPI_PACK];
 extern uint8_t usart1BufRx[1];
 /* USER CODE END 0 */
 
@@ -52,6 +55,7 @@ extern I2C_HandleTypeDef hi2c3;
 extern DMA_HandleTypeDef hdma_spi1_rx;
 extern DMA_HandleTypeDef hdma_spi1_tx;
 extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi2;
 extern SPI_HandleTypeDef hspi5;
 extern SPI_HandleTypeDef hspi6;
 extern TIM_HandleTypeDef htim7;
@@ -406,7 +410,17 @@ void TIM8_TRG_COM_TIM14_IRQHandler(void)
   /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 0 */
   HAL_TIM_IRQHandler(&htim14);
   /* USER CODE BEGIN TIM8_TRG_COM_TIM14_IRQn 1 */
+    memset(Packet_From_SPI, 0, SIZE_SPI_PACK);
+    memset(Packet_To_SPI, 0, SIZE_SPI_PACK);
+    
+    SPI6_CS_DW
 
+    while ( HAL_SPI_TransmitReceive(&hspi6, Packet_To_SPI, Packet_From_SPI, SIZE_SPI_PACK, 1000) != HAL_OK);
+    
+    SPI6_CS_UP
+            
+//    HAL_UART_Transmit(&huart1, Packet_From_SPI, SIZE_SPI_PACK, 1000);
+    ADC_read_data_c();
   /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 1 */
 }
 

@@ -121,6 +121,7 @@ int main(void)
   MX_TIM10_Init();
   MX_TIM11_Init();
   /* USER CODE BEGIN 2 */
+    SPI6_CS_UP
     InitHandler(POLYGRAPH);
     EEGRecorderInit(1,250);
     WriteMem(REG_LOG_LVL, 7);
@@ -134,7 +135,6 @@ int main(void)
     HAL_TIM_Base_Start_IT(&htim7);
     HAL_TIM_Base_Start_IT(&htim10);
     HAL_TIM_Base_Start_IT(&htim11);
-//    HAL_TIM_Base_Start_IT(&htim13); 
 
 //    AD7190_Reset();
     unsigned long samplesAverage = 0x0;
@@ -249,6 +249,8 @@ int main(void)
 //    chn=sprintf(buffer,"AD7190_REG_FULLSCALE %08X",samplesAverage);
 //    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
 //    HAL_Delay(1000);
+    
+    HAL_TIM_Base_Start_IT(&htim14);
     while (1)
     {
       UserOperationHandler();

@@ -33,6 +33,7 @@
         </group>
         <group>
             <file>file:/D:/Github/TK-NFP-TOP/c_stm32f429_project/stm32f4/Inc/stm32f4xx_it.h</file>
+            <file>file:/D:/Github/TK-NFP-TOP/c_stm32f429_project/stm32f4/Src/spi.c</file>
             <file>file:/D:/Github/TK-NFP-TOP/c_stm32f429_project/stm32f4/Src/stm32f4xx_it.c</file>
             <file>file:/D:/Github/TK-NFP-TOP/c_stm32f429_project/stm32f4/Src/main.c</file>
             <file>file:/D:/Github/TK-NFP-TOP/c_stm32f429_project/stm32f4/Src/ExtFunctionsMC.c</file>

@@ -249,7 +249,7 @@ int main(void)
 //    chn=sprintf(buffer,"AD7190_REG_FULLSCALE %08X",samplesAverage);
 //    HAL_UART_Transmit(&huart1, buffer, chn, 10000); 
     
-    HAL_Delay(10000);
+    HAL_Delay(3000);
     HAL_TIM_Base_Start_IT(&htim14);
     HAL_UART_Transmit(&huart1, "\n\r\nStart!\n\r\n", 12, 1000);
     while (1)

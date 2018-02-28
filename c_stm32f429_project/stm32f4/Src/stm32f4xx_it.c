@@ -418,8 +418,9 @@ void TIM8_TRG_COM_TIM14_IRQHandler(void)
     while ( HAL_SPI_TransmitReceive(&hspi6, Packet_To_SPI, Packet_From_SPI, SIZE_SPI_PACK, 1000) != HAL_OK);
     
     SPI6_CS_UP
-            
-//    HAL_UART_Transmit(&huart1, Packet_From_SPI, SIZE_SPI_PACK, 1000);
+    
+    HAL_UART_Transmit(&huart1, Packet_From_SPI, SIZE_SPI_PACK, 1000);
+    
     ADC_read_data_c();
   /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 1 */
 }

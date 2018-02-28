@@ -251,6 +251,7 @@ int main(void)
     
     HAL_Delay(10000);
     HAL_TIM_Base_Start_IT(&htim14);
+    HAL_UART_Transmit(&huart1, "\n\r\nStart!\n\r\n", 12, 1000);
     while (1)
     {
       UserOperationHandler();

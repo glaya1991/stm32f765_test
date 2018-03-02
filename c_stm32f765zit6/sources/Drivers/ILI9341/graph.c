@@ -1,8 +1,8 @@
 #include "graph.h"
 
-void LCD_readPixels(u16 x1, u16 y1, u16 x2, u16 y2, u16 *buf) {
-    u8  red, green, blue;
-    u32 count = (u32) ((x2 - x1 + 1) * (y2 - y1 + 1));
+void LCD_readPixels(short x1, short y1, short x2, short y2, short *buf) {
+    char  red, green, blue;
+    int count = (int) ((x2 - x1 + 1) * (y2 - y1 + 1));
 
     LCD_setAddressWindowToRead(x1, y1, x2, y2);
 
@@ -11,30 +11,30 @@ void LCD_readPixels(u16 x1, u16 y1, u16 x2, u16 y2, u16 *buf) {
 
     dmaReceiveDataCont8(&red);
 
-    for (u32 i = 0; i < count; ++i) {
+    for (int i = 0; i < count; ++i) {
         dmaReceiveDataCont8(&red);
         dmaReceiveDataCont8(&green);
         dmaReceiveDataCont8(&blue);
 
-        buf[i] = (u16) ILI9341_COLOR(red, green, blue);
+        buf[i] = (short) ILI9341_COLOR(red, green, blue);
     }
 
     TFT_CS_SET;
 }
 
-inline void LCD_fillRect(u16 x1, u16 y1, u16 w, u16 h, u16 color) {
-    u32 count = w * h;
-    LCD_setAddressWindowToWrite(x1, y1, (u16) (x1 + w - 1), (u16) (y1 + h - 1));
+inline void LCD_fillRect(short x1, short y1, short w, short h, short color) {
+    int count = w * h;
+    LCD_setAddressWindowToWrite(x1, y1, (short) (x1 + w - 1), (short) (y1 + h - 1));
     LCD_setSpi16();
     dmaFill16(color, count);
     LCD_setSpi8();
 }
 
-void LCD_fillScreen(u16 color) {
+void LCD_fillScreen(short color) {
     LCD_fillRect(0, 0, LCD_getWidth(), LCD_getHeight(), color);
 }
 
-inline void LCD_drawFastHLine(u16 x0, u16 y0, u16 w, u16 color) {
+inline void LCD_drawFastHLine(short x0, short y0, short w, short color) {
     if (w == 1) {
         LCD_putPixel(x0, y0, color);
         return;
@@ -42,19 +42,19 @@ inline void LCD_drawFastHLine(u16 x0, u16 y0, u16 w, u16 color) {
     LCD_fillRect(x0, y0, w, 1, color);
 }
 
-inline void LCD_putPixel(u16 x, u16 y, u16 color) {
+inline void LCD_putPixel(short x, short y, short color) {
     LCD_setAddressWindowToWrite(x, y, x, y);
     LCD_setSpi16();
     dmaFill16(color, 1);
     LCD_setSpi8();
 }
 
-inline static void LCD_putPixelCont(u16 x, u16 y, u16 color) {
+inline static void LCD_putPixelCont(short x, short y, short color) {
     LCD_setAddressWindowToWrite(x, y, x, y);
     dmaFill16(color, 1);
 }
 
-inline void LCD_drawFastVLine(u16 x0, u16 y0, u16 h, u16 color) {
+inline void LCD_drawFastVLine(short x0, short y0, short h, short color) {
     if (h == 1) {
         LCD_putPixel(x0, y0, color);
         return;
@@ -62,18 +62,18 @@ inline void LCD_drawFastVLine(u16 x0, u16 y0, u16 h, u16 color) {
     LCD_fillRect(x0, y0, 1, h, color);
 }
 
-void LCD_drawCircle(u16 x0, u16 y0, u16 r, u16 color) {
+void LCD_drawCircle(short x0, short y0, short r, short color) {
     if (r == 0) {
         LCD_putPixel(x0, y0, color);
         return;
     }
 
-    s16 f  = (s16) (1 - r),
+    short f  = (short) (1 - r),
         dx = 1,
-        dy = (s16) (-2 * r),
+        dy = (short) (-2 * r),
         x  = 0;
 
-    u16 y = r;
+    short y = r;
 
     LCD_setSpi16();
     
@@ -106,19 +106,19 @@ void LCD_drawCircle(u16 x0, u16 y0, u16 r, u16 color) {
 }
 
 // Used to do circles and roundrects
-void LCD_fillCircleHelper(u16 x0, u16 y0, u16 r, u8 cornername, s16 delta, u16 color) {
+void LCD_fillCircleHelper(short x0, short y0, short r, char cornername, short delta, short color) {
     if (r == 0)
         return;
     if (r == 1) {
         LCD_putPixel(x0, y0, color);
         return;
     }
-    s16 f  = (s16) (1 - r),
+    short f  = (short) (1 - r),
         dx = 1,
-        dy = (s16) (-2 * r),
+        dy = (short) (-2 * r),
         x  = 0;
 
-    u16 y = r;
+    short y = r;
 
     while (x < y) {
         if (f >= 0) {
@@ -131,32 +131,32 @@ void LCD_fillCircleHelper(u16 x0, u16 y0, u16 r, u8 cornername, s16 delta, u16 c
         f += dx;
 
         if (cornername & 0x1) {
-            LCD_drawFastVLine(x0 + x, y0 - y, (u16) (2 * y + 1 + delta), color);
-            LCD_drawFastVLine(x0 + y, y0 - x, (u16) (2 * x + 1 + delta), color);
+            LCD_drawFastVLine(x0 + x, y0 - y, (short) (2 * y + 1 + delta), color);
+            LCD_drawFastVLine(x0 + y, y0 - x, (short) (2 * x + 1 + delta), color);
         }
         if (cornername & 0x2) {
-            LCD_drawFastVLine(x0 - x, y0 - y, (u16) (2 * y + 1 + delta), color);
-            LCD_drawFastVLine(x0 - y, y0 - x, (u16) (2 * x + 1 + delta), color);
+            LCD_drawFastVLine(x0 - x, y0 - y, (short) (2 * y + 1 + delta), color);
+            LCD_drawFastVLine(x0 - y, y0 - x, (short) (2 * x + 1 + delta), color);
         }
     }
 }
 
-void LCD_fillCircle(u16 x0, u16 y0, u16 r, u16 color) {
-    LCD_drawFastVLine(x0, y0 - r, (u16) (2 * r + 1), color);
+void LCD_fillCircle(short x0, short y0, short r, short color) {
+    LCD_drawFastVLine(x0, y0 - r, (short) (2 * r + 1), color);
     LCD_fillCircleHelper(x0, y0, r, 3, 0, color);
 }
 
-void LCD_drawLine(u16 x0, u16 y0, u16 x1, u16 y1, u16 color) {
-    s16 Dx = (s16) abs(x1 - x0),
-        Dy = (s16) abs(y1 - y0);
+void LCD_drawLine(short x0, short y0, short x1, short y1, short color) {
+    short Dx = (short) abs(x1 - x0),
+        Dy = (short) abs(y1 - y0);
 
     if (Dx == 0 && Dy == 0) {
         LCD_putPixel(x0, y0, color);
         return;
     }
 
-    s16 steep = Dy > Dx;
-    s16 dx, dy, err, yStep;
+    short steep = Dy > Dx;
+    short dx, dy, err, yStep;
 
     if (steep) {
         _int16_swap(x0, y0);
@@ -169,9 +169,9 @@ void LCD_drawLine(u16 x0, u16 y0, u16 x1, u16 y1, u16 color) {
     }
 
     dx = x1 - x0;
-    dy = (s16) abs(y1 - y0);
+    dy = (short) abs(y1 - y0);
 
-    err = (s16) (dx / 2);
+    err = (short) (dx / 2);
 
     if (y0 < y1) {
         yStep = 1;
@@ -193,7 +193,7 @@ void LCD_drawLine(u16 x0, u16 y0, u16 x1, u16 y1, u16 color) {
     }
 }
 
-void LCD_drawRect(u16 x, u16 y, u16 w, u16 h, u16 color) {
+void LCD_drawRect(short x, short y, short w, short h, short color) {
     if (w == 0 || h == 0) return;
     if (w == 1) {
         LCD_drawFastVLine(x, y, h, color);
@@ -204,16 +204,16 @@ void LCD_drawRect(u16 x, u16 y, u16 w, u16 h, u16 color) {
         return;
     }
     LCD_drawFastHLine(x, y, w, color);
-    LCD_drawFastHLine(x, (u16) (y + h - 1), w, color);
+    LCD_drawFastHLine(x, (short) (y + h - 1), w, color);
     LCD_drawFastVLine(x, y, h, color);
-    LCD_drawFastVLine((u16) (x + w - 1), y, h, color);
+    LCD_drawFastVLine((short) (x + w - 1), y, h, color);
 }
 
-void LCD_setVerticalScrolling(u16 startY, u16 endY) {
+void LCD_setVerticalScrolling(short startY, short endY) {
     dmaSendCmd(LCD_VSCRDEF);
-    u16 d[] = {
+    short d[] = {
             startY,
-            (u16) (LCD_PIXEL_HEIGHT - startY - endY),
+            (short) (LCD_PIXEL_HEIGHT - startY - endY),
             endY
     };
     LCD_setSpi16();
@@ -221,7 +221,7 @@ void LCD_setVerticalScrolling(u16 startY, u16 endY) {
     LCD_setSpi8();
 }
 
-void LCD_scroll(u16 v) {
+void LCD_scroll(short v) {
     dmaSendCmd(LCD_VSCRSADD);
     LCD_setSpi16();
     dmaSendData16(&v, 1);

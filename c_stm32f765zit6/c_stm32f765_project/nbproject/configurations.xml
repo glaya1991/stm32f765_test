@@ -17,6 +17,13 @@
             </logicalFolder>
           </logicalFolder>
         </logicalFolder>
+        <logicalFolder name="f1" displayName="ILI9341" projectFiles="true">
+          <itemPath>../sources/Drivers/ILI9341/core.c</itemPath>
+          <itemPath>../sources/Drivers/ILI9341/delay.c</itemPath>
+          <itemPath>../sources/Drivers/ILI9341/dma.c</itemPath>
+          <itemPath>../sources/Drivers/ILI9341/graph.c</itemPath>
+          <itemPath>../sources/Drivers/ILI9341/text.c</itemPath>
+        </logicalFolder>
         <logicalFolder name="STM32F7xx_HAL_Driver"
                        displayName="STM32F7xx_HAL_Driver"
                        projectFiles="true">
@@ -116,7 +123,7 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>MinGW_ARM|MinGW</compilerSet>
+        <compilerSet>GNU-ARM|Cygwin</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -131,6 +138,7 @@
             <pElem>libraries/CMSIS/Include</pElem>
             <pElem>libraries/CMSIS/Device/ST/STM32F4xx/Include</pElem>
             <pElem>libraries/STM32F4xx_HAL_Driver/Inc</pElem>
+            <pElem>../sources/Drivers/ILI9341</pElem>
           </incDir>
           <commandLine>-mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</commandLine>
           <preprocessorList>
@@ -216,6 +224,16 @@
           </makeArtifact>
         </requiredProjects>
       </compileType>
+      <item path="../sources/Drivers/ILI9341/core.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/delay.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/dma.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/graph.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/text.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c"
             ex="false"
             tool="0"
@@ -373,6 +391,16 @@
           <commandLine>-T../sources/STM32F765ZITx_FLASH.ld</commandLine>
         </linkerTool>
       </compileType>
+      <item path="../sources/Drivers/ILI9341/core.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/delay.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/dma.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/graph.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../sources/Drivers/ILI9341/text.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c"
             ex="false"
             tool="0"

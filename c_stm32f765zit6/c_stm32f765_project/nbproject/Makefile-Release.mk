@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=arm-none-eabi-gcc
-CCC=arm-none-eabi-g++
-CXX=arm-none-eabi-g++
+CCC=g++
+CXX=g++
 FC=gfortran
 AS=arm-none-eabi-as
 
@@ -35,6 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/_ext/48f06713/core.o \
+	${OBJECTDIR}/_ext/48f06713/delay.o \
+	${OBJECTDIR}/_ext/48f06713/dma.o \
+	${OBJECTDIR}/_ext/48f06713/graph.o \
+	${OBJECTDIR}/_ext/48f06713/text.o \
 	${OBJECTDIR}/_ext/3d9a2b56/stm32f7xx_hal.o \
 	${OBJECTDIR}/_ext/3d9a2b56/stm32f7xx_hal_cortex.o \
 	${OBJECTDIR}/_ext/3d9a2b56/stm32f7xx_hal_dma.o \
@@ -88,6 +93,31 @@ LDLIBSOPTIONS=-lgcc -lc -lm
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/stm32f429_firmware.elf.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/stm32f429_firmware.elf ${OBJECTFILES} ${LDLIBSOPTIONS} -T../sources/STM32F765ZITx_FLASH.ld
+
+${OBJECTDIR}/_ext/48f06713/core.o: ../sources/Drivers/ILI9341/core.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/48f06713
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -DSTM32F765xx -DSTM32F7XX -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -DXITLIB -I. -I../sources/Inc -I../sources/Drivers/CMSIS/Include -I../sources/Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../sources/Drivers/STM32F7xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/48f06713/core.o ../sources/Drivers/ILI9341/core.c
+
+${OBJECTDIR}/_ext/48f06713/delay.o: ../sources/Drivers/ILI9341/delay.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/48f06713
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -DSTM32F765xx -DSTM32F7XX -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -DXITLIB -I. -I../sources/Inc -I../sources/Drivers/CMSIS/Include -I../sources/Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../sources/Drivers/STM32F7xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/48f06713/delay.o ../sources/Drivers/ILI9341/delay.c
+
+${OBJECTDIR}/_ext/48f06713/dma.o: ../sources/Drivers/ILI9341/dma.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/48f06713
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -DSTM32F765xx -DSTM32F7XX -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -DXITLIB -I. -I../sources/Inc -I../sources/Drivers/CMSIS/Include -I../sources/Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../sources/Drivers/STM32F7xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/48f06713/dma.o ../sources/Drivers/ILI9341/dma.c
+
+${OBJECTDIR}/_ext/48f06713/graph.o: ../sources/Drivers/ILI9341/graph.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/48f06713
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -DSTM32F765xx -DSTM32F7XX -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -DXITLIB -I. -I../sources/Inc -I../sources/Drivers/CMSIS/Include -I../sources/Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../sources/Drivers/STM32F7xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/48f06713/graph.o ../sources/Drivers/ILI9341/graph.c
+
+${OBJECTDIR}/_ext/48f06713/text.o: ../sources/Drivers/ILI9341/text.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/48f06713
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -DSTM32F765xx -DSTM32F7XX -DUSE_HAL_DRIVER -DUSE_STDPERIPH_DRIVER -DXITLIB -I. -I../sources/Inc -I../sources/Drivers/CMSIS/Include -I../sources/Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../sources/Drivers/STM32F7xx_HAL_Driver/Inc -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/48f06713/text.o ../sources/Drivers/ILI9341/text.c
 
 ${OBJECTDIR}/_ext/3d9a2b56/stm32f7xx_hal.o: ../sources/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
 	${MKDIR} -p ${OBJECTDIR}/_ext/3d9a2b56

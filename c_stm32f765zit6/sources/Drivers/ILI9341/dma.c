@@ -3,8 +3,8 @@
 DMA_InitTypeDef dmaStructure;
 
 #define DMA_BUF_SIZE 2048
-u16 dmaBufIndex = 0;
-u16 dmaBuffer[DMA_BUF_SIZE];
+short dmaBufIndex = 0;
+short dmaBuffer[DMA_BUF_SIZE];
 
 void dmaInit(void) {
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
@@ -23,8 +23,8 @@ void dmaInit(void) {
 
 //<editor-fold desc="Dma init options and start">
 
-inline static void dmaReceive8(u8 *data, u32 n) {
-    dmaStructure.DMA_MemoryBaseAddr = (u32) data;
+inline static void dmaReceive8(char *data, int n) {
+    dmaStructure.DMA_MemoryBaseAddr = (int) data;
     dmaStructure.DMA_BufferSize     = n;
 
     dmaStructure.DMA_Mode               = DMA_Mode_Normal;
@@ -36,12 +36,12 @@ inline static void dmaReceive8(u8 *data, u32 n) {
     dmaStartRx();
 }
 
-inline static void dmaSend8(u8 *data, u32 n) {
+inline static void dmaSend8(char *data, int n) {
     DMA_StructInit(&dmaStructure);
-    dmaStructure.DMA_PeripheralBaseAddr = (u32) &(SPI_MASTER->DR);
+    dmaStructure.DMA_PeripheralBaseAddr = (int) &(SPI_MASTER->DR);
     dmaStructure.DMA_Priority           = DMA_Priority_Medium;
 
-    dmaStructure.DMA_MemoryBaseAddr = (u32) data;
+    dmaStructure.DMA_MemoryBaseAddr = (int) data;
     dmaStructure.DMA_BufferSize     = n;
 
     dmaStructure.DMA_Mode               = DMA_Mode_Normal;
@@ -53,12 +53,12 @@ inline static void dmaSend8(u8 *data, u32 n) {
     dmaStartTx();
 }
 
-inline static void dmaSendCircular16(u16 *data, u32 n) {
+inline static void dmaSendCircular16(short *data, int n) {
     DMA_StructInit(&dmaStructure);
-    dmaStructure.DMA_PeripheralBaseAddr = (u32) &(SPI_MASTER->DR);
+    dmaStructure.DMA_PeripheralBaseAddr = (int) &(SPI_MASTER->DR);
     dmaStructure.DMA_Priority           = DMA_Priority_Medium;
 
-    dmaStructure.DMA_MemoryBaseAddr = (u32) data;
+    dmaStructure.DMA_MemoryBaseAddr = (int) data;
     dmaStructure.DMA_BufferSize     = n;
 
     dmaStructure.DMA_Mode               = DMA_Mode_Circular;
@@ -70,12 +70,12 @@ inline static void dmaSendCircular16(u16 *data, u32 n) {
     dmaStartTx();
 }
 
-inline static void dmaSend16(u16 *data, u32 n) {
+inline static void dmaSend16(short *data, int n) {
     DMA_StructInit(&dmaStructure);
-    dmaStructure.DMA_PeripheralBaseAddr = (u32) &(SPI_MASTER->DR);
+    dmaStructure.DMA_PeripheralBaseAddr = (int) &(SPI_MASTER->DR);
     dmaStructure.DMA_Priority           = DMA_Priority_Medium;
 
-    dmaStructure.DMA_MemoryBaseAddr = (u32) data;
+    dmaStructure.DMA_MemoryBaseAddr = (int) data;
     dmaStructure.DMA_BufferSize     = n;
 
     dmaStructure.DMA_Mode               = DMA_Mode_Normal;
@@ -91,7 +91,7 @@ inline static void dmaSend16(u16 *data, u32 n) {
 
 //<editor-fold desc="DMA send receive functions">
 
-inline void dmaSendCmd(u8 cmd) {
+inline void dmaSendCmd(char cmd) {
     TFT_CS_RESET;
     TFT_DC_RESET;
     dmaSend8(&cmd, 1);
@@ -99,20 +99,20 @@ inline void dmaSendCmd(u8 cmd) {
     TFT_CS_SET;
 }
 
-inline void dmaSendCmdCont(u8 cmd) {
+inline void dmaSendCmdCont(char cmd) {
     TFT_DC_RESET;
     dmaSend8(&cmd, 1);
     dmaWait();
 }
 
-inline void dmaReceiveDataCont8(u8 *data) {
-    u8 dummy = 0xFF;
+inline void dmaReceiveDataCont8(char *data) {
+    char dummy = 0xFF;
     dmaSend8(&dummy, 1);
     dmaReceive8(data, 1);
     dmaWait();
 }
 
-inline void dmaSendData8(u8 *data, u32 n) {
+inline void dmaSendData8(char *data, int n) {
     TFT_CS_RESET;
     TFT_DC_SET;
     dmaSend8(data, n);
@@ -120,13 +120,13 @@ inline void dmaSendData8(u8 *data, u32 n) {
     TFT_CS_SET;
 }
 
-inline void dmaSendDataCont8(u8 *data, u32 n) {
+inline void dmaSendDataCont8(char *data, int n) {
     TFT_DC_SET;
     dmaSend8(data, n);
     dmaWait();
 }
 
-inline void dmaSendData16(u16 *data, u32 n) {
+inline void dmaSendData16(short *data, int n) {
     TFT_CS_RESET;
     TFT_DC_SET;
     dmaSend16(data, n);
@@ -134,7 +134,7 @@ inline void dmaSendData16(u16 *data, u32 n) {
     TFT_CS_SET;
 }
 
-inline void dmaSendDataCont16(u16 *data, u32 n) {
+inline void dmaSendDataCont16(short *data, int n) {
     TFT_DC_SET;
     dmaSend16(data, n);
     dmaWait();
@@ -148,7 +148,7 @@ inline void dmaSendDataBuf16() {
     dmaWait();
 }
 
-inline void dmaSendDataContBuf16(u16 *data, u32 n) {
+inline void dmaSendDataContBuf16(short *data, int n) {
     while (n--) {
         dmaBuffer[dmaBufIndex] = *data++;
         if (dmaBufIndex == DMA_BUF_SIZE - 1) {
@@ -159,7 +159,7 @@ inline void dmaSendDataContBuf16(u16 *data, u32 n) {
 }
 
 
-inline void dmaSendDataCircular16(u16 *data, u32 n) {
+inline void dmaSendDataCircular16(short *data, int n) {
     TFT_DC_SET;
     dmaSendCircular16(data, n);
     dmaWait();
@@ -167,11 +167,11 @@ inline void dmaSendDataCircular16(u16 *data, u32 n) {
 
 //</editor-fold>
 
-inline void dmaFill16(u16 color, u32 n) {
+inline void dmaFill16(short color, int n) {
     TFT_CS_RESET;
     dmaSendCmdCont(LCD_GRAM);
     while (n != 0) {
-        u16 ts = (u16) (n > UINT16_MAX ? UINT16_MAX : n);
+        short ts = (short) (n > UINT16_MAX ? UINT16_MAX : n);
         dmaSendDataCircular16(&color, ts);
         n -= ts;
     }

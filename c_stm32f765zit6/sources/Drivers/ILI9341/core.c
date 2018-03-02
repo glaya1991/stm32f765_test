@@ -1,6 +1,6 @@
 #include "core.h"
 
-static u16 screen_width  = LCD_PIXEL_WIDTH,
+static short screen_width  = LCD_PIXEL_WIDTH,
     screen_height = LCD_PIXEL_HEIGHT;
 
 //<editor-fold desc="Init commands">
@@ -100,8 +100,8 @@ void LCD_exitStandby() {
 }
 
 static void LCD_configure() {
-    u8 count;
-    u8 *address = (u8 *) init_commands;
+    char count;
+    char *address = (char *) init_commands;
 
     TFT_CS_RESET;
     while (1) {
@@ -131,7 +131,7 @@ void LCD_init() {
 
 //<editor-fold desc="LCD common operations">
 
-void LCD_setOrientation(u8 o) {
+void LCD_setOrientation(char o) {
     if (o == ORIENTATION_LANDSCAPE || o == ORIENTATION_LANDSCAPE_MIRROR) {
         screen_height = LCD_PIXEL_WIDTH;
         screen_width  = LCD_PIXEL_HEIGHT;
@@ -145,8 +145,8 @@ void LCD_setOrientation(u8 o) {
     TFT_CS_SET;
 }
 
-inline void LCD_setAddressWindow(u16 x1, u16 y1, u16 x2, u16 y2) {
-    u16 pointData[2];
+inline void LCD_setAddressWindow(short x1, short y1, short x2, short y2) {
+    short pointData[2];
 
     TFT_CS_RESET;
     dmaSendCmdCont(LCD_COLUMN_ADDR);
@@ -165,11 +165,11 @@ inline void LCD_setAddressWindow(u16 x1, u16 y1, u16 x2, u16 y2) {
     TFT_CS_SET;
 }
 
-inline u16 LCD_getWidth() {
+inline short LCD_getWidth() {
     return screen_width;
 }
 
-inline u16 LCD_getHeight() {
+inline short LCD_getHeight() {
     return screen_height;
 }
 

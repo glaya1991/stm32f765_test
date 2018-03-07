@@ -1,0 +1,67 @@
+# STM32 ARM test Makefile
+CRSS_P	:= /home/marina/Documents/gcc-arm-none-eabi-7-2017-q4-major/bin
+PREFIX  := $(CRSS_P)/arm-none-eabi
+CC		:= $(PREFIX)-gcc
+CXX		:= $(PREFIX)-g++
+LD		:= $(PREFIX)-gcc
+AS		:= $(PREFIX)-as
+OBJCP	:= $(PREFIX)-objcopy
+MNDIR	:= $(shell pwd)
+
+APP		:= test_chip.elf
+
+DEPSRC	:= $(MNDIR)/Src
+DEPDRV	:= $(MNDIR)/Drivers
+#MIDDLW	:= $(MNDIR)/Middlewares
+
+INCLS	:= -IInc
+INCLS	+= $(addprefix -I,$(shell find $(DEPDRV) -type f -iname "*.h" | xargs dirname | sort -u))
+#INCLS	+= $(addprefix -I,$(shell find $(MIDDLW) -type f -iname "*.h" | xargs dirname | sort -u))
+
+CHIP	:= -DSTM32F765xx -DUSE_HAL_DRIVER
+CHIP	+= -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard
+LINKSCR := -TSTM32F765ZITx_FLASH.ld #-Tf429flash.ld
+INIT	:= $(DEPSRC)/startup_stm32f765xx.o
+
+DBG		:= 
+OPT		:= -O2
+ 
+CC_DEFS := -DUSE_STDPERIPH_DRIVER -D__thumb2__=1 -DRUN_FROM_FLASH=1
+
+CC_FLAG := $(CHIP) $(DBG) $(OPT) -Wall -Wextra -ffunction-sections -fdata-sections -fomit-frame-pointer 
+CC_FLAG += -std=gnu99 -mno-sched-prolog -fno-hosted -fmessage-length=0
+CC_FLAG += -Wno-deprecated-declarations -Wno-unused-parameter -Wno-unused-variable
+
+LD_FLAG := $(CHIP) $(DBG) $(OPT) -L$(DEPSRC) -Wl,--gc-sections
+LD_FLAG += -static -fwhole-program -Xlinker $(LINKSCR)
+LD_FLAG += -specs=nano.specs -specs=nosys.specs
+LD_FLAG += -L$(DEPDRV)/CMSIS/Lib/GCC
+#LD_FLAG += -L$(MIDDLW)/ST/PDM/
+
+LD_DEPS := -Wl,--start-group -lgcc -lg -lc -lm -lrdimon -lnosys -Wl,--end-group
+
+DEPS	:= $(shell find $(DEPSRC) -type f -iname '*.c')
+DEPS	+= $(shell find $(DEPDRV) -type f -iname '*.c')
+#DEPS	+= $(shell find $(MIDDLW) -type f -iname '*.c')
+DEPS_OBJ:= $(DEPS:.c=.o) 
+
+CC_INV	:= $(CC) $(CC_DEFS) $(INCLS) $(CC_FLAG)
+
+all:	$(DEPS_OBJ) $(INIT)
+	$(LD) $(LD_FLAG) -o $(APP) $(DEPS_OBJ) $(INIT) $(LD_DEPS)
+	$(OBJCP) -O binary $(APP) $(APP:.elf=.bin)
+	ls -l $(APP:.elf=.bin)
+.PHONY:	all
+
+clean:
+	rm -f $(DEPS_OBJ)
+	rm -f $(PROG_OBJ)
+	rm -f $(INIT)
+	rm -f $(APP) $(APP:.elf=.bin)
+.PHONY: clean
+
+%.o:	%.c
+	$(CC_INV) -c -o $@ $<
+
+%.o:	%.s
+	$(AS) -o $@ $<

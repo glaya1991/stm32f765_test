@@ -1,0 +1,8 @@
+inline void dmaSendCmd(uint8_t cmd);
+inline void dmaSendCmdCont(uint8_t cmd);
+inline void dmaSendDataCont8(uint8_t *data, uint32_t n);
+inline void dmaSendDataCont16(uint16_t *data, uint32_t n);
+
+inline void dmaFill16(uint16_t color, uint32_t n);
+inline void dmaSendDataCircular16(uint16_t *data, uint32_t n);
+
